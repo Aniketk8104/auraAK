@@ -193,9 +193,10 @@
   transform: scale(0.95);
 }
 .foodCard.highlight {
-  border-color: #ff9800;
-  background-color: #fff8e1;
-  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.7), 0 0 15px rgba(255, 152, 0, 0.4);
+  border-color: #ff0000;
+  /* border-width: 0px; */
+  background-color: #fff;
+  box-shadow: 0 8px 16px rgba(42, 25, 140, 0.7), 0 0 20px rgba(94, 26, 173, 0.4);
   transform: scale(1.05); /* Slightly enlarges the card */
   transition: all 0.6s ease; /* Smooth transition for changes */
 }

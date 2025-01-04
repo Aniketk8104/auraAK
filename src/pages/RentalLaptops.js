@@ -7,6 +7,11 @@ const laptops = [
     image: "img/61Qe0euJJZL.jpg",
     processor: "Intel i9",
     price: "1800",
+    RAM: "8GB",
+    Storage: "256GB",
+    Display: '14"',
+    Graphic: "Nvidia RTX",
+    Resolution: "1080p FHD",
   },
 
   {
@@ -14,54 +19,99 @@ const laptops = [
     image: "img/61Qe0euJJZL.jpg",
     processor: "M1, M2, M3",
     price: "1500",
+    RAM: "8GB",
+    Storage: "256GB",
+    Display: '14"',
+    Graphic: "Nvidia RTX",
+    Resolution: "1080p FHD",
   },
   {
     name: "MacBook Air 2",
     image: "img/61Qe0euJJZL.jpg",
     processor: "M1, M2, M3",
     price: "1500",
+    RAM: "8GB",
+    Storage: "256GB",
+    Display: '14"',
+    Graphic: "Nvidia RTX",
+    Resolution: "1080p FHD",
   },
   {
     name: "MacBook Air 3",
     image: "img/61Qe0euJJZL.jpg",
     processor: "M1, M2, M3",
     price: "1500",
+    RAM: "8GB",
+    Storage: "256GB",
+    Display: '14"',
+    Graphic: "Nvidia RTX",
+    Resolution: "1080p FHD",
   },
   {
     name: "MacBook Air 4",
     image: "img/61Qe0euJJZL.jpg",
     processor: "M1, M2, M3",
     price: "1500",
+    RAM: "8GB",
+    Storage: "256GB",
+    Display: '14"',
+    Graphic: "Nvidia RTX",
+    Resolution: "1080p FHD",
   },
   {
     name: "MacBook Pro 1",
     image: "img/61Qe0euJJZL.jpg",
     processor: "Intel i9",
     price: "1800",
+    RAM: "8GB",
+    Storage: "256GB",
+    Display: '14"',
+    Graphic: "Nvidia RTX",
+    Resolution: "1080p FHD",
   },
   {
     name: "MacBook Pro 2",
     image: "img/61Qe0euJJZL.jpg",
     processor: "Intel i9",
     price: "1800",
+    RAM: "8GB",
+    Storage: "256GB",
+    Display: '14"',
+    Graphic: "Nvidia RTX",
+    Resolution: "1080p FHD",
   },
   {
     name: "MacBook Pro 3",
     image: "img/61Qe0euJJZL.jpg",
     processor: "Intel i9",
     price: "1800",
+    RAM: "8GB",
+    Storage: "256GB",
+    Display: '14"',
+    Graphic: "Nvidia RTX",
+    Resolution: "1080p FHD",
   },
   {
     name: "MacBook Pro 4",
     image: "img/61Qe0euJJZL.jpg",
     processor: "Intel i9",
     price: "1800",
+    RAM: "8GB",
+    Storage: "256GB",
+    Display: '14"',
+    Graphic: "Nvidia RTX",
+    Resolution: "1080p FHD",
   },
   {
     name: "MacBook Pro 5",
     image: "img/61Qe0euJJZL.jpg",
     processor: "Intel i9",
     price: "1800",
+    RAM: "8GB",
+    Storage: "256GB",
+    Display: '14"',
+    Graphic: "Nvidia RTX",
+    Resolution: "1080p FHD",
   },
 ];
 
@@ -119,10 +169,10 @@ const RentalLaptops = () => {
           {/* Specification Section Below the Current Row */}
           {selectedRow === rowIndex && selectedLaptop && (
             <div className="laptop-specs">
-              <h2>Specifications for {selectedLaptop.name}</h2>
+              <h1>Specifications for {selectedLaptop.name}</h1>
               <ul>
                 <li>
-                  <span className="icon">💻</span> Processor:{" "}
+                  <span className="icon">💻</span> Processor:
                   {selectedLaptop.processor}
                 </li>
                 <li>
@@ -130,19 +180,23 @@ const RentalLaptops = () => {
                   {selectedLaptop.price}
                 </li>
                 <li>
-                  <span className="icon">💾</span> Storage: 256GB, 512GB, 1TB,
-                  2TB
+                  <span className="icon">🧠</span> RAM: {selectedLaptop.RAM}
                 </li>
                 <li>
-                  <span className="icon">🎮</span> Graphics: Nvidia RTX, AMD
-                  Radeon, Intel Arc
+                  <span className="icon">💾</span> Storage:
+                  {selectedLaptop.Storage}
                 </li>
                 <li>
-                  <span className="icon">📏</span> Display Sizes: 14", 15", 16"
+                  <span className="icon">🎮</span> Graphics:
+                  {selectedLaptop.Graphic}
                 </li>
                 <li>
-                  <span className="icon">🖥️</span> Resolutions: 1080p FHD, 2K,
-                  4K
+                  <span className="icon">📏</span> Display Size:
+                  {selectedLaptop.Display}
+                </li>
+                <li>
+                  <span className="icon">🖥️</span> Resolution:
+                  {selectedLaptop.Resolution}
                 </li>
               </ul>
               <button className="rent-now">Rent Now!</button>

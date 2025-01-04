@@ -37,7 +37,7 @@ header {
 }
 
 .logo img {
-  height: 50px;
+  height: 60px;
   margin-left: 50px;
 }
 
@@ -776,12 +776,11 @@ a:focus {
 }
 
 .laptop-specs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 25px;
-  justify-content: center;
-  padding: 20px;
-  background-color: #f9f9f9;
+  display: grid;
+  justify-content: space-between;
+  align-items: center;
+  padding: 100px;
+  background-color: #f8f8f8;
 }
 
 .laptop-specs h2 {
