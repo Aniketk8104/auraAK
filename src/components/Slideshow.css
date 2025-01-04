@@ -1,0 +1,43 @@
+.slideshow-container {
+  position: relative;
+  max-width: 100%;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.slide {
+  display: none;
+}
+
+.slide img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  padding: 16px;
+  background: #fff;
+  border: none;
+  border-radius: 50%;
+}
+
+.prev:hover,
+.next:hover {
+  background: #ddd;
+}
+
+.prev {
+  left: 10px;
+}
+
+.next {
+  right: 10px;
+}

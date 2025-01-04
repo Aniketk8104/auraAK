@@ -1,0 +1,53 @@
+.laptop-rental {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 100px;
+  background-color: #f8f8f8;
+}
+
+.laptop-details {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.laptop-details h1 {
+  font-size: 24px;
+  color: #e63946;
+  margin-bottom: 20px;
+}
+
+.laptop-details ul {
+  list-style: none;
+  padding: 0;
+}
+
+.laptop-details li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.icon {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.rent-now {
+  background-color: #e63946;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.illustration {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+}
