@@ -68,16 +68,25 @@ const Footer = () => {
           <h3 className="f_heading fw-bold fs-3 mt-4 ">Follow Us</h3>
           <GradientDivider />
           <div className="f_content d-flex justify-content-center gap-4 mt-3">
-            <a href="#" className="text-secondary hover-text-light ">
+            <a
+              href="www.facebook.com"
+              className="text-secondary hover-text-light "
+            >
               <i className="fab fa-facebook "></i>
             </a>
-            <a href="#" className="text-secondary hover-text-light">
+            <a
+              href="www.instagram.com"
+              className="text-secondary hover-text-light"
+            >
               <i className="fab fa-instagram ml-2"></i>
             </a>
-            <a href="#" className="text-secondary hover-text-light">
+            <a
+              href="www.linkedin.com"
+              className="text-secondary hover-text-light"
+            >
               <i className="fab fa-linkedin ml-2"></i>
             </a>
-            <a href="#" className="text-secondary hover-text-light">
+            <a href="ak@gmail.com" className="text-secondary hover-text-light">
               <i className="fas fa-envelope ml-2"></i>
             </a>
           </div>
@@ -104,15 +113,24 @@ const Footer = () => {
       <div className="border-top border-secondary pt-4 text-center">
         <p className="mb-0 small">
           © 2024 auratechservices | All Rights Reserved |{" "}
-          <a href="#" className="text-primary text-decoration-none">
+          <a
+            href="http://auratechservices.in"
+            className="text-primary text-decoration-none"
+          >
             Privacy Policy
           </a>{" "}
           |{" "}
-          <a href="#" className="text-primary text-decoration-none">
+          <a
+            href="http://auratechservices.in"
+            className="text-primary text-decoration-none"
+          >
             Payment and Returns
           </a>{" "}
           |{" "}
-          <a href="#" className="text-primary text-decoration-none">
+          <a
+            href="http://auratechservices.in"
+            className="text-primary text-decoration-none"
+          >
             Terms and Conditions
           </a>
         </p>
