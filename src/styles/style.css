@@ -115,7 +115,7 @@ nav ul li a {
   height: 450px;
   margin: auto;
   /* margin-left: 90px;
-  margin-right: 90px; */
+    margin-right: 90px; */
   overflow: hidden;
   border-radius: 27px;
   z-index: 1;
@@ -526,7 +526,7 @@ nav ul li a {
   display: none;
   margin: 0;
   /* margin-top: 20px;
-  padding: 20px; */
+    padding: 20px; */
   background: #f0f8ff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -776,25 +776,25 @@ a:focus {
 }
 
 /* .laptop-specs {
-  display: grid;
-  justify-content: space-between;
-  align-items: center;
-  padding: 100px;
-  background-color: #f8f8f8;
-}
+    display: grid;
+    justify-content: space-between;
+    align-items: center;
+    padding: 100px;
+    background-color: #f8f8f8;
+  }
 
-.laptop-specs h2 {
-  margin-bottom: 10px;
-}
+  .laptop-specs h2 {
+    margin-bottom: 10px;
+  }
 
-.rent-now {
-  margin-top: 10px;
-  background-color: #0078ff;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-} */
+  .rent-now {
+    margin-top: 10px;
+    background-color: #0078ff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  } */
 
 /* Main container for laptop specs */
 /* Main container for laptop specs */
@@ -917,5 +917,70 @@ a:focus {
   .rent-now {
     font-size: 0.85rem;
     padding: 6px 10px;
+  }
+}
+
+/* Responsive Design for Navbar */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: auto;
+  }
+
+  nav ul {
+    display: block;
+    gap: 15px;
+    margin-left: 0;
+  }
+
+  .logo img {
+    margin-left: 0;
+    height: 50px; /* Slightly reduce the logo size */
+  }
+
+  .header-container {
+    padding: 20px;
+  }
+
+  .header-right {
+    display: none; /* Hide the location and login buttons for mobile */
+  }
+
+  .search-bar {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 15px;
+  }
+
+  .search-bar input,
+  .search-bar button {
+    width: 100%; /* Make the search input and button full-width */
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  nav ul {
+    gap: 10px;
+  }
+
+  .logo img {
+    height: 45px; /* Further reduce logo size on very small screens */
+  }
+
+  .search-bar input {
+    font-size: 14px;
+  }
+
+  .search-bar button {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .login-btn {
+    font-size: 12px;
+    padding: 8px 16px;
   }
 }

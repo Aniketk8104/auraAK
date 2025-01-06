@@ -51,3 +51,54 @@
   align-items: center;
   height: 50px;
 }
+/* Mobile View CSS */
+@media (max-width: 768px) {
+  .laptop-rental {
+    flex-direction: column;
+    padding: 20px;
+    justify-content: center; /* Center content for smaller screens */
+  }
+
+  .laptop-details {
+    margin-right: 0;
+    text-align: center;
+  }
+
+  .laptop-details h1 {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .laptop-details ul {
+    padding: 0;
+    margin: 0 auto;
+    text-align: left; /* Ensure text is left-aligned on small screens */
+    margin-left: 0; /* Remove unnecessary margin */
+  }
+
+  .laptop-details li {
+    font-size: 16px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: center; /* Center list items for mobile */
+    align-items: center;
+  }
+
+  .icon {
+    font-size: 18px;
+    margin-right: 5px;
+  }
+
+  .rent-now {
+    font-size: 16px;
+    padding: 12px 16px;
+    width: 80%; /* Make the button smaller but still noticeable */
+    margin: 20px auto; /* Center button on screen */
+  }
+
+  .illustration {
+    margin-top: 20px;
+    height: auto;
+    width: 100%; /* Make the image adjust to the screen width */
+  }
+}
