@@ -59,7 +59,7 @@ const Footer = () => {
               <i className="fa fa-envelope"></i> info@auratechservices.in
             </li>
             <li className="d-flex align-items-center gap-2">
-              <i className="fa fa-map-marker"></i> Mumbai
+              <i className="fa fa-map-marker"></i> Mumbai 410208
             </li>
             <li className="d-flex align-items-center gap-2">
               <i className="fa fa-clock"></i> Mon – Sat: 10:00 AM – 7:00 PM
