@@ -775,7 +775,7 @@ a:focus {
   width: calc(20% - 20px);
 }
 
-.laptop-specs {
+/* .laptop-specs {
   display: grid;
   justify-content: space-between;
   align-items: center;
@@ -794,4 +794,128 @@ a:focus {
   padding: 10px 20px;
   border: none;
   cursor: pointer;
+} */
+
+/* Main container for laptop specs */
+/* Main container for laptop specs */
+.laptop-specs {
+  margin: 20px auto;
+  padding: 10px;
+  /* border: 1px solid #ddd; */
+  border-radius: 8px;
+  background: linear-gradient(to bottom, #6a519c, #b286d7);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+}
+
+/* Layout for image and details */
+.specs-layout {
+  display: grid;
+  grid-template-columns: 0.6fr 1.4fr;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Image Section */
+.specs-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.specs-image img {
+  width: 100%;
+  max-width: 220px; /* Slightly smaller image */
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  object-fit: cover;
+}
+
+/* Details Section */
+.specs-details {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.specs-details .info {
+  flex: 1 1 60%;
+}
+
+.specs-details h2 {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.specs-details ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.specs-details ul li {
+  margin: 4px 0;
+  font-size: 0.9rem;
+  color: #555;
+  display: flex;
+  align-items: center;
+}
+
+/* Rent Now Button */
+.rent-now {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: white;
+  background-color: #0078d4;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  align-self: center;
+  justify-self: end;
+}
+
+.rent-now:hover {
+  background-color: #005fa3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .specs-layout {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .specs-image img {
+    max-width: 180px; /* Smaller image for mobile */
+  }
+
+  .specs-details {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .rent-now {
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .specs-details h2 {
+    font-size: 1.1rem;
+  }
+
+  .specs-details ul li {
+    font-size: 0.85rem;
+  }
+
+  .rent-now {
+    font-size: 0.85rem;
+    padding: 6px 10px;
+  }
 }

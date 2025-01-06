@@ -5,7 +5,7 @@ const industries = [
   {
     title: "IT & Tech Companies",
     description:
-      "Setting up a temporary office? Need high-performance computers for a short-term or long-term project? Rentopay’s flexible solutions help IT and tech companies manage their equipment needs without the high costs of purchasing.",
+      "Setting up a temporary office? Need high-performance computers for a short-term or long-term project? Auratechservices’s flexible solutions help IT and tech companies manage their equipment needs without the high costs of purchasing.",
     image: "img/card1.png",
   },
   {
@@ -27,12 +27,13 @@ const IndustriesSection = () => (
     <div className="header-cards">
       <h4>Industries We Serve</h4>
       <h1>
-        Rentopay: The Solution for IT Companies, Startups, Gamers, and More
+        Auratechservices: The Solution for IT Companies, Startups, Gamers, and
+        More
       </h1>
       <p>
-        At Rentopay, we understand that different industries have different
-        requirements. That's why we offer tailored rental solutions for a
-        variety of sectors.
+        At Auratechservices, we understand that different industries have
+        different requirements. That's why we offer tailored rental solutions
+        for a variety of sectors.
       </p>
     </div>
     <div className="row">

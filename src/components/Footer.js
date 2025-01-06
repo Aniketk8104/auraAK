@@ -53,13 +53,13 @@ const Footer = () => {
           <GradientDivider />
           <ul className="f_content list-unstyled mt-3">
             <li className="d-flex align-items-center gap-2">
-              <i className="fa fa-phone"></i> +91 80809 00888
+              <i className="fa fa-phone"></i> +91 9967917846
             </li>
             <li className="d-flex align-items-center gap-2">
-              <i className="fa fa-envelope"></i> info@rentopay.in
+              <i className="fa fa-envelope"></i> info@auratechservices.in
             </li>
             <li className="d-flex align-items-center gap-2">
-              <i className="fa fa-map-marker"></i> Bengaluru, Karnataka 560094
+              <i className="fa fa-map-marker"></i> Mumbai
             </li>
             <li className="d-flex align-items-center gap-2">
               <i className="fa fa-clock"></i> Mon – Sat: 10:00 AM – 7:00 PM
@@ -103,7 +103,7 @@ const Footer = () => {
 
       <div className="border-top border-secondary pt-4 text-center">
         <p className="mb-0 small">
-          © 2024 Rentopay | All Rights Reserved |{" "}
+          © 2024 auratechservices | All Rights Reserved |{" "}
           <a href="#" className="text-primary text-decoration-none">
             Privacy Policy
           </a>{" "}
