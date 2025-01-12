@@ -1,28 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-const AdminDashboard = () => {
-  const [data, setData] = useState("");
-  const [error, setError] = useState("");
+const ManageSlideshow = ({ setError }) => {
   const [slides, setSlides] = useState([]);
   const [newImage, setNewImage] = useState(null);
   const [newTitle, setNewTitle] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("adminToken");
-      try {
-        const response = await axios.get("http://localhost:4000/api/admin/protected", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setData(response.data.data);
-      } catch (err) {
-        setError(err.response?.data?.message || "Access denied");
-      }
-    };
-
     const fetchSlides = async () => {
       try {
         const response = await axios.get("http://localhost:4000/api/slideshow");
@@ -32,9 +16,8 @@ const AdminDashboard = () => {
       }
     };
 
-    fetchData();
     fetchSlides();
-  }, []);
+  }, [setError]);
 
   const handleAddImage = async (e) => {
     e.preventDefault();
@@ -50,7 +33,7 @@ const AdminDashboard = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      setSlides((prevSlides) => [...prevSlides, response.data]); // Add new image directly to the state
+      setSlides((prevSlides) => [...prevSlides, response.data]);
       setNewImage(null);
       setNewTitle("");
       setError("");
@@ -68,21 +51,17 @@ const AdminDashboard = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setSlides((prevSlides) => prevSlides.filter((slide) => slide._id !== id)); // Remove deleted slide from the state
+      setSlides((prevSlides) => prevSlides.filter((slide) => slide._id !== id));
       alert("Image deleted successfully!");
     } catch (err) {
       setError("Failed to delete image.");
     }
   };
 
-
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Admin Dashboard</h1>
-      {error ? <p style={{ color: "red" }}>{error}</p> : <p>{data}</p>}
-
+    <>
       <h2>Manage Slideshow</h2>
-      <form onSubmit={handleAddImage}>
+      <form onSubmit={handleAddImage} style={{ marginBottom: "20px" }}>
         <input
           type="file"
           onChange={(e) => setNewImage(e.target.files[0])}
@@ -106,8 +85,8 @@ const AdminDashboard = () => {
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 };
 
-export default AdminDashboard;
+export default ManageSlideshow;
