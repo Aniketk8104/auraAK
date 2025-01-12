@@ -125,15 +125,6 @@ const laptops = [
     Resolution: "1080p FHD",
   },
 ];
-
-// const RentalLaptops = () => (
-//   <div className="card-container">
-//     {/* <h1>Rental Laptops</h1> */}
-//     {laptops.map((laptop, index) => (
-//       <RentalCard key={index} product={laptop} />
-//     ))}
-//   </div>
-// );
 const ROW_SIZE = 4;
 
 const RentalLaptops = () => {

@@ -715,19 +715,6 @@ a:focus {
   cursor: pointer;
 }
 
-.dark-mode-toggle {
-  margin-left: 20px;
-}
-
-.dark-mode-toggle button {
-  padding: 8px 12px;
-  background-color: var(--primary-color);
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
 .testimonials {
   padding: 40px 20px;
   background-color: #f9f9f9;
@@ -983,4 +970,7 @@ a:focus {
     font-size: 12px;
     padding: 8px 16px;
   }
+}
+.toggle-btn{
+  display: none;
 }

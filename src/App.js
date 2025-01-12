@@ -7,39 +7,39 @@ import RentalLaptops from "./pages/RentalLaptops";
 import RentalDesktops from "./pages/RentalDesktops";
 import HowToRent from "./pages/HowToRent";
 import "./styles/style.css";
+import './styles/mobile-styles.css';
+import Login from './components/Login';
+import AdminDashboard from './components/AdminDashboard';
+import ProtectedRoute from './components/ProtectedRoute';
+
 import "@fortawesome/fontawesome-free/css/all.min.css";
-// import LikedPage from "./components/LikedPage";
-// import { LikedProvider } from "./components/LikedContext";
-// import RentalCard from "./components/RentalCard";
 
 const App = () => {
   return (
-    // </LikedProvider>
     <Router>
       <Header />
       <main>
         <Routes>
+          {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/rental-laptops" element={<RentalLaptops />} />
           <Route path="/rental-desktops" element={<RentalDesktops />} />
           <Route path="/how-to-rent" element={<HowToRent />} />
 
-          {/* <Route
-            path="/"
+          {/* Admin Routes */}
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/admin-dashboard"
             element={
-              <div className="cardContainer">
-                {products.map((product, index) => (
-                  <RentalCard key={index} product={product} />
-                ))}
-              </div>
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
             }
-          /> */}
-          {/* <Route path="/liked" element={<LikedPage />} /> */}
+          />
         </Routes>
       </main>
       <Footer />
     </Router>
-    // </LikedProvider>
   );
 };
 

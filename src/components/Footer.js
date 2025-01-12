@@ -31,7 +31,7 @@ const Footer = () => {
         <div className="mb-4">
           <h3 className="f_heading fw-bold fs-3">Quick Links</h3>
           <GradientDivider />
-          <ul className="f_content list-unstyled mt-3">
+          <ul className=" nav_active f_content list-unstyled mt-3">
             <li className="d-flex align-items-center gap-2">
               <i className=" fa fa-home"></i> Home
             </li>
