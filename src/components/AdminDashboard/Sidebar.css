@@ -1,0 +1,70 @@
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    background-color: #000000;
+    color: rgb(0, 0, 0);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sidebar-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #000000;
+    text-align: center;
+  }
+  
+  .sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .sidebar-menu-item {
+    padding: 15px 20px;
+    cursor: pointer;
+    border-bottom: 1px solid #495057;
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .sidebar-menu-item:hover {
+    background-color: #495057;
+  }
+  
+  .sidebar-menu-item.active {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .sidebar-menu-item:last-child {
+    border-bottom: none;
+  }
+  
+  /* Responsive Sidebar */
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 100%;
+      height: auto;
+      padding: 10px;
+    }
+  
+    .sidebar-title {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+  
+    .sidebar-menu-item {
+      font-size: 14px;
+      padding: 10px 15px;
+    }
+  }
+  

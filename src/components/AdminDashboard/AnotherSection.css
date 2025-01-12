@@ -1,0 +1,41 @@
+/* AnotherSection Styles */
+.another-section {
+    background-color: #f8f9fa;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .another-section h3 {
+    font-size: 22px;
+    margin-bottom: 15px;
+  }
+  
+  .another-section p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+  }
+  
+  .another-section .button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .another-section .button:hover {
+    background-color: #218838;
+  }
+  
+  @media (max-width: 768px) {
+    .another-section h3 {
+      font-size: 18px;
+    }
+  
+    .another-section p {
+      font-size: 14px;
+    }
+  }
+  

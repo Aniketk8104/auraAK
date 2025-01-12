@@ -1,4 +1,5 @@
 import React from "react";
+import "./AnotherSection.css";
 
 const AnotherSection = () => {
   return (

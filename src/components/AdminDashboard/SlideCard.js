@@ -1,4 +1,5 @@
 import React from "react";
+import "./SlideCard.css";
 
 const SlideCard = ({ slide, onDelete }) => {
   return (

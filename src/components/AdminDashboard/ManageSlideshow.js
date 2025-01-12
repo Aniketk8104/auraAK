@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import SlideCard from "./SlideCard";
+import "./ManageSlideshow.css";
+
 
 const ManageSlideshow = ({ setError }) => {
   const [slides, setSlides] = useState([]);
@@ -62,7 +64,7 @@ const ManageSlideshow = ({ setError }) => {
   return (
     <div>
       <h2>Manage Slideshow</h2>
-      <form onSubmit={handleAddImage} style={{ marginBottom: "20px" }}>
+      <form onSubmit={handleAddImage}>
         <input type="file" onChange={(e) => setNewImage(e.target.files[0])} required />
         <input
           type="text"
