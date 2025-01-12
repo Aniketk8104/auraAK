@@ -1,11 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from 'react-router-dom';
+
 const Header = () => {
   const navigate = useNavigate();
   const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    // Check if the user is logged in by looking for the token in localStorage
+    const token = localStorage.getItem('adminToken');
+    if (token) {
+      setIsLoggedIn(true);
+      setIsAdmin(true); // Consider this user as admin if token exists
+    } else {
+      setIsLoggedIn(false);
+      setIsAdmin(false);
+    }
+  }, []);
+
   const handleLoginClick = () => {
     navigate('/login'); // Navigate to the login page
   }
+
+  const handleLogoutClick = () => {
+    localStorage.removeItem('adminToken'); // Remove the token from localStorage on logout
+    setIsLoggedIn(false); // Update login state
+    setIsAdmin(false); // Update admin state
+    navigate('/'); // Navigate to the home page
+  }
+
   const toggleNav = () => {
     setIsNavOpen((prev) => !prev);
   };
@@ -48,40 +72,47 @@ const Header = () => {
                 <option>Bangalore</option>
               </select>
             </div>
-            <button className="login-btn" onClick={handleLoginClick} >Login / Signup</button>
+            {/* Conditionally render Login / Logout button */}
+            {isLoggedIn ? (
+              <button className="login-btn" onClick={handleLogoutClick}>Logout</button>
+            ) : (
+              <button className="login-btn" onClick={handleLoginClick}>Login / Signup</button>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Navigation Menu */}
-      <nav
-        role="navigation"
-        aria-label="Main menu"
-        className={`nav-menu ${isNavOpen ? "active" : ""}`}
-      >
-        <ul className="ulnav">
-          <li>
-            <Link to="/" onClick={() => setIsNavOpen(false)}>
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link to="/rental-laptops" onClick={() => setIsNavOpen(false)}>
-              Rental Laptops
-            </Link>
-          </li>
-          <li>
-            {/* <Link to="/rental-desktops" onClick={() => setIsNavOpen(false)}>
-              Rental Desktops
-            </Link> */}
-          </li>
-          <li>
-            {/* <Link to="/how-to-rent" onClick={() => setIsNavOpen(false)}>
-              How to Rent
-            </Link> */}
-          </li>
-        </ul>
-      </nav>
+      {/* Conditionally Render Navbar Only for Non-Admin Users */}
+      {!isAdmin && (
+        <nav
+          role="navigation"
+          aria-label="Main menu"
+          className={`nav-menu ${isNavOpen ? "active" : ""}`}
+        >
+          <ul className="ulnav">
+            <li>
+              <Link to="/" onClick={() => setIsNavOpen(false)}>
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/rental-laptops" onClick={() => setIsNavOpen(false)}>
+                Rental Laptops
+              </Link>
+            </li>
+            <li>
+              {/* <Link to="/rental-desktops" onClick={() => setIsNavOpen(false)}>
+                Rental Desktops
+              </Link> */}
+            </li>
+            <li>
+              {/* <Link to="/how-to-rent" onClick={() => setIsNavOpen(false)}>
+                How to Rent
+              </Link> */}
+            </li>
+          </ul>
+        </nav>
+      )}
     </header>
   );
 };
