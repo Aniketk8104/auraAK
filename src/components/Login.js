@@ -9,7 +9,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:4000/api/admin/login', {
+      const response = await axios.post('https://aura-backend-main.onrender.com/api/admin/login', {
         username,
         password,
       });

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:4000/api";
+const BASE_URL = "https://aura-backend-main.onrender.com/api";
 
 export const fetchProtectedData = async (token) => {
   return axios.get(`${BASE_URL}/admin/protected`, {
