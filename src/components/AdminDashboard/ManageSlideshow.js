@@ -62,7 +62,7 @@ const ManageSlideshow = ({ setError }) => {
   };
 
   return (
-    <div>
+    <div class="slide-manage">
       <h2>Manage Slideshow</h2>
       <form onSubmit={handleAddImage}>
         <input type="file" onChange={(e) => setNewImage(e.target.files[0])} required />
@@ -74,7 +74,7 @@ const ManageSlideshow = ({ setError }) => {
         />
         <button type="submit">Add Image</button>
       </form>
-      <div>
+      <div class="slides-display">
         {slides.map((slide) => (
           <SlideCard key={slide._id} slide={slide} onDelete={handleDeleteImage} />
         ))}

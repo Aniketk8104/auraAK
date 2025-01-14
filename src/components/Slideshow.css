@@ -1,7 +1,8 @@
 .slideshow-container {
   position: relative;
   max-width: 100%;
-  margin: auto;
+  margin-left:  100px;
+  margin-right:  100px;
   overflow: hidden;
   border-radius: 10px;
 }
@@ -12,7 +13,7 @@
 
 .slide img {
   width: 100%;
-  height: auto;
+  height: 100%;
   border-radius: 10px;
 }
 

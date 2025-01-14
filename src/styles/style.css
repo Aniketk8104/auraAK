@@ -41,7 +41,7 @@ header {
   margin-left: 50px;
 }
 
-nav {
+.nav-menu {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -909,7 +909,7 @@ a:focus {
 
 /* Responsive Design for Navbar */
 @media (max-width: 768px) {
-  nav {
+  .nav-menu {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;

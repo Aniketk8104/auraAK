@@ -3,7 +3,13 @@ ManageSlideshow Styles
     padding: 20px;
     font-family: Arial, sans-serif;
   }
-  
+  .slide-manage{
+    display: block;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
   .manage-slideshow h2 {
     font-size: 24px;
     margin-bottom: 20px;
@@ -14,6 +20,7 @@ ManageSlideshow Styles
     flex-direction: column;
     gap: 10px;
     margin-bottom: 20px;
+    height: 10ox;
   }
   
   .manage-slideshow form input[type="file"] {
@@ -25,7 +32,12 @@ ManageSlideshow Styles
     border: 1px solid #ccc;
     border-radius: 4px;
   }
-  
+  .slide-display{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
   .manage-slideshow form button {
     padding: 10px 15px;
     background-color: #007bff;
