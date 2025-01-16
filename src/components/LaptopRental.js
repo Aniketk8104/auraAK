@@ -13,7 +13,7 @@ const LaptopRental = () => {
             i9, with latest 10th, 11th, 12th, and 13th Gen
           </li>
           <li>
-            <span className="icon">🧠</span> RAM: 8GB, 16GB, 32GB, up to 128GB
+            <span className="icon">🧠</span> RAM: 8GB, 16GB, 32GB.
           </li>
           <li>
             <span className="icon">💾</span> SSD Storage: 256GB, 512GB, 1TB, 2TB
