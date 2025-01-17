@@ -9,7 +9,9 @@ const ManageSlideshow = ({ setError }) => {
   useEffect(() => {
     const fetchSlides = async () => {
       try {
-        const response = await axios.get("https://aura-backend-main.onrender.com/api/slideshow");
+        const response = await axios.get(
+          "http://3.108.52.173:5000//api/slideshow"
+        );
         setSlides(response.data);
       } catch (err) {
         setError("Failed to fetch slideshow images.");
@@ -27,12 +29,16 @@ const ManageSlideshow = ({ setError }) => {
     formData.append("title", newTitle);
 
     try {
-      const response = await axios.post("https://aura-backend-main.onrender.com/api/slideshow", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post(
+        "http://3.108.52.173:5000//api/slideshow",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       setSlides((prevSlides) => [...prevSlides, response.data]);
       setNewImage(null);
       setNewTitle("");
@@ -46,7 +52,7 @@ const ManageSlideshow = ({ setError }) => {
   const handleDeleteImage = async (id) => {
     const token = localStorage.getItem("adminToken");
     try {
-      await axios.delete(`https://aura-backend-main.onrender.com/api/slideshow/${id}`, {
+      await axios.delete(`http://3.108.52.173:5000//api/slideshow/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -79,7 +85,11 @@ const ManageSlideshow = ({ setError }) => {
       <div>
         {slides.map((slide) => (
           <div key={slide._id} style={{ marginTop: "20px" }}>
-            <img src={slide.imageUrl} alt={slide.title} style={{ width: "200px" }} />
+            <img
+              src={slide.imageUrl}
+              alt={slide.title}
+              style={{ width: "200px" }}
+            />
             <p>{slide.title}</p>
             <button onClick={() => handleDeleteImage(slide._id)}>Delete</button>
           </div>

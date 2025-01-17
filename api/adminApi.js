@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = "https://aura-backend-main.onrender.com/api";
+// const BASE_URL = "http://3.108.52.173:5000//api";
+const BASE_URL = "http://3.108.52.173:5000//api";
 
 export const fetchProtectedData = async (token) => {
   return axios.get(`${BASE_URL}/admin/protected`, {
@@ -14,7 +15,10 @@ export const fetchSlides = async () => {
 
 export const addSlide = async (formData, token) => {
   return axios.post(`${BASE_URL}/slideshow`, formData, {
-    headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "multipart/form-data",
+    },
   });
 };
 

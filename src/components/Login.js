@@ -1,31 +1,34 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
 const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://aura-backend-main.onrender.com/api/admin/login', {
-        username,
-        password,
-      });
+      const response = await axios.post(
+        "http://3.108.52.173:5000//api/admin/login",
+        {
+          username,
+          password,
+        }
+      );
       // Save token in local storage or a state management library like Redux
-      localStorage.setItem('adminToken', response.data.token);
-      setError('');
-      alert('Login successful!');
+      localStorage.setItem("adminToken", response.data.token);
+      setError("");
+      alert("Login successful!");
       // Redirect to admin dashboard
-      window.location.href = '/admin-dashboard';
+      window.location.href = "/admin-dashboard";
     } catch (err) {
-      setError(err.response?.data?.message || 'Something went wrong');
+      setError(err.response?.data?.message || "Something went wrong");
     }
   };
 
   return (
-    <div style={{ maxWidth: '400px', margin: '50px auto' }}>
+    <div style={{ maxWidth: "400px", margin: "50px auto" }}>
       <h2>Admin Login</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -35,7 +38,7 @@ const Login = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
-            style={{ width: '100%', padding: '10px', marginBottom: '10px' }}
+            style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
           />
         </div>
         <div>
@@ -45,11 +48,13 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            style={{ width: '100%', padding: '10px', marginBottom: '10px' }}
+            style={{ width: "100%", padding: "10px", marginBottom: "10px" }}
           />
         </div>
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        <button type="submit" style={{ padding: '10px', width: '100%' }}>Login</button>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        <button type="submit" style={{ padding: "10px", width: "100%" }}>
+          Login
+        </button>
       </form>
     </div>
   );

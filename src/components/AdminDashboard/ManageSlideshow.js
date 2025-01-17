@@ -3,7 +3,6 @@ import axios from "axios";
 import SlideCard from "./SlideCard";
 import "./ManageSlideshow.css";
 
-
 const ManageSlideshow = ({ setError }) => {
   const [slides, setSlides] = useState([]);
   const [newImage, setNewImage] = useState(null);
@@ -12,7 +11,9 @@ const ManageSlideshow = ({ setError }) => {
   useEffect(() => {
     const fetchSlides = async () => {
       try {
-        const response = await axios.get("https://aura-backend-main.onrender.com/api/slideshow");
+        const response = await axios.get(
+          "http://3.108.52.173:5000//api/slideshow"
+        );
         setSlides(response.data);
       } catch (err) {
         setError("Failed to fetch slideshow images.");
@@ -30,12 +31,16 @@ const ManageSlideshow = ({ setError }) => {
     formData.append("title", newTitle);
 
     try {
-      const response = await axios.post("https://aura-backend-main.onrender.com/api/slideshow", formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axios.post(
+        "http://3.108.52.173:5000//api/slideshow",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       setSlides((prevSlides) => [...prevSlides, response.data]);
       setNewImage(null);
       setNewTitle("");
@@ -49,7 +54,7 @@ const ManageSlideshow = ({ setError }) => {
   const handleDeleteImage = async (id) => {
     const token = localStorage.getItem("adminToken");
     try {
-      await axios.delete(`https://aura-backend-main.onrender.com/api/slideshow/${id}`, {
+      await axios.delete(`http://3.108.52.173:5000//api/slideshow/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -65,7 +70,11 @@ const ManageSlideshow = ({ setError }) => {
     <div class="slide-manage">
       <h2>Manage Slideshow</h2>
       <form onSubmit={handleAddImage}>
-        <input type="file" onChange={(e) => setNewImage(e.target.files[0])} required />
+        <input
+          type="file"
+          onChange={(e) => setNewImage(e.target.files[0])}
+          required
+        />
         <input
           type="text"
           placeholder="Enter image title"
@@ -76,7 +85,11 @@ const ManageSlideshow = ({ setError }) => {
       </form>
       <div class="slides-display">
         {slides.map((slide) => (
-          <SlideCard key={slide._id} slide={slide} onDelete={handleDeleteImage} />
+          <SlideCard
+            key={slide._id}
+            slide={slide}
+            onDelete={handleDeleteImage}
+          />
         ))}
       </div>
     </div>

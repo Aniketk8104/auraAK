@@ -3,6 +3,7 @@ import Popup from "../components/Popup";
 import Slideshow from "../components/Slideshow";
 import LaptopRental from "../components/LaptopRental";
 import IndustriesSection from "../components/IndustriesSection";
+import QuickBookSection from "../components/QuickBookSection";
 
 const Home = () => {
   const [slides, setSlides] = useState([]);
@@ -11,7 +12,7 @@ const Home = () => {
   useEffect(() => {
     const fetchSlides = async () => {
       try {
-        const response = await fetch("https://aura-backend-main.onrender.com/api/slideshow");
+        const response = await fetch("http://3.108.52.173:5000//api/slideshow");
         if (!response.ok) {
           throw new Error("Failed to fetch slideshow images");
         }
@@ -34,6 +35,7 @@ const Home = () => {
       <Slideshow slides={slides} />
       <LaptopRental />
       <IndustriesSection />
+      <QuickBookSection />
     </div>
   );
 };
