@@ -916,10 +916,12 @@ a:focus {
     align-items: center;
     justify-content: space-between;
     height: auto;
+    display: none;
   }
 
   nav ul {
-    display: block;
+    display: flex
+    ;
     gap: 15px;
     margin-left: 0;
   }
