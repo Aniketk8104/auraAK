@@ -43,6 +43,12 @@
   gap: 10px;
   flex-grow: 1;
 }
+.form-container_mobile {
+  display: flex;
+  gap: 20px;
+  flex-grow: 1;
+}
+
 
 .dropdown {
   padding: 10px;
@@ -150,22 +156,45 @@
     gap: 15px; /* Add spacing between elements */
     padding: 15px 0;
   }
+  .form-container {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+  
 
   .mode-switcher,
   .form-container,
-  .button-container {
+  .button-container
+  
+  {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 20px;
+  }
+  .mode-switcher,
+  .form-container_mobile,
+  .button-container
+  
+  {
+    display: flex;
+    align-items: center;
+    gap: 25px;
   }
 
   .mode-switcher {
-    gap: 20px; /* Additional spacing for buttons */
+    gap: 10px; /* Additional spacing for buttons */
   }
 
   .form-container select {
-    padding: 8px; /* Consistent spacing for dropdowns */
-    border-radius: 5px;
+    padding: 20px; /* Consistent spacing for dropdowns */
+    border-radius: 50px;
+  }
+  .form-container_mobile select {
+    padding: 10px; /* Consistent spacing for dropdowns */
+    border-radius: 50px;
+    padding: 7px 35px;
+
   }
 
   .button-container .submit-button {
@@ -182,7 +211,6 @@
   }
 }
 
-
 /* Mobile View */
 @media (max-width: 768px) {
   .quick-book-section {
@@ -197,6 +225,12 @@
     flex-direction: column;
     width: 100%;
     gap: 10px;
+  }
+  .form-container_mobile {
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+    display: none;
   }
 
   .dropdown {

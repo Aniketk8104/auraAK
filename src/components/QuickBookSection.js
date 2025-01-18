@@ -47,6 +47,55 @@ const QuickBookSection = () => {
         >
           Take on Rent
         </button>
+        <div className="form-container_mobile">
+          <select
+            name="brand"
+            value={form.brand}
+            onChange={handleChange}
+            className="dropdown"
+          >
+            <option value="">Select Brand</option>
+            <option value="Dell">Dell</option>
+            <option value="HP">HP</option>
+            <option value="Apple">Apple</option>
+          </select>
+
+          <select
+            name="ram"
+            value={form.ram}
+            onChange={handleChange}
+            className="dropdown"
+          >
+            <option value="">Select RAM</option>
+            <option value="8GB">8GB</option>
+            <option value="16GB">16GB</option>
+            <option value="32GB">32GB</option>
+          </select>
+
+          <select
+            name="processor"
+            value={form.processor}
+            onChange={handleChange}
+            className="dropdown"
+          >
+            <option value="">Select Processor</option>
+            <option value="i5">i5</option>
+            <option value="i7">i7</option>
+            <option value="i9">i9</option>
+          </select>
+
+          <select
+            name="city"
+            value={form.city}
+            onChange={handleChange}
+            className="dropdown"
+          >
+            <option value="">Select City</option>
+            <option value="New York">New York</option>
+            <option value="London">London</option>
+            <option value="Mumbai">Mumbai</option>
+          </select>
+        </div>
       </div>
 
       {/* Action Button */}
