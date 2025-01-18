@@ -118,7 +118,7 @@ nav ul li a {
     margin-right: 90px; */
   overflow: hidden;
   border-radius: 27px;
-  z-index: 1;
+  z-index: auto;
   margin-top: 10px;
 }
 
@@ -668,6 +668,8 @@ section {
 
 @media (max-width: 600px) {
   .slideshow-container {
+     margin-left: 10px;
+    margin-right: 10px;
     height: auto;
   }
   .foodCard {
@@ -929,6 +931,7 @@ a:focus {
 
   .header-container {
     padding: 20px;
+    position: sticky;
   }
 
   .header-right {
