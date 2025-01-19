@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const BASE_URL = "http://3.108.52.173:5000//api";
-const BASE_URL = "http://3.108.52.173:5000//api";
+// const BASE_URL = "http://localhost:4000/api";
+const BASE_URL = "http://localhost:4000/api";
 
 export const fetchProtectedData = async (token) => {
   return axios.get(`${BASE_URL}/admin/protected`, {

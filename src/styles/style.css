@@ -16,13 +16,17 @@ html {
 }
 body {
   background-color: white;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 header {
   background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 px 8px rgba(0, 0, 0, 0.1);
   padding: 0px 0;
-  border-radius: 9px;
+  /* border-radius: 6px; */
 }
 
 .header-container {
@@ -230,9 +234,13 @@ nav ul li a {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 40px;
+  padding: 30px;
+
   max-width: 100%;
   margin: 0 auto;
+  margin-bottom: 0px;
+  padding-bottom: 2rem;
+  padding-top: 1rem;
   background-color: #f0eded;
 }
 
@@ -296,11 +304,15 @@ nav ul li a {
   height: 45px;
   color: var(--primary-color);
 }
+.line_footer {
+  margin-right: 84rem;
+}
 .footer {
   background-color: #252525;
   color: #fff;
   padding: 0px 0;
   font-size: 14px;
+  text-align: center;
 }
 
 .footer-container {
@@ -541,15 +553,94 @@ nav ul li a {
   padding: 20px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-.f_heading {
-  color: #ffffff;
-}
-.f_content {
-  color: #ffffff;
-}
 .f_container {
+  display: flex;
+  flex-wrap: wrap; /* Ensures items wrap for smaller screens */
+  justify-content: space-around; /* Distributes sections horizontally */
+  align-items: flex-start; /* Aligns items at the top */
+  text-align: left; /* Aligns text for horizontal layout */
   background-color: #000;
 }
+
+.f_section {
+  flex: 1; /* Makes each section take equal space */
+  min-width: 250px; /* Prevents sections from shrinking too much */
+  margin: 10px;
+}
+
+.map_container {
+  flex: 1;
+  min-width: 250px;
+  margin: 10px;
+}
+
+.f_content {
+  margin-top: 10px;
+  font-size: 0.9em;
+  color: #ccc;
+}
+
+.f_content a {
+  color: #ccc;
+  text-decoration: none;
+  margin-right: 15px;
+}
+
+.f_content a:hover {
+  color: #fff;
+}
+
+@media (max-width: 768px) {
+  .f_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around; /* Distributes sections horizontally */
+    align-items: flex-start; /* Aligns items at the top */
+    text-align: left; /* Aligns text for horizontal layout */
+    background-color: #000;
+    padding-left: 0.7rem;
+    padding-right: 0.5rem;
+
+
+
+  }
+
+  .f_section {
+    flex: 1; /* Makes each section take equal space */
+    min-width: 10rem; /* Prevents sections from shrinking too much */
+    margin: 10px;
+    margin-left: 0.5rem;
+  }
+
+  .map_container {
+    flex: 1;
+    min-width: 250px;
+    margin: 10px;
+    margin-bottom: 3rem;
+  }
+
+  .f_content {
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #ccc;
+  }
+
+  .f_content a {
+    color: #ccc;
+    text-decoration: none;
+    margin-right: 15px;
+  }
+
+  .f_content a:hover {
+    color: #fff;
+  }
+
+  .map_container iframe {
+    width: 100%;
+    height: 200px;
+  }
+}
+
 .product-image {
   flex: 1;
   max-width: 50%;
@@ -668,7 +759,7 @@ section {
 
 @media (max-width: 600px) {
   .slideshow-container {
-     margin-left: 10px;
+    margin-left: 10px;
     margin-right: 10px;
     height: auto;
   }
@@ -920,8 +1011,7 @@ a:focus {
   }
 
   nav ul {
-    display: flex
-    ;
+    display: flex;
     gap: 15px;
     margin-left: 0;
   }
@@ -976,6 +1066,6 @@ a:focus {
     padding: 8px 16px;
   }
 }
-.toggle-btn{
+.toggle-btn {
   display: none;
 }

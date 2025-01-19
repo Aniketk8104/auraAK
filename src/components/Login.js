@@ -10,7 +10,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://3.108.52.173:5000//api/admin/login",
+        "http://localhost:4000/api/admin/login",
         {
           username,
           password,

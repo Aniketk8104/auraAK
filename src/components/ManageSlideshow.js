@@ -9,9 +9,7 @@ const ManageSlideshow = ({ setError }) => {
   useEffect(() => {
     const fetchSlides = async () => {
       try {
-        const response = await axios.get(
-          "http://3.108.52.173:5000//api/slideshow"
-        );
+        const response = await axios.get("http://localhost:4000/api/slideshow");
         setSlides(response.data);
       } catch (err) {
         setError("Failed to fetch slideshow images.");
@@ -30,7 +28,7 @@ const ManageSlideshow = ({ setError }) => {
 
     try {
       const response = await axios.post(
-        "http://3.108.52.173:5000//api/slideshow",
+        "http://localhost:4000/api/slideshow",
         formData,
         {
           headers: {
@@ -52,7 +50,7 @@ const ManageSlideshow = ({ setError }) => {
   const handleDeleteImage = async (id) => {
     const token = localStorage.getItem("adminToken");
     try {
-      await axios.delete(`http://3.108.52.173:5000//api/slideshow/${id}`, {
+      await axios.delete(`http://localhost:4000/api/slideshow/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
