@@ -378,71 +378,6 @@ nav ul li a {
   cursor: pointer;
 }
 /* card css */
-.container-cards {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px 0;
-}
-
-.header-cards {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.header-cards h1 {
-  font-size: 28px;
-  margin-bottom: 10px;
-}
-
-.header-cards p {
-  font-size: 16px;
-  color: #555;
-}
-
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin-bottom: 40px;
-  margin-left: 100px;
-  margin-right: 100px;
-  position: static;
-}
-
-.card {
-  flex: 1;
-  min-width: 200px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  text-align: center;
-  transition: transform 0.3s;
-}
-
-.card:hover {
-  transform: translateY(-5px);
-}
-
-.card img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.card h3 {
-  font-size: 18px;
-  margin: 15px 0;
-  color: #333;
-}
-
-.card p {
-  font-size: 14px;
-  color: #666;
-  padding: 0 15px 20px;
-}
 .hidden-content {
   display: none;
   margin: 0;
@@ -499,7 +434,7 @@ nav ul li a {
   color: #fff;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .f_container {
     display: flex;
     flex-wrap: wrap;
@@ -509,14 +444,11 @@ nav ul li a {
     background-color: #000;
     padding-left: 0.7rem;
     padding-right: 0.5rem;
-
-
-
   }
 
   .f_section {
-    flex: 1; /* Makes each section take equal space */
-    min-width: 10rem; /* Prevents sections from shrinking too much */
+    flex: 2; /* Makes each section take equal space */
+    min-width: 9rem; /* Prevents sections from shrinking too much */
     margin: 10px;
     margin-left: 0.5rem;
   }
