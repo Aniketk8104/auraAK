@@ -12,7 +12,7 @@ const Home = () => {
   useEffect(() => {
     const fetchSlides = async () => {
       try {
-        const response = await fetch("http://3.108.52.173:5000//api/slideshow");
+        const response = await fetch("http://localhost:4000/api/slideshow");
         if (!response.ok) {
           throw new Error("Failed to fetch slideshow images");
         }
