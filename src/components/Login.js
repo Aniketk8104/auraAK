@@ -10,7 +10,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/admin/login",
+        "http://52.66.240.31:4000/api/admin/login",
         {
           username,
           password,
