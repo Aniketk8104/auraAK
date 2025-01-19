@@ -87,7 +87,7 @@
 .row {
   display: flex;
   flex-wrap: wrap-reverse;
-  gap: 20px;
+  gap: 25px;
   justify-content: center;
  flex: 2; /* Makes each section take equal space */
     min-width: 0.2rem; /* Prevents sections from shrinking too much */
