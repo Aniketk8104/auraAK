@@ -149,12 +149,7 @@
 /* Desktop View (Laptop View) */
 /* Desktop View (min-width: 769px) */
 @media (min-width: 769px) {
-  .quick-book-section {
-    align-items: center;
-    justify-content: center;
-    gap: 0rem; /* Add spacing between elements */
-    padding: 15px 20;
-  }
+ 
   .form-container {
     flex-direction: column;
     width: 100%;
