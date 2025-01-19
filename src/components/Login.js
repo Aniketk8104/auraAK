@@ -10,7 +10,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://52.66.240.31:4000/api/admin/login",
+        "https://api.auratechservices.in/api/admin/login",
         {
           username,
           password,

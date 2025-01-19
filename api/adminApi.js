@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const BASE_URL = "https://52.66.240.31:4000/api";
-const BASE_URL = "https://52.66.240.31:4000/api";
+// const BASE_URL = "https://api.auratechservices.in/api";
+const BASE_URL = "https://api.auratechservices.in/api";
 
 export const fetchProtectedData = async (token) => {
   return axios.get(`${BASE_URL}/admin/protected`, {
