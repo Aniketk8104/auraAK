@@ -12,7 +12,7 @@ const ManageSlideshow = ({ setError }) => {
     const fetchSlides = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/slideshow"
+          "https://api.auratechservices.in/api/slideshow"
         );
         setSlides(response.data);
       } catch (err) {
@@ -32,7 +32,7 @@ const ManageSlideshow = ({ setError }) => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/slideshow",
+        "https://api.auratechservices.in/api/slideshow",
         formData,
         {
           headers: {
@@ -54,7 +54,7 @@ const ManageSlideshow = ({ setError }) => {
   const handleDeleteImage = async (id) => {
     const token = localStorage.getItem("adminToken");
     try {
-      await axios.delete(`http://localhost:4000/api/slideshow/${id}`, {
+      await axios.delete(`https://api.auratechservices.in/api/slideshow/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
