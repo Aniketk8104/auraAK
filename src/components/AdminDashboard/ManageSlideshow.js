@@ -12,7 +12,7 @@ const ManageSlideshow = ({ setError }) => {
     const fetchSlides = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/api/slideshow"
+          "http://3.108.52.173:5000//api/slideshow"
         );
         setSlides(response.data);
       } catch (err) {
