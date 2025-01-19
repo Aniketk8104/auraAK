@@ -1,45 +1,138 @@
+
 .slideshow-container {
   position: relative;
-  max-width: 100%;
-  margin-left:  100px;
-  margin-right:  100px;
+  max-width: 1000px;
+  height: 450px;
+  margin: auto;
+  /* margin-left: 90px;
+    margin-right: 90px; */
   overflow: hidden;
-  border-radius: 10px;
-  margin-top: 20px;
+  border-radius: 27px;
+  z-index: auto;
+  margin-top: 10px;
 }
 
+/* Slides */
 .slide {
   display: none;
-}
-
-.slide img {
   width: 100%;
   height: 100%;
-  border-radius: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
+/* Slide images */
+.slide img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  display: block;
+  z-index: 0;
+  position: relative;
+}
+
+/* Text overlay */
+.text {
+  color: #fff;
+  font-size: 24px;
+  padding: 16px;
+  position: absolute;
+  bottom: 30px;
+  width: 100%;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Navigation arrows */
 .prev,
 .next {
   cursor: pointer;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 18px;
   padding: 16px;
-  background: #fff;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  font-size: 18px;
+  background: rgb(255, 255, 255);
   border: none;
-  border-radius: 50%;
-}
-
-.prev:hover,
-.next:hover {
-  background: #ddd;
+  border-radius: 3px;
+  user-select: none;
+  transition: 0.3s;
 }
 
 .prev {
-  left: 10px;
+  left: -1px;
 }
 
 .next {
-  right: 10px;
+  right: -1px;
+}
+
+/* Hover effects on arrows */
+.prev:hover,
+.next:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+@media (max-width: 768px) {
+  .slideshow-container {
+    position: relative;
+  max-width: auto;
+  height: 200px;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 15px;
+  z-index: auto;
+  margin-top: 0px;
+  }
+.slide {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Slide images */
+.slide img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  display: block;
+  z-index: 0;
+  position: relative;
+}
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 10px;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  font-size: 18px;
+  background: rgb(255, 255, 255);
+  border: none;
+  border-radius: 3px;
+  user-select: none;
+  transition: 0.3s;
+}
+
+.prev {
+  left: -1px;
+}
+
+.next {
+  right: -1px;
+}
+
+/* Hover effects on arrows */
+.prev:hover,
+.next:hover {
+  background: rgba(0, 0, 0, 0.7);
+}
+
 }

@@ -112,97 +112,6 @@ nav ul li a {
   cursor: pointer;
 }
 
-/* Slideshow container */
-.slideshow-container {
-  position: relative;
-  max-width: 1000px;
-  height: 450px;
-  margin: auto;
-  /* margin-left: 90px;
-    margin-right: 90px; */
-  overflow: hidden;
-  border-radius: 27px;
-  z-index: auto;
-  margin-top: 10px;
-}
-
-/* Slides */
-.slide {
-  display: none;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-/* Slide images */
-.slide img {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-  display: block;
-  z-index: 0;
-  position: relative;
-}
-
-/* Text overlay */
-.text {
-  color: #fff;
-  font-size: 24px;
-  padding: 16px;
-  position: absolute;
-  bottom: 30px;
-  width: 100%;
-  text-align: center;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-/* Navigation arrows */
-.prev,
-.next {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  padding: 16px;
-  color: rgb(0, 0, 0);
-  font-weight: bold;
-  font-size: 18px;
-  background: rgb(255, 255, 255);
-  border: none;
-  border-radius: 3px;
-  user-select: none;
-  transition: 0.3s;
-}
-
-.prev {
-  left: -1px;
-}
-
-.next {
-  right: -1px;
-}
-
-/* Hover effects on arrows */
-.prev:hover,
-.next:hover {
-  background: rgba(0, 0, 0, 0.7);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-  .text {
-    font-size: 18px;
-    padding: 10px;
-  }
-
-  .prev,
-  .next {
-    font-size: 14px;
-    padding: 12px;
-  }
-}
 /* Dot indicators over the image */
 .dot-container {
   position: absolute;
@@ -756,13 +665,18 @@ nav ul li a {
 section {
   margin: 0px;
 }
-
-@media (max-width: 600px) {
+@media (max-width: 767px) {
   .slideshow-container {
-    margin-left: 10px;
-    margin-right: 10px;
-    height: auto;
+    position: relative;
+    max-width: 50%;
+    margin-left: 100px;
+    margin-right: 100px;
+    overflow: hidden;
+    border-radius: 10px;
+    margin-top: 10px;
   }
+}
+@media (max-width: 600px) {
   .foodCard {
     width: 100%;
   }
