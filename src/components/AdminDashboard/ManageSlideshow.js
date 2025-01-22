@@ -54,11 +54,14 @@ const ManageSlideshow = ({ setError }) => {
   const handleDeleteImage = async (id) => {
     const token = localStorage.getItem("adminToken");
     try {
-      await axios.delete(`https://api.auratechservices.in/api/slideshow/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.delete(
+        `https://api.auratechservices.in/api/slideshow/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setSlides((prevSlides) => prevSlides.filter((slide) => slide._id !== id));
       alert("Image deleted successfully!");
     } catch (err) {
@@ -67,7 +70,7 @@ const ManageSlideshow = ({ setError }) => {
   };
 
   return (
-    <div class="slide-manage">
+    <div className="slide-manage">
       <h2>Manage Slideshow</h2>
       <form onSubmit={handleAddImage}>
         <input
@@ -83,7 +86,7 @@ const ManageSlideshow = ({ setError }) => {
         />
         <button type="submit">Add Image</button>
       </form>
-      <div class="slides-display">
+      <div className="slides-display">
         {slides.map((slide) => (
           <SlideCard
             key={slide._id}

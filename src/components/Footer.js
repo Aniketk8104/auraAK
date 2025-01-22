@@ -100,11 +100,11 @@ const Footer = () => {
           </h3>
           <iframe
             title="Google Map"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387190.279919375!2d-74.25987368758815!3d40.69767006403039!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDBiwqA0Mic0Ny4iTiA3NMKwMTUnMjQuNCJX!5e0!3m2!1sen!2sus!4v1634874697403!5m2!1sen!2sus"
-            className="w-100 rounded border-0"
-            style={{ height: "200px" }}
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2570.383080010083!2d73.1535965617685!3d19.085096399693924!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7eb7d9da69be3%3A0xf2b9c01257aabbad!2sEnkay%20Garden%20Phase%201%2C%20Zinnia%20Bulding!5e0!3m2!1sen!2sin!4v1737555361707!5m2!1sen!2sin"
+            className="map-iframe"
             allowFullScreen=""
             loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
           ></iframe>
         </div>
       </div>
