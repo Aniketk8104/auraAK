@@ -10,7 +10,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://api.auratechservices.in/api/admin/login",
+        `${process.env.REACT_APP_BASE_URL}/api/admin/login`,
         {
           username,
           password,

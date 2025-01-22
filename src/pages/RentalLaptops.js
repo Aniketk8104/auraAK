@@ -1,136 +1,29 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import RentalCard from "../components/RentalCard";
+import axios from "axios"; // Import Axios or use fetch
 
-const laptops = [
-  {
-    name: "MacBook Pro",
-    image: "img/61Qe0euJJZL.jpg",
-    processor: "Intel i9",
-    price: "1800",
-    RAM: "8GB",
-    Storage: "256GB",
-    Display: '14"',
-    Graphic: "Nvidia RTX",
-    Resolution: "1080p FHD",
-  },
-
-  {
-    name: "MacBook Air 1",
-    image: "img/61Qe0euJJZL.jpg",
-    processor: "M1, M2, M3",
-    price: "1500",
-    RAM: "8GB",
-    Storage: "256GB",
-    Display: '14"',
-    Graphic: "Nvidia RTX",
-    Resolution: "1080p FHD",
-  },
-  {
-    name: "MacBook Air 2",
-    image: "img/61Qe0euJJZL.jpg",
-    processor: "M1, M2, M3",
-    price: "1500",
-    RAM: "8GB",
-    Storage: "256GB",
-    Display: '14"',
-    Graphic: "Nvidia RTX",
-    Resolution: "1080p FHD",
-  },
-  {
-    name: "MacBook Air 3",
-    image: "img/61Qe0euJJZL.jpg",
-    processor: "M1, M2, M3",
-    price: "1500",
-    RAM: "8GB",
-    Storage: "256GB",
-    Display: '14"',
-    Graphic: "Nvidia RTX",
-    Resolution: "1080p FHD",
-  },
-  {
-    name: "MacBook Air 4",
-    image: "img/61Qe0euJJZL.jpg",
-    processor: "M1, M2, M3",
-    price: "1500",
-    RAM: "8GB",
-    Storage: "256GB",
-    Display: '14"',
-    Graphic: "Nvidia RTX",
-    Resolution: "1080p FHD",
-  },
-  {
-    name: "MacBook Pro 1",
-    image: "img/61Qe0euJJZL.jpg",
-    processor: "Intel i9",
-    price: "1800",
-    RAM: "8GB",
-    Storage: "256GB",
-    Display: '14"',
-    Graphic: "Nvidia RTX",
-    Resolution: "1080p FHD",
-  },
-  {
-    name: "MacBook Pro 2",
-    image: "img/61Qe0euJJZL.jpg",
-    processor: "Intel i9",
-    price: "1800",
-    RAM: "8GB",
-    Storage: "256GB",
-    Display: '14"',
-    Graphic: "Nvidia RTX",
-    Resolution: "1080p FHD",
-  },
-  {
-    name: "MacBook Pro 3",
-    image: "img/61Qe0euJJZL.jpg",
-    processor: "Intel i9",
-    price: "1800",
-    RAM: "8GB",
-    Storage: "256GB",
-    Display: '14"',
-    Graphic: "Nvidia RTX",
-    Resolution: "1080p FHD",
-  },
-  {
-    name: "MacBook Pro 4",
-    image: "img/61Qe0euJJZL.jpg",
-    processor: "Intel i9",
-    price: "1800",
-    RAM: "8GB",
-    Storage: "256GB",
-    Display: '14"',
-    Graphic: "Nvidia RTX",
-    Resolution: "1080p FHD",
-  },
-  {
-    name: "MacBook Pro 5",
-    image: "img/61Qe0euJJZL.jpg",
-    processor: "Intel i9",
-    price: "1800",
-    RAM: "8GB",
-    Storage: "256GB",
-    Display: '14"',
-    Graphic: "Nvidia RTX",
-    Resolution: "1080p FHD",
-  },
-  {
-    name: "MacBook Pro a",
-    image: "img/61Qe0euJJZL.jpg",
-    processor: "Intel i9",
-    price: "1800",
-    RAM: "8GB",
-    Storage: "256GB",
-    Display: '14"',
-    Graphic: "Nvidia RTX",
-    Resolution: "1080p FHD",
-  },
-];
 const ROW_SIZE = 4;
 
 const RentalLaptops = () => {
+  const [laptops, setLaptops] = useState([]); // State for laptops
   const [selectedRow, setSelectedRow] = useState(null);
   const [selectedLaptop, setSelectedLaptop] = useState(null);
   const cardRefs = useRef([]); // Ref for each card
+
+  useEffect(() => {
+    const fetchLaptops = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/api/laptops`
+        );
+        setLaptops(response.data); // Update laptops state
+      } catch (error) {
+        console.error("Failed to fetch laptops:", error);
+      }
+    };
+
+    fetchLaptops();
+  }, []);
 
   const rows = [];
   for (let i = 0; i < laptops.length; i += ROW_SIZE) {
@@ -149,7 +42,6 @@ const RentalLaptops = () => {
       setTimeout(() => {
         cardRefs.current[rowIndex]?.[laptop.name]?.scrollIntoView({
           behavior: "smooth",
-          // block: "center", // Scroll to the center of the card
         });
       }, 100); // Slight delay to ensure the card is rendered before scrolling
     }
@@ -213,4 +105,5 @@ const RentalLaptops = () => {
     </div>
   );
 };
+
 export default RentalLaptops;
