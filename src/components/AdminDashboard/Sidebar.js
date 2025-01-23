@@ -24,11 +24,11 @@ const Sidebar = ({ currentSection, onSectionChange }) => {
         </li>
         <li
           className={`sidebar-menu-item ${
-            currentSection === "AKSection" ? "active" : ""
+            currentSection === "manageLaptops" ? "active" : ""
           }`}
-          onClick={() => onSectionChange("AKSection")}
+          onClick={() => onSectionChange("manageLaptops")}
         >
-          AK Section
+          Manage Laptops
         </li>
       </ul>
     </nav>

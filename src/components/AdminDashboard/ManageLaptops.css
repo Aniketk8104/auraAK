@@ -1,0 +1,91 @@
+.laptop-manage {
+  max-width: 800px; /* Slightly wider for better form display */
+  margin: 20px auto; /* Adds margin for breathing room */
+  font-family: Arial, sans-serif;
+  background-color: #fff; /* White background for better contrast */
+  border-radius: 8px; /* Rounded corners */
+  padding: 20px; /* Inner spacing */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  overflow-y: auto; /* Enables vertical scrolling */
+  max-height: calc(
+    100vh - 120px
+  ); /* Fits within the viewport minus space for header/footer */
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px; /* Larger gap for a cleaner layout */
+}
+
+form input,
+form button {
+  padding: 12px; /* Better padding for input fields and buttons */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px; /* Slightly larger text for readability */
+}
+
+form input:focus {
+  border-color: #007bff; /* Highlight input field on focus */
+  outline: none; /* Removes default outline */
+}
+
+form button {
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px; /* Matches input field text size */
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+.laptops-display ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px; /* Space between form and laptop list */
+}
+
+.laptop-summary {
+  cursor: pointer;
+  padding: 15px; /* Larger padding for easier clicks */
+  border: 1px solid #ddd;
+  margin-bottom: 10px; /* Consistent spacing */
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+.laptop-summary:hover {
+  background-color: #e9e9e9;
+}
+
+.laptop-details {
+  padding: 15px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  margin-top: 10px;
+  border-radius: 4px;
+}
+
+.laptop-image {
+  width: 100px;
+  height: auto;
+  display: block;
+  margin-bottom: 10px;
+}
+
+/* Ensure the section does not overlap the footer */
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+footer {
+  margin-top: auto;
+}
