@@ -200,3 +200,217 @@
   transform: scale(1.05); /* Slightly enlarges the card */
   transition: all 0.6s ease; /* Smooth transition for changes */
 }
+
+@media (max-width: 768px)
+{
+  .foodCard {
+  height: 250px;
+  width: 150px;
+  border-radius: 20px;
+  background-color: #fff;
+  /* display: flex; */
+  align-items: center;
+  justify-content: start;
+  flex-direction: column;
+  position: relative;
+  outline: 2px solid #ccc;
+  user-select: none;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.Like {
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  right: 0;
+  font-size: 20px;
+  color: #bbb;
+  background-color: #333;
+  border-radius: 0 20px 0 15px;
+  width: 40px;
+  height: 35px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.Like:hover {
+  color: #f80000;
+}
+
+.Discount {
+  position: absolute;
+  left: 0;
+  font-size: 10px;
+  padding: 5px 10px;
+  font-weight: 600;
+  color: #fff;
+  background-color: #333;
+  border-radius: 15px 0 15px 0;
+}
+
+.imageContainer {
+  padding: 10px;
+  height: 60%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.foodTitle {
+  color: #222;
+  font-weight: bold;
+  padding-top: 10px;
+}
+
+.Price {
+  font-weight: bold;
+  color: #000;
+}
+
+.button {
+  padding: 10px;
+  background-color: #28a745;
+  color: #fff;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #218838;
+}
+
+.likedPage {
+  text-align: center;
+  padding: 20px;
+}
+
+.likedItems {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.likedCard {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 200px;
+}
+
+.likedCard img {
+  width: 100%;
+  border-radius: 5px;
+}
+
+/* Discount label */
+.Discount {
+  position: absolute;
+  left: 0;
+  font-size: 15px;
+  padding: 2px 10px;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: rgba(244, 31, 31, 0);
+  border-radius: 15px 0px 15px 0px;
+  font-style: italic;
+  background-image: linear-gradient(163deg, #b6b2b2 0%, #f80000 100%);
+}
+
+/* Image container */
+.imageContainer {
+  padding: 2px;
+  height: 60%;
+  width: 100%;
+  padding-top: 30px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.imageContainer > img {
+  height: 140%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+/* Title and specifications */
+.foodTitle {
+  color: rgb(32, 32, 32);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 200px;
+  font-weight: 800;
+  padding-top: 10px;
+  font-size: 10px;
+}
+
+.Price {
+  font-weight: 600;
+  padding: 5px 0;
+  color: rgb(0, 0, 0);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+/* Button and price container */
+.priceAndButton {
+  position: absolute;
+  bottom: 10px;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Button styling */
+.button {
+  padding: 0 15px;
+  height: 30px;
+  border: none;
+  background-color: rgb(116, 219, 160);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.4s ease;
+  opacity: 100%;
+  font-size: 10px;
+}
+
+.button:hover {
+  box-shadow: rgb(116, 219, 160) 0px 0px 15px;
+}
+
+.button:active {
+  transform: scale(0.95);
+}
+.foodCard.highlight {
+  border-color: #ff0000;
+  /* border-width: 0px; */
+  background-color: #fff;
+  box-shadow: 0 8px 16px rgba(42, 25, 140, 0.7), 0 0 20px rgba(94, 26, 173, 0.4);
+  transform: scale(1.05); /* Slightly enlarges the card */
+  transition: all 0.6s ease; /* Smooth transition for changes */
+}
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+}

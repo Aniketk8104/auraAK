@@ -9,8 +9,7 @@ const LaptopRental = () => {
         <h1>Just ₹849/Month – Laptops on Rent!</h1>
         <ul>
           <li>
-            <span className="icon">💻</span> Processors: Intel i3, i5, i7, and
-            i9, with latest 10th, 11th, 12th, and 13th Gen
+            <span className="icon">💻</span> Processors: Intel i3, i5, i7, with 10th, 11th Gen
           </li>
           <li>
             <span className="icon">🧠</span> RAM: 8GB, 16GB, 32GB.

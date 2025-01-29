@@ -630,6 +630,18 @@ a:focus {
     margin-left: 10px;
     margin-right: 10px;
   }
+
+  /* Nav css  */
+
+  .ulnav{
+    color: #000;
+    /* background-color: #0078d4; */
+  }
+  .nav-menu
+  {
+    color: #000;
+    background-color: #0078d4;
+  }
 }
 
 .search-bar {
@@ -687,7 +699,7 @@ a:focus {
 
 .card-container {
   display: flex;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   gap: 25px;
   justify-content: center;
   padding: 20px;

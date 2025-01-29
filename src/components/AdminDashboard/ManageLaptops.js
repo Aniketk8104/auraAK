@@ -18,6 +18,7 @@ const ManageLaptops = ({ setError }) => {
   const [editingLaptopId, setEditingLaptopId] = useState(null);
   const [expandedLaptopId, setExpandedLaptopId] = useState(null);
 
+  // Fetch laptops on mount
   useEffect(() => {
     const fetchLaptops = async () => {
       try {
@@ -69,7 +70,7 @@ const ManageLaptops = ({ setError }) => {
     try {
       if (editingLaptopId) {
         // Update existing laptop
-        await axios.put(
+        const response = await axios.put(
           `${process.env.REACT_APP_BASE_URL}/api/laptops/${editingLaptopId}`,
           formData,
           {
@@ -79,11 +80,10 @@ const ManageLaptops = ({ setError }) => {
             },
           }
         );
+
         setLaptops((prev) =>
           prev.map((laptop) =>
-            laptop._id === editingLaptopId
-              ? { ...laptop, ...newLaptop, image: laptop.image }
-              : laptop
+            laptop._id === editingLaptopId ? response.data : laptop
           )
         );
         setEditingLaptopId(null);
@@ -248,7 +248,7 @@ const ManageLaptops = ({ setError }) => {
       <div className="laptops-display">
         <ul>
           {laptops.map((laptop, index) => (
-            <li key={laptop._id}>
+            <li key={laptop._id || index}>
               <div
                 className="laptop-summary"
                 onClick={() => toggleDetails(laptop._id)}

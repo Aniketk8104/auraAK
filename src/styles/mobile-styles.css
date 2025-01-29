@@ -129,6 +129,7 @@
   nav.active {
     display: block;
     background-color: #000000; /* Same background as nav ul */
+  color: #000000;
   }
 
   nav ul {
@@ -139,20 +140,20 @@
   }
 
   nav ul li {
-    margin-bottom: 10px;
+    margin-bottom: 4px;
   }
 
   nav ul li a {
     display: block; /* Ensure the entire area is clickable */
     padding: 10px 15px;
     text-decoration: none;
-    color: #ddd; /* Updated link color */
+    color: #000000; /* Updated link color */
     font-size: 1rem;
     transition: color 0.3s ease; /* Smooth hover effect */
   }
 
   nav ul li a:hover {
-    color: #007bff; /* Hover color */
+    color: #e63946; /* Hover color */
     background-color: rgba(255, 255, 255, 0.1); /* Subtle highlight effect */
   }
 }

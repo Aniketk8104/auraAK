@@ -67,6 +67,7 @@
   .laptop-details h1 {
     font-size: 20px;
     margin-bottom: 15px;
+   
   }
 
   .laptop-details ul {
@@ -77,11 +78,10 @@
   }
 
   .laptop-details li {
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 8px;
     display: flex;
-    justify-content: center; /* Center list items for mobile */
-    align-items: center;
+    align-items: left;
   }
 
   .icon {
