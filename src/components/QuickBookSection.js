@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Replace useHistory with useNavigate
 import "./QuickBookSection.css";
 
 const QuickBookSection = () => {
@@ -11,16 +12,15 @@ const QuickBookSection = () => {
     city: "",
   });
 
+  const navigate = useNavigate(); // Replace useHistory with useNavigate
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = () => {
-    alert(
-      `Mode: ${
-        mode === "buy" ? "Quick Buy" : "Quick Rent"
-      }\nForm Data: ${JSON.stringify(form)}`
-    );
+    const queryParams = new URLSearchParams(form).toString();
+    navigate(`/rental-laptops?${queryParams}`); // Use navigate instead of history.push
   };
 
   const toggleModal = () => {

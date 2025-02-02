@@ -101,7 +101,7 @@ nav ul li a {
   border: none;
 }
 
-.login-btn {
+.logout-btn {
   background-color: var(--primary-color);
   color: white;
   border: none;
@@ -633,12 +633,11 @@ a:focus {
 
   /* Nav css  */
 
-  .ulnav{
+  .ulnav {
     color: #000;
     /* background-color: #0078d4; */
   }
-  .nav-menu
-  {
+  .nav-menu {
     color: #000;
     background-color: #0078d4;
   }
@@ -919,7 +918,7 @@ a:focus {
     padding: 8px 12px;
   }
 
-  .login-btn {
+  .logout-btn {
     font-size: 12px;
     padding: 8px 16px;
   }
