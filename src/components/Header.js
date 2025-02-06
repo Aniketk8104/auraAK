@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -9,7 +9,7 @@ const Header = () => {
 
   useEffect(() => {
     // Check if the user is logged in by looking for the token in localStorage
-    const token = localStorage.getItem('adminToken');
+    const token = localStorage.getItem("adminToken");
     if (token) {
       setIsLoggedIn(true);
       setIsAdmin(true); // Consider this user as admin if token exists
@@ -20,15 +20,15 @@ const Header = () => {
   }, []);
 
   const handleLoginClick = () => {
-    navigate('/login'); // Navigate to the login page
-  }
+    navigate("/login"); // Navigate to the login page
+  };
 
   const handleLogoutClick = () => {
-    localStorage.removeItem('adminToken'); // Remove the token from localStorage on logout
+    localStorage.removeItem("adminToken"); // Remove the token from localStorage on logout
     setIsLoggedIn(false); // Update login state
     setIsAdmin(false); // Update admin state
-    navigate('/'); // Navigate to the home page
-  }
+    navigate("/"); // Navigate to the home page
+  };
 
   const toggleNav = () => {
     setIsNavOpen((prev) => !prev);
@@ -49,9 +49,10 @@ const Header = () => {
           </button>
 
           {/* Logo */}
-          <a href="/"><div className="logo">
-            <img src="/img/logo.png" alt="Aura Tech Services company logo" />
-          </div>
+          <a href="/">
+            <div className="logo">
+              <img src="/img/logo.png" alt="Aura Tech Services company logo" />
+            </div>
           </a>
           {/* Header Right Section */}
           <div className="header-right">
@@ -74,9 +75,12 @@ const Header = () => {
             </div>
             {/* Conditionally render Login / Logout button */}
             {isLoggedIn ? (
-              <button className="login-btn" onClick={handleLogoutClick}>Logout</button>
+              <button className="logout-btn" onClick={handleLogoutClick}>
+                Logout
+              </button>
             ) : (
-              <button className="login-btn" onClick={handleLoginClick}>Login / Signup</button>
+              <button className="login-btn" onClick={handleLoginClick}>
+              </button>
             )}
           </div>
         </div>

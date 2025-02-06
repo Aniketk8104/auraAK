@@ -100,8 +100,10 @@
     border-radius: 4px;
     cursor: pointer;
   }
-
-  .login-btn {
+.login-btn{
+  display: none;
+}
+  .logout-btn {
     background-color: #007bff;
     color: white;
     padding: 5px 10px;
@@ -111,7 +113,7 @@
     cursor: pointer;
   }
 
-  .login-btn:hover {
+  .logout-btn:hover {
     background-color: #0056b3;
   }
 }
@@ -129,7 +131,7 @@
   nav.active {
     display: block;
     background-color: #000000; /* Same background as nav ul */
-  color: #000000;
+    color: #000000;
   }
 
   nav ul {

@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import RentalCard from "../components/RentalCard";
-import axios from "axios"; // Import Axios or use fetch
+import axios from "axios";
 
 const ROW_SIZE = 4;
 
 const RentalLaptops = () => {
-  const [laptops, setLaptops] = useState([]); // State for laptops
+  const [filteredLaptops, setFilteredLaptops] = useState([]); // Only keep filteredLaptops
   const [selectedRow, setSelectedRow] = useState(null);
   const [selectedLaptop, setSelectedLaptop] = useState(null);
-  const cardRefs = useRef([]); // Ref for each card
+  const cardRefs = useRef([]);
+
+  const location = useLocation();
 
   useEffect(() => {
     const fetchLaptops = async () => {
@@ -16,18 +19,39 @@ const RentalLaptops = () => {
         const response = await axios.get(
           `${process.env.REACT_APP_BASE_URL}/api/laptops`
         );
-        setLaptops(response.data); // Update laptops state
+        filterLaptops(response.data, location.search); // Filter laptops directly
       } catch (error) {
         console.error("Failed to fetch laptops:", error);
       }
     };
 
     fetchLaptops();
-  }, []);
+  }, [location.search]);
+
+  const filterLaptops = (laptops, queryString) => {
+    const queryParams = new URLSearchParams(queryString);
+    const filters = {
+      brand: queryParams.get("brand"),
+      ram: queryParams.get("ram"),
+      processor: queryParams.get("processor"),
+      city: queryParams.get("city"),
+    };
+
+    const filtered = laptops.filter((laptop) => {
+      return (
+        (!filters.brand || laptop.brand === filters.brand) &&
+        (!filters.ram || laptop.RAM === filters.ram) &&
+        (!filters.processor || laptop.processor === filters.processor) &&
+        (!filters.city || laptop.city === filters.city)
+      );
+    });
+
+    setFilteredLaptops(filtered);
+  };
 
   const rows = [];
-  for (let i = 0; i < laptops.length; i += ROW_SIZE) {
-    rows.push(laptops.slice(i, i + ROW_SIZE));
+  for (let i = 0; i < filteredLaptops.length; i += ROW_SIZE) {
+    rows.push(filteredLaptops.slice(i, i + ROW_SIZE));
   }
 
   const handleToggleSpecs = (laptop, rowIndex) => {
@@ -38,12 +62,11 @@ const RentalLaptops = () => {
       setSelectedRow(rowIndex);
       setSelectedLaptop(laptop);
 
-      // Scroll to the selected laptop card
       setTimeout(() => {
         cardRefs.current[rowIndex]?.[laptop.name]?.scrollIntoView({
           behavior: "smooth",
         });
-      }, 100); // Slight delay to ensure the card is rendered before scrolling
+      }, 100);
     }
   };
 

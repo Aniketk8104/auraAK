@@ -1,7 +1,14 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./LaptopRental.css";
 
 const LaptopRental = () => {
+  const navigate = useNavigate();
+
+  const handleNavigation = () => {
+    navigate("/rental-laptops"); // Path updated to match your import
+  };
+
   return (
     <div className="laptop-rental">
       {/* Left Section: Laptop Details */}
@@ -9,7 +16,8 @@ const LaptopRental = () => {
         <h1>Just ₹849/Month – Laptops on Rent!</h1>
         <ul>
           <li>
-            <span className="icon">💻</span> Processors: Intel i3, i5, i7, with 10th, 11th Gen
+            <span className="icon">💻</span> Processors: Intel i3, i5, i7, with
+            10th, 11th Gen
           </li>
           <li>
             <span className="icon">🧠</span> RAM: 8GB, 16GB, 32GB.
@@ -28,7 +36,9 @@ const LaptopRental = () => {
             <span className="icon">🖥️</span> Resolutions: 1080p FHD, 2K, 4K
           </li>
         </ul>
-        <button className="rent-now">Rent Now!</button>
+        <button className="rent-now" onClick={handleNavigation}>
+          Rent Now!
+        </button>
       </div>
 
       {/* Right Section: Lottie Animation */}
