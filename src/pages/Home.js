@@ -4,6 +4,8 @@ import Slideshow from "../components/Slideshow";
 import LaptopRental from "../components/LaptopRental";
 import IndustriesSection from "../components/IndustriesSection";
 import QuickBookSection from "../components/QuickBookSection";
+import Header_QuickBookSection from "../components/Header_Quickbook";
+
 
 const Home = () => {
   const [slides, setSlides] = useState([]);
@@ -37,7 +39,9 @@ const Home = () => {
       <Slideshow slides={slides} />
       <LaptopRental />
       <IndustriesSection />
-      <QuickBookSection />
+      {/* <QuickBookSection /> */}
+      {/* <Header_QuickBookSection /> */}
+
     </div>
   );
 };

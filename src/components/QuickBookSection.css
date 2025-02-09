@@ -1,7 +1,6 @@
 /* Base container */
 .quick-book-section {
   position: fixed;
-  /* display: none; */
   bottom: 0;
   left: 0;
   right: 0;
@@ -11,7 +10,7 @@
   box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.2);
   font-family: Arial, sans-serif;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   flex-wrap: nowrap;
 }
@@ -35,18 +34,13 @@
 }
 
 .mode-switcher button.active {
-  background-color: #e63946;
+  background-color: #ff385c;
 }
 
 /* Form container (Dropdowns) */
-.form-container {
-  display: flex;
-  gap: 10px;
-  flex-grow: 1;
-}
 .form-container_mobile {
   display: flex;
-  gap: 20px;
+  gap: 15px;
   flex-grow: 1;
 }
 
@@ -63,16 +57,16 @@
 /* Submit Button */
 .button-container {
   display: flex;
-  justify-content: flex-end;
-  margin-left: 10px;
+  justify-content: center;
+  margin-top: 10px;
 }
 
 .submit-button {
   padding: 10px 20px;
-  background-color: #e63946;
+  background-color: #ff385c;
   color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 50px;
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
@@ -80,7 +74,7 @@
 }
 
 .submit-button:hover {
-  background-color: #c32e38;
+  background-color: #d32e46;
 }
 
 /* Popup Modal Styles (for Mobile View) */
