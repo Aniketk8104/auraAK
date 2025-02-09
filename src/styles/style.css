@@ -23,21 +23,21 @@ html {
 } */
 
 header {
-  background-color: white;
+  /* background-color: white;
   box-shadow: 0 px 8px rgba(0, 0, 0, 0.1);
-  padding: 0px 0;
+  padding: 0px 0; */
   /* border-radius: 6px; */
 }
 
 .header-container {
-  background-color: white;
+  /* background-color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
   max-width: 1400px;
   margin: auto;
   padding: 0 20px;
-  transition: margin 0.3s ease;
+  transition: margin 0.3s ease; */
 }
 
 .logo img {
