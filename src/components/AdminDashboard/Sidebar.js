@@ -30,6 +30,14 @@ const Sidebar = ({ currentSection, onSectionChange }) => {
         >
           Manage Laptops
         </li>
+        <li
+          className={`sidebar-menu-item ${
+            currentSection === "manageMobileNumbers" ? "active" : ""
+          }`}
+          onClick={() => onSectionChange("manageMobileNumbers")}
+        >
+          Manage Mobile Numbers
+        </li>
       </ul>
     </nav>
   );

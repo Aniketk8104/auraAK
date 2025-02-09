@@ -3,6 +3,7 @@ import Sidebar from "./Sidebar";
 import ManageSlideshow from "./ManageSlideshow";
 import AnotherSection from "./AnotherSection";
 import ManageLaptops from "./ManageLaptops";
+import ManageMobileNumbers from "./ManageMobileNumbers";
 import ErrorMessage from "../Shared/ErrorMessage";
 
 const AdminDashboard = () => {
@@ -26,6 +27,7 @@ const AdminDashboard = () => {
         {currentSection === "manageLaptops" && (
           <ManageLaptops setError={setError} />
         )}
+        {currentSection === "manageMobileNumbers" && <ManageMobileNumbers />}
         {currentSection === "anotherSection" && <AnotherSection />}
       </div>
     </div>
