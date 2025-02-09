@@ -43,7 +43,9 @@ const Home = () => {
       <Projects />
       <CodeLottie />
       <IndustriesSection />
-      <QuickBookSection />
+      {/* <QuickBookSection /> */}
+      {/* <Header_QuickBookSection /> */}
+
     </div>
   );
 };
