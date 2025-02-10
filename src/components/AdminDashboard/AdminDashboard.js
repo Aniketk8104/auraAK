@@ -11,7 +11,7 @@ const AdminDashboard = () => {
   const [error, setError] = useState("");
 
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
+    <div style={{ display: "flex", height: "100vh", marginTop: "120px" }}>
       {/* Sidebar Navigation */}
       <Sidebar
         currentSection={currentSection}

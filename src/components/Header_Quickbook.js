@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-// import "./styles.css";
+import { useNavigate } from "react-router-dom";
 import "../components/Header_Quickbook.css";
 
 export default function Header() {
@@ -17,65 +16,42 @@ export default function Header() {
   const [dropdownType, setDropdownType] = useState(null);
   const [selectedSearchOption, setSelectedSearchOption] = useState(null);
   const [activeTab, setActiveTab] = useState("buy");
+  const [filters, setFilters] = useState({
+    ram: [],
+    processor: [],
+    category: [],
+  });
 
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
-    if (token) {
-      setIsLoggedIn(true);
-      setIsAdmin(true);
-    } else {
-      setIsLoggedIn(false);
-      setIsAdmin(false);
-    }
+    setIsLoggedIn(!!token);
+    setIsAdmin(!!token);
   }, []);
-
-  const handleLoginClick = () => {
-    navigate("/login");
-  };
-
-  const handleLogoutClick = () => {
-    localStorage.removeItem("adminToken");
-    setIsLoggedIn(false);
-    setIsAdmin(false);
-    navigate("/");
-  };
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const ramOptions = [
-    { label: "8 GB", value: "8gb" },
-    { label: "12 GB", value: "12gb" },
-    { label: "16 GB", value: "16gb" },
-    { label: "32 GB", value: "32gb" },
-  ];
-
-  const processorOptions = [
-    { label: "Intel Core i5", value: "i5" },
-    { label: "Intel Core i7", value: "i7" },
-    { label: "Intel Core i9", value: "i9" },
-    { label: "AMD Ryzen 5", value: "ryzen5" },
-    { label: "AMD Ryzen 7", value: "ryzen7" },
-  ];
-
-  const categoryOptions = [
-    { label: "Gaming", value: "gaming" },
-    { label: "Business", value: "business" },
-    { label: "Student", value: "student" },
-    { label: "Creative Professional", value: "creative" },
-  ];
+  // **Fetch Filter Options from Backend**
+  useEffect(() => {
+    fetch(`${process.env.REACT_APP_BASE_URL}/api/laptops/filters`)
+      .then((response) => response.json())
+      .then((data) => {
+        setFilters({
+          ram: data.rams || [],
+          processor: data.processors || [],
+          category: data.categorys || [],
+        });
+      })
+      .catch((error) => console.error("Error fetching filters:", error));
+  }, []);
 
   const handleOptionSelect = (type, option) => {
-    setSelectedOptions((prev) => ({
-      ...prev,
-      [type]: option.label,
-    }));
+    setSelectedOptions((prev) => ({ ...prev, [type]: option }));
     setShowDropdown(false);
   };
 
@@ -87,6 +63,12 @@ export default function Header() {
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
+  };
+
+  const handleRentNow = (e) => {
+    e.stopPropagation(); // Prevents dropdown from toggling
+    const queryParams = new URLSearchParams(selectedOptions).toString();
+    navigate(`/rental-laptops?${queryParams}`);
   };
 
   return (
@@ -113,10 +95,7 @@ export default function Header() {
         </div>
 
         {isScrolled && (
-          <div
-            className="search-bar search-small"
-            onClick={() => setShowDropdown(!showDropdown)}
-          >
+          <div className="search-bar search-small">
             {["ram", "processor", "category"].map((type) => (
               <React.Fragment key={type}>
                 <div
@@ -134,25 +113,31 @@ export default function Header() {
                 {type !== "category" && <div className="divider"></div>}
               </React.Fragment>
             ))}
-            <button className="search-button">
-              {activeTab === "buy" ? "Buy Laptop" : "Rent Laptop"}
+            <button className="search-button" onClick={handleRentNow}>
+              {activeTab === "buy" ? "Buy Laptop" : "Rent Now"}
             </button>
           </div>
         )}
 
         <div className="user-options">
-          <span
-            {...(isLoggedIn ? (
-              <button className="logout-btn" onClick={handleLogoutClick}>
-                Logout
-              </button>
-            ) : (
-              <button className="login-btn" onClick={handleLoginClick}></button>
-            ))}
-            className="host-link"
-          >
-            Welcome To Aira Tech
-          </span>
+          {isLoggedIn ? (
+            <button
+              className="logout-btn"
+              onClick={() => {
+                localStorage.removeItem("adminToken");
+                setIsLoggedIn(false);
+                navigate("/");
+              }}
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              className="login-btn"
+              onClick={() => navigate("/login")}
+            ></button>
+          )}
+          <span className="host-link">Welcome To Aira Tech</span>
           <span className="globe-icon">🌐</span>
           <div className="user-menu">
             <span className="menu-icon">☰</span>
@@ -162,10 +147,7 @@ export default function Header() {
       </nav>
 
       {!isScrolled && (
-        <div
-          className="search-bar"
-          onClick={() => setShowDropdown(!showDropdown)}
-        >
+        <div className="search-bar">
           {["ram", "processor", "category"].map((type) => (
             <React.Fragment key={type}>
               <div
@@ -183,58 +165,26 @@ export default function Header() {
               {type !== "category" && <div className="divider"></div>}
             </React.Fragment>
           ))}
-          <button className="search-button">
-            {activeTab === "buy" ? "Buy Laptop" : "Rent Laptop"}
+          <button className="search-button" onClick={handleRentNow}>
+            {activeTab === "buy" ? "Buy Laptop" : "Rent Now"}
           </button>
         </div>
       )}
 
-      {showDropdown && (
+      {showDropdown && dropdownType && filters[dropdownType]?.length > 0 && (
         <div className="search-dropdown">
-          {dropdownType === "ram" && (
-            <>
-              <div className="suggestion-item header">RAM Options</div>
-              {ramOptions.map((ram) => (
-                <div
-                  key={ram.value}
-                  className="suggestion-item"
-                  onClick={() => handleOptionSelect("ram", ram)}
-                >
-                  <span className="location">{ram.label}</span>
-                </div>
-              ))}
-            </>
-          )}
-
-          {dropdownType === "processor" && (
-            <>
-              <div className="suggestion-item header">Processor Options</div>
-              {processorOptions.map((processor) => (
-                <div
-                  key={processor.value}
-                  className="suggestion-item"
-                  onClick={() => handleOptionSelect("processor", processor)}
-                >
-                  <span className="location">{processor.label}</span>
-                </div>
-              ))}
-            </>
-          )}
-
-          {dropdownType === "category" && (
-            <>
-              <div className="suggestion-item header">Laptop Categories</div>
-              {categoryOptions.map((category) => (
-                <div
-                  key={category.value}
-                  className="suggestion-item"
-                  onClick={() => handleOptionSelect("category", category)}
-                >
-                  <span className="location">{category.label}</span>
-                </div>
-              ))}
-            </>
-          )}
+          <div className="suggestion-item header">
+            {dropdownType.toUpperCase()} Options
+          </div>
+          {filters[dropdownType].map((option, index) => (
+            <div
+              key={index}
+              className="suggestion-item"
+              onClick={() => handleOptionSelect(dropdownType, option)}
+            >
+              <span className="location">{option}</span>
+            </div>
+          ))}
         </div>
       )}
     </header>

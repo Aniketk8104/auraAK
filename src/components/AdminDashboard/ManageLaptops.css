@@ -29,6 +29,7 @@ form button {
 form input:focus {
   border-color: #007bff; /* Highlight input field on focus */
   outline: none; /* Removes default outline */
+
 }
 
 form button {

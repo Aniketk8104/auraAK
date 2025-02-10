@@ -12,7 +12,8 @@ const ManageLaptops = ({ setError }) => {
     Storage: "",
     Graphic: "",
     Display: "",
-    Resolution: "",
+    Brand: "",
+    category: "",
     image: null,
   });
   const [editingLaptopId, setEditingLaptopId] = useState(null);
@@ -112,7 +113,8 @@ const ManageLaptops = ({ setError }) => {
         Storage: "",
         Graphic: "",
         Display: "",
-        Resolution: "",
+        Brand: "",
+        category: "",
         image: null,
       });
       setError("");
@@ -131,7 +133,8 @@ const ManageLaptops = ({ setError }) => {
       Storage: laptop.Storage,
       Graphic: laptop.Graphic,
       Display: laptop.Display,
-      Resolution: laptop.Resolution,
+      Brand: laptop.Brand,
+      category: laptop.category,
       image: null, // Prevent overriding with a new image unless explicitly selected
     });
     setEditingLaptopId(laptop._id);
@@ -228,9 +231,17 @@ const ManageLaptops = ({ setError }) => {
         />
         <input
           type="text"
-          name="Resolution"
-          placeholder="Resolution"
-          value={newLaptop.Resolution}
+          name="category"
+          placeholder="category"
+          value={newLaptop.category}
+          onChange={handleInputChange}
+          required
+        />
+        <input
+          type="text"
+          name="Brand"
+          placeholder="Laptop barnd"
+          value={newLaptop.Brand}
           onChange={handleInputChange}
           required
         />
@@ -268,7 +279,8 @@ const ManageLaptops = ({ setError }) => {
                   <p>Storage: {laptop.Storage}</p>
                   <p>Graphics: {laptop.Graphic}</p>
                   <p>Display: {laptop.Display}</p>
-                  <p>Resolution: {laptop.Resolution}</p>
+                  <p>Brand: {laptop.Brand}</p>
+                  <p>category: {laptop.category}</p>
                   <button onClick={() => handleEditLaptop(laptop)}>Edit</button>
                   <button onClick={() => handleDeleteLaptop(laptop._id)}>
                     Delete

@@ -6,7 +6,7 @@ import axios from "axios";
 const ROW_SIZE = 4;
 
 const RentalLaptops = () => {
-  const [filteredLaptops, setFilteredLaptops] = useState([]); // Only keep filteredLaptops
+  const [filteredLaptops, setFilteredLaptops] = useState([]);
   const [selectedRow, setSelectedRow] = useState(null);
   const [selectedLaptop, setSelectedLaptop] = useState(null);
   const cardRefs = useRef([]);
@@ -19,7 +19,7 @@ const RentalLaptops = () => {
         const response = await axios.get(
           `${process.env.REACT_APP_BASE_URL}/api/laptops`
         );
-        filterLaptops(response.data, location.search); // Filter laptops directly
+        filterLaptops(response.data, location.search);
       } catch (error) {
         console.error("Failed to fetch laptops:", error);
       }
@@ -31,18 +31,16 @@ const RentalLaptops = () => {
   const filterLaptops = (laptops, queryString) => {
     const queryParams = new URLSearchParams(queryString);
     const filters = {
-      brand: queryParams.get("brand"),
       ram: queryParams.get("ram"),
       processor: queryParams.get("processor"),
-      city: queryParams.get("city"),
+      category: queryParams.get("category"),
     };
 
     const filtered = laptops.filter((laptop) => {
       return (
-        (!filters.brand || laptop.brand === filters.brand) &&
         (!filters.ram || laptop.RAM === filters.ram) &&
         (!filters.processor || laptop.processor === filters.processor) &&
-        (!filters.city || laptop.city === filters.city)
+        (!filters.category || laptop.category === filters.category)
       );
     });
 
@@ -116,7 +114,7 @@ const RentalLaptops = () => {
                     <li>💾 Storage: {selectedLaptop.Storage}</li>
                     <li>🎮 Graphics: {selectedLaptop.Graphic}</li>
                     <li>📏 Display Size: {selectedLaptop.Display}</li>
-                    <li>🖥️ Resolution: {selectedLaptop.Resolution}</li>
+                    <li>🖥️ category: {selectedLaptop.category}</li>
                   </ul>
                   <button className="rent-now">Rent Now!</button>
                 </div>
