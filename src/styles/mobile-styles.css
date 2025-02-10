@@ -70,28 +70,36 @@
   .logo img {
     max-width: 80px;
     height: auto;
+    margin-left: 0%;
   }
 
-  .search-bar {
+  .scrolled.logo img {
+    margin-right: 300;
+    height: 50px; /* Slightly reduce the logo size */
+    /* transform: translateX(35%) */
+    /* height: auto; */
+    max-width: 80px;
+  }
+  /* .search-bar {
     flex: 1;
     margin: 0 10px;
-    display: flex;
+    display: ruby;
     align-items: center;
-  }
+  } */
 
-  .search-bar input,
+  /* .search-bar input,
   .search-bar button {
     font-size: 0.9rem;
-  }
+  } */
 
-  .search-bar input {
+  /* .search-bar input {
     width: 100%;
     padding: 5px 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-  }
+  } */
 
-  .search-bar button {
+  /* .search-bar button {
     background-color: #007bff;
     border: none;
     color: white;
@@ -99,7 +107,7 @@
     margin-left: 5px;
     border-radius: 4px;
     cursor: pointer;
-  }
+  } */
 .login-btn{
   display: none;
 }
@@ -123,10 +131,11 @@
   nav {
     display: none;
     flex-direction: column;
-    background-color: #010101; /* Unified background color */
-    padding: 10px 15px;
+    background-color: #ffffff; /* Unified background color */
+    padding: 8px 15px;
     border-radius: 4px; /* Optional for better design */
   }
+  
 
   nav.active {
     display: block;

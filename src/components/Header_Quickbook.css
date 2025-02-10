@@ -33,7 +33,11 @@ body {
 }
 
 .logo img {
-  height: 40px;
+  height: 80px;
+}
+.scrolled.logo{
+  margin-right: 300px;
+  
 }
 
 .user-options {
@@ -321,18 +325,45 @@ body {
   box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.1);
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 767px) {
   .search-bar {
-    width: 100%;
+    width: 90%;
     flex-direction: column;
     align-items: stretch;
-    border-radius: 12px;
+    border-radius: 32px;
+    display: ruby;
   }
+  .search-bar:hover {
+  box-shadow: 0px 4px 16px rgba(255, 252, 252, 0.96);
+}
+  .search-bar button {
+    /* background-color: #e7e7e7; */
+    /* border: none; */
+    color: white;
+    padding: 8px 1px;
+    margin-left: 5px;
+    border-radius: 14px;
+    cursor: pointer;
+  }
+  .top-nav {
+  width: 110%;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  /* padding: 2px 20px; */
+  /* padding-bottom: 0%; */
+}
+.scrolled .user-options {
+  display: none;
+  align-items: center;
+  gap: 15px;
+}
 
-  .scrolled .search-bar {
-    width: 90%;
+  /* .scrolled .search-bar {
+    width: 80%;
     transform: translateX(-50%);
-  }
+  } */
 
   .buy-rent-options {
     margin-left: 20px;
@@ -343,4 +374,163 @@ body {
     font-size: 14px;
     padding: 6px 12px;
   }
+
+
+
+
+  .search-option {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 8px 16px;
+  cursor: pointer;
+  position: relative;
+  border-radius: 50px;
+  overflow: visible;
+  transition: all 0.3s ease;
+  margin: 15 8px;
+  margin-left: 0px;
+}
+
+.search-option::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: -4px;
+  bottom: -6px;
+  left: -11px;
+  background: #f8f8f8;
+  border-radius: inherit;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: -1;
+}
+
+.scrolled .search-option::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  right: -2px;
+  bottom: -1px;
+  left: -15px;
+  background: #f8f8f8;
+  border-radius: inherit;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: -1;
+}
+
+.search-option:hover::before {
+  opacity: 1;
+  box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-option:hover {
+  transform: scale(1.02);
+}
+
+.search-option.selected {
+  background: #f8f8f8;
+}
+
+.search-option.selected::before {
+  opacity: 1;
+  box-shadow: 0px 0px 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-option.selected .label,
+.search-option.selected .placeholder {
+  color: rgb(2, 2, 2);
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #555;
+}
+
+.placeholder {
+  font-size: 14px;
+  font-weight: 400;
+  color: #777;
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background: #ddd;
+}
+
+.search-button {
+  background: linear-gradient(to right, #ff385c, #d70466);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px;
+  padding: 10px 20px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.search-button:hover {
+  background: linear-gradient(to right, #d70466, #ff385c);
+}
+/* .logo img{
+  height: auto;
+    max-width: 80px;
+    margin-left: 0;
+    height: 50px;
+
+} */
+/* .logo img {
+    max-width: 80px;
+    height: auto;
+    margin-left: 50px;
+  } */
+.scrolled.logo img {
+    margin-right: 300;
+    height: 50px; /* Slightly reduce the logo size */
+    /* transform: translateX(35%) */
+    /* height: auto; */
+    max-width: 80px;
+  }
+.scrolled .search-bar {
+  width: 75%;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 32px;
+    display: ruby;
+    /* margin-left: 35px; */
+    margin-top: 0;
+    position: fixed;
+    transform: translateX(-35%)
+    /* box-shadow: none; */
+
+}
+
+.scrolled .search-bar:not(.search-small) {
+  display: none;
+}
+
+.scrolled {
+  padding: 2px 6px;
+  padding-bottom: 15px;
+}
+
+.search-dropdown {
+  width: 600px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  margin-top: 10px;
+  padding: 10px;
+  position: absolute;
+  top: 100%;
+  z-index: 1001;
+  max-width: 90%;
+}
 }

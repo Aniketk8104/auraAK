@@ -838,10 +838,10 @@ a:focus {
     margin-left: 0;
   }
 
-  .logo img {
+  /* .logo img {
     margin-left: 0;
-    height: 50px; /* Slightly reduce the logo size */
-  }
+    height: 50px;
+  } */
 
   .header-container {
     padding: 20px;
@@ -852,11 +852,11 @@ a:focus {
     display: none; /* Hide the location and login buttons for mobile */
   }
 
-  .search-bar {
+  /* .search-bar {
     flex-direction: column;
     align-items: center;
     margin-top: 15px;
-  }
+  } */
 
   .search-bar input,
   .search-bar button {
@@ -870,18 +870,18 @@ a:focus {
     gap: 10px;
   }
 
-  .logo img {
-    height: 45px; /* Further reduce logo size on very small screens */
-  }
+  /* .logo img {
+    height: 45px; 
+  } */
 
   .search-bar input {
     font-size: 14px;
   }
 
-  .search-bar button {
+  /* .search-bar button {
     font-size: 14px;
     padding: 8px 12px;
-  }
+  } */
 
   .logout-btn {
     font-size: 12px;
