@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // import "./styles.css";
-import Header_QuickBookSection from "../components/Header_Quickbook.css";
-
+import "../components/Header_Quickbook.css";
 
 export default function Header() {
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -16,32 +15,30 @@ const navigate = useNavigate();
     category: "",
   });
   const [dropdownType, setDropdownType] = useState(null);
-  const [selectedSearchOption, setSelectedSearchOption] = useState(null); // Track selected search option
+  const [selectedSearchOption, setSelectedSearchOption] = useState(null);
+  const [activeTab, setActiveTab] = useState("buy");
 
-// Loginlogoutfunction
-useEffect(() => {
-  // Check if the user is logged in by looking for the token in localStorage
-  const token = localStorage.getItem("adminToken");
-  if (token) {
-    setIsLoggedIn(true);
-    setIsAdmin(true); // Consider this user as admin if token exists
-  } else {
+  useEffect(() => {
+    const token = localStorage.getItem("adminToken");
+    if (token) {
+      setIsLoggedIn(true);
+      setIsAdmin(true);
+    } else {
+      setIsLoggedIn(false);
+      setIsAdmin(false);
+    }
+  }, []);
+
+  const handleLoginClick = () => {
+    navigate("/login");
+  };
+
+  const handleLogoutClick = () => {
+    localStorage.removeItem("adminToken");
     setIsLoggedIn(false);
     setIsAdmin(false);
-  }
-}, []);
-
-const handleLoginClick = () => {
-  navigate("/login"); // Navigate to the login page
-};
-
-const handleLogoutClick = () => {
-  localStorage.removeItem("adminToken"); // Remove the token from localStorage on logout
-  setIsLoggedIn(false); // Update login state
-  setIsAdmin(false); // Update admin state
-  navigate("/"); // Navigate to the home page
-};
-//end
+    navigate("/");
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -84,23 +81,35 @@ const handleLogoutClick = () => {
 
   const handleSearchOptionClick = (type) => {
     setDropdownType(type);
-    setSelectedSearchOption(type); // Set the selected search option
+    setSelectedSearchOption(type);
     setShowDropdown(true);
+  };
+
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
   };
 
   return (
     <header className={`navbar ${isScrolled ? "scrolled" : ""}`}>
       <nav className="top-nav">
-        <div className="logo">
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Airbnb_Logo_Bélo.svg"
-            alt="Airbnb Logo"
-          />
-        </div>
-
+        <a href="/">
+          <div className="logo">
+            <img src="/img/logo.png" alt="Aura Tech Services company logo" />
+          </div>
+        </a>
         <div className="buy-rent-options">
-          <div>BUY</div>
-          <div>RENT</div>
+          <div
+            className={activeTab === "buy" ? "selected" : ""}
+            onClick={() => handleTabClick("buy")}
+          >
+            BUY
+          </div>
+          <div
+            className={activeTab === "rent" ? "selected" : ""}
+            onClick={() => handleTabClick("rent")}
+          >
+            RENT
+          </div>
         </div>
 
         {isScrolled && (
@@ -125,12 +134,25 @@ const handleLogoutClick = () => {
                 {type !== "category" && <div className="divider"></div>}
               </React.Fragment>
             ))}
-            <button className="search-button">Buy Laptop</button>
+            <button className="search-button">
+              {activeTab === "buy" ? "Buy Laptop" : "Rent Laptop"}
+            </button>
           </div>
         )}
 
         <div className="user-options">
-          <span className="host-link">Airbnb your home</span>
+          <span
+            {...(isLoggedIn ? (
+              <button className="logout-btn" onClick={handleLogoutClick}>
+                Logout
+              </button>
+            ) : (
+              <button className="login-btn" onClick={handleLoginClick}></button>
+            ))}
+            className="host-link"
+          >
+            Welcome To Aira Tech
+          </span>
           <span className="globe-icon">🌐</span>
           <div className="user-menu">
             <span className="menu-icon">☰</span>
@@ -161,7 +183,9 @@ const handleLogoutClick = () => {
               {type !== "category" && <div className="divider"></div>}
             </React.Fragment>
           ))}
-          <button className="search-button">Buy Laptop</button>
+          <button className="search-button">
+            {activeTab === "buy" ? "Buy Laptop" : "Rent Laptop"}
+          </button>
         </div>
       )}
 

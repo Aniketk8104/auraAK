@@ -14,31 +14,6 @@ a {
 html {
   scroll-behavior: smooth;
 }
-/* body {
-  background-color: white;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  overflow-x: hidden;
-} */
-
-header {
-  /* background-color: white;
-  box-shadow: 0 px 8px rgba(0, 0, 0, 0.1);
-  padding: 0px 0; */
-  /* border-radius: 6px; */
-}
-
-.header-container {
-  /* background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1400px;
-  margin: auto;
-  padding: 0 20px;
-  transition: margin 0.3s ease; */
-}
 
 .logo img {
   height: 60px;
@@ -60,19 +35,6 @@ header {
   );
   height: 60px;
   transition: all 0.3s ease;
-}
-nav.fixed {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Add margin to avoid overlap with content */
-body.fixed-nav-active main {
-  margin-top: 80px; /* Adjust to match your navbar height */
 }
 
 nav ul {
@@ -586,9 +548,9 @@ nav ul li a {
   justify-content: center; /* Center logo in sticky state */
 }
 
-.sticky-header nav ul {
-  justify-content: center; /* Center navbar */
-}
+/* .sticky-header nav ul {
+  justify-content: center; 
+} */
 
 .sticky-header .header-right {
   display: none; /* Hide login/signup a and location selector. */
@@ -633,21 +595,24 @@ a:focus {
 
   /* Nav css  */
 
-  .ulnav {
+  /* .ulnav {
     color: #000;
-    /* background-color: #0078d4; */
-  }
+    background-color: #0078d4;
+     transform: translateX(-50%);
+  margin-top: 0;
+  position: st;
+  } */
   .nav-menu {
     color: #000;
     background-color: #0078d4;
   }
 }
 
-.search-bar {
+/* .search-bar {
   display: flex;
   align-items: center;
   gap: 10px;
-}
+} */
 
 .search-bar input {
   padding: 8px;
@@ -656,14 +621,14 @@ a:focus {
   flex: 1;
 }
 
-.search-bar button {
+/* .search-bar button {
   padding: 8px 12px;
   background-color: var(--primary-color);
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-}
+} */
 
 .testimonials {
   padding: 40px 20px;
