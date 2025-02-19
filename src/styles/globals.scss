@@ -30,5 +30,5 @@
 
 .sticky-card {
   /* padding-top: calc(var(--index) * 2.5rem); */
-  top: calc(var(--index) * 4rem);
+  top: calc(150px + (var(--index) - 1) * 4rem);
 }

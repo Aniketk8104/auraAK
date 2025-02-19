@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Popup from "../components/Popup";
 import Slideshow from "../components/Slideshow";
 import LaptopRental from "../components/LaptopRental";
-import IndustriesSection from "../components/IndustriesSection";
+// import IndustriesSection from "../components/IndustriesSection";
 import QuickBookSection from "../components/QuickBookSection";
 import Projects from "../components/projects/projects";
 import CodeLottie from "../components/codeLottie";
@@ -42,10 +42,9 @@ const Home = () => {
       <LaptopRental />
       <Projects />
       <CodeLottie />
-      <IndustriesSection />
+      {/* <IndustriesSection /> */}
       {/* <QuickBookSection /> */}
       {/* <Header_QuickBookSection /> */}
-
     </div>
   );
 };
