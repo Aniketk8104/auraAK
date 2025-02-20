@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import "./ManageMobileNumbers.css";
 
@@ -8,18 +8,18 @@ const ManageMobileNumbers = () => {
 
   const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-  useEffect(() => {
-    fetchNumbers();
-  }, []);
-
-  const fetchNumbers = async () => {
+  const fetchNumbers = useCallback(async () => {
     try {
       const { data } = await axios.get(`${BASE_URL}/api/mobile/all`);
       setMobileNumbers(data);
     } catch (error) {
       console.error("Error fetching numbers", error);
     }
-  };
+  }, [BASE_URL]);
+
+  useEffect(() => {
+    fetchNumbers();
+  }, [fetchNumbers]);
 
   const deleteSelected = async () => {
     for (let id of selectedIds) {

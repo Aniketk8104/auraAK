@@ -3,7 +3,7 @@ import Popup from "../components/Popup";
 import Slideshow from "../components/Slideshow";
 import LaptopRental from "../components/LaptopRental";
 // import IndustriesSection from "../components/IndustriesSection";
-import QuickBookSection from "../components/QuickBookSection";
+// import QuickBookSection from "../components/QuickBookSection";
 import Projects from "../components/projects/projects";
 import CodeLottie from "../components/codeLottie";
 import "../styles/card.scss";

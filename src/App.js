@@ -1,6 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from "./components/Header";
+// import Header from "./components/Header";
 import HeaderQuickbook from "./components/Header_Quickbook";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";

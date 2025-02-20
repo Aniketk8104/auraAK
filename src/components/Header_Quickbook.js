@@ -7,7 +7,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [, setIsAdmin] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState({
     ram: "",
     processor: "",
