@@ -137,7 +137,7 @@ export default function Header() {
               onClick={() => navigate("/login")}
             ></button>
           )}
-          <span className="host-link">Welcome To Aira Tech</span>
+          <span className="host-link">Welcome To Aura Tech</span>
           <span className="globe-icon">🌐</span>
           <div className="user-menu">
             <span className="menu-icon">☰</span>

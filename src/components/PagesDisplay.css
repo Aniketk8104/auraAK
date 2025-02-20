@@ -11,7 +11,7 @@
 /* Fixed navigation bar below the Buy Laptop section */
 .pages-nav {
   position: sticky;
-  top: 95px; /* Adjust this based on the height of Buy Laptop section */
+  top: 85px; /* Adjust this based on the height of Buy Laptop section */
   left: 0;
   width: 100%;
   background-color: white;
