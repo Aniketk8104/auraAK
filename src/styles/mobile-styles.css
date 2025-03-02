@@ -9,9 +9,12 @@
     margin-top: 0%;
   }
 
+.main1{
+padding-top: 85%;
+}
   body {
     margin: 0;
-    padding: 0;
+    padding: 0px;
     font-family: "Arial", sans-serif;
     background-color: #f9f9f9;
     color: #333;
@@ -108,9 +111,9 @@
     border-radius: 4px;
     cursor: pointer;
   } */
-.login-btn{
-  display: none;
-}
+  .login-btn {
+    display: none;
+  }
   .logout-btn {
     background-color: #007bff;
     color: white;
@@ -135,7 +138,6 @@
     padding: 8px 15px;
     border-radius: 4px; /* Optional for better design */
   }
-  
 
   nav.active {
     display: block;
@@ -169,9 +171,7 @@
   }
 }
 /* Main Content */
-main {
-  margin: 20px 0;
-}
+
 
 .content,
 .card,
@@ -185,7 +185,7 @@ main {
 
 main h2 {
   font-size: 1.2rem;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 main p,

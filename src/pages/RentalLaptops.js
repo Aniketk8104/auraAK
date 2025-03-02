@@ -69,7 +69,7 @@ const RentalLaptops = () => {
   };
 
   return (
-    <div>
+    <div className="card_div">
       {rows.map((row, rowIndex) => (
         <div key={rowIndex}>
           <div className="card-container">

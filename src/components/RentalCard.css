@@ -405,6 +405,9 @@
   transform: scale(1.05); /* Slightly enlarges the card */
   transition: all 0.6s ease; /* Smooth transition for changes */
 }
+.card_div{
+  margin-top: 320px
+}
 .card-container {
   display: flex;
   flex-wrap: wrap;

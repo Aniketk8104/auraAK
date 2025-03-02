@@ -34,7 +34,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
+    <div class="main1">
       <Popup />
       {error && <p style={{ color: "red" }}>{error}</p>}
 

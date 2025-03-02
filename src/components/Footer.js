@@ -75,13 +75,13 @@ const Footer = () => {
               <i className="fab fa-facebook"></i>
             </a>
             <a
-              href="www.instagram.com"
+              href="https://www.instagram.com/p/DEXzAlEImcV/"
               className="text-secondary hover-text-light"
             >
               <i className="fab fa-instagram ml-2"></i>
             </a>
             <a
-              href="www.linkedin.com"
+              href="https://www.linkedin.com/company/aura-tech-service"
               className="text-secondary hover-text-light"
             >
               <i className="fab fa-linkedin ml-2"></i>
