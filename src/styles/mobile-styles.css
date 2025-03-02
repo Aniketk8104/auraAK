@@ -73,16 +73,10 @@ padding-top: 85%;
   .logo img {
     max-width: 80px;
     height: auto;
-    margin-left: 0%;
+    margin-left: 9%;
   }
 
-  .scrolled.logo img {
-    margin-right: 300;
-    height: 50px; /* Slightly reduce the logo size */
-    /* transform: translateX(35%) */
-    /* height: auto; */
-    max-width: 80px;
-  }
+  
   /* .search-bar {
     flex: 1;
     margin: 0 10px;
