@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./ManageLaptops.css";
+import * as XLSX from "xlsx";
 
 const ManageLaptops = ({ setError }) => {
   const [laptops, setLaptops] = useState([]);
@@ -18,10 +19,13 @@ const ManageLaptops = ({ setError }) => {
   });
   const [editingLaptopId, setEditingLaptopId] = useState(null);
   const [expandedLaptopId, setExpandedLaptopId] = useState(null);
+  const [excelFile, setExcelFile] = useState(null);
+  const [importedLaptops, setImportedLaptops] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // Fetch laptops on mount
   useEffect(() => {
     const fetchLaptops = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(
           `${process.env.REACT_APP_BASE_URL}/api/laptops`
@@ -30,6 +34,8 @@ const ManageLaptops = ({ setError }) => {
       } catch (err) {
         console.error("Error fetching laptops:", err);
         setError("Failed to fetch laptops.");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -51,6 +57,119 @@ const ManageLaptops = ({ setError }) => {
     }));
   };
 
+  const handleExcelFileChange = (e) => {
+    const file = e.target.files?.[0];
+    setExcelFile(file || null);
+  };
+
+  const processExcelFile = () => {
+    console.log("processExcelFile clicked");
+    if (!excelFile) {
+      alert("Please select an Excel file");
+      return;
+    }
+
+    console.log("excelFile:", excelFile);
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const data = e.target?.result;
+        const workbook = XLSX.read(data, { type: "binary" });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+
+        console.log("Raw Excel Data:", data);
+        console.log("Parsed Excel Data:", worksheet);
+
+        const validatedLaptops = worksheet
+          .map((laptop) => ({
+            name: laptop.name || "",
+            processor: laptop.processor || "",
+            price: Number(laptop.price) || 0,
+            RAM: laptop.RAM || "",
+            Storage: laptop.Storage || "",
+            Graphic: laptop.Graphic || "",
+            Display: laptop.Display || "",
+            category: laptop.category || "",
+            Brand: laptop.Brand || "",
+            image: null,
+          }))
+          .filter((laptop) => laptop.name && laptop.price > 0);
+
+        console.log("Validated Laptops:", validatedLaptops);
+
+        setImportedLaptops(validatedLaptops);
+      } catch (error) {
+        console.error("Error processing Excel file:", error);
+        setError("Error processing Excel file.");
+      }
+    };
+
+    reader.readAsBinaryString(excelFile);
+  };
+
+  const handleBulkImport = async () => {
+    const token = localStorage.getItem("adminToken");
+    if (!token) {
+      setError("Unauthorized. Please log in.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const importResults = await Promise.all(
+        importedLaptops.map(async (laptop) => {
+          const formData = new FormData();
+          Object.entries(laptop).forEach(([key, value]) => {
+            if (key !== "image") {
+              formData.append(key, value.toString());
+            }
+          });
+
+          try {
+            const response = await axios.post(
+              `${process.env.REACT_APP_BASE_URL}/api/laptops`,
+              formData,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "multipart/form-data",
+                },
+              }
+            );
+            return { success: true, data: response.data };
+          } catch (err) {
+            console.error("Import error for laptop:", laptop.name, err);
+            return { success: false, error: err.message, laptop };
+          }
+        })
+      );
+
+      const successfulImports = importResults
+        .filter((result) => result.success)
+        .map((result) => result.data);
+      const failedImports = importResults.filter((result) => !result.success);
+
+      setLaptops((prev) => [...prev, ...successfulImports]);
+      setImportedLaptops([]);
+      setExcelFile(null);
+
+      if (failedImports.length > 0) {
+        setError(
+          `Failed to import ${failedImports.length} laptops. Check console for details.`
+        );
+      } else {
+        alert(`Successfully imported ${successfulImports.length} laptops`);
+      }
+    } catch (err) {
+      console.error("Bulk import error:", err);
+      setError("Failed to import laptops");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleAddOrUpdateLaptop = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem("adminToken");
@@ -68,10 +187,11 @@ const ManageLaptops = ({ setError }) => {
       }
     });
 
+    setLoading(true);
     try {
+      let response;
       if (editingLaptopId) {
-        // Update existing laptop
-        const response = await axios.put(
+        response = await axios.put(
           `${process.env.REACT_APP_BASE_URL}/api/laptops/${editingLaptopId}`,
           formData,
           {
@@ -90,8 +210,7 @@ const ManageLaptops = ({ setError }) => {
         setEditingLaptopId(null);
         alert("Laptop updated successfully!");
       } else {
-        // Add new laptop
-        const response = await axios.post(
+        response = await axios.post(
           `${process.env.REACT_APP_BASE_URL}/api/laptops`,
           formData,
           {
@@ -121,6 +240,8 @@ const ManageLaptops = ({ setError }) => {
     } catch (err) {
       console.error("Error adding or updating laptop:", err);
       setError("Failed to add or update laptop.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -135,7 +256,7 @@ const ManageLaptops = ({ setError }) => {
       Display: laptop.Display,
       Brand: laptop.Brand,
       category: laptop.category,
-      image: null, // Prevent overriding with a new image unless explicitly selected
+      image: null,
     });
     setEditingLaptopId(laptop._id);
   };
@@ -147,6 +268,7 @@ const ManageLaptops = ({ setError }) => {
       return;
     }
 
+    setLoading(true);
     try {
       await axios.delete(
         `${process.env.REACT_APP_BASE_URL}/api/laptops/${id}`,
@@ -161,6 +283,8 @@ const ManageLaptops = ({ setError }) => {
     } catch (err) {
       console.error("Error deleting laptop:", err);
       setError("Failed to delete laptop.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -252,10 +376,55 @@ const ManageLaptops = ({ setError }) => {
           accept="image/*"
           required={!editingLaptopId}
         />
-        <button type="submit">
-          {editingLaptopId ? "Update Laptop" : "Add Laptop"}
+        <button type="submit" disabled={loading}>
+          {loading
+            ? "Loading..."
+            : editingLaptopId
+            ? "Update Laptop"
+            : "Add Laptop"}
         </button>
       </form>
+      <div className="excel-import">
+        <h3>Import Laptops via Excel</h3>
+        <input
+          type="file"
+          accept=".xlsx, .xls, .csv"
+          onChange={handleExcelFileChange}
+        />
+        <button onClick={processExcelFile} disabled={loading}>
+          {loading ? "Loading..." : "Process Excel"}
+        </button>
+        {importedLaptops.length > 0 && (
+          <div>
+            <h4>Preview Imported Laptops</h4>
+            <button onClick={handleBulkImport} disabled={loading}>
+              {loading ? "Loading..." : "Import All"}
+            </button>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Processor</th>
+                  <th>Price</th>
+                  <th>RAM</th>
+                  <th>Storage</th>
+                </tr>
+              </thead>
+              <tbody>
+                {importedLaptops.map((laptop, index) => (
+                  <tr key={index}>
+                    <td>{laptop.name}</td>
+                    <td>{laptop.processor}</td>
+                    <td>{laptop.price}</td>
+                    <td>{laptop.RAM}</td>
+                    <td>{laptop.Storage}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
       <div className="laptops-display">
         <ul>
           {laptops.map((laptop, index) => (
