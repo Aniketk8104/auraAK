@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./LaptopRental.css";
+import CodeLottie from "../components/codeLottie";
 
 const LaptopRental = () => {
   const navigate = useNavigate();
@@ -43,14 +44,15 @@ const LaptopRental = () => {
 
       {/* Right Section: Lottie Animation */}
       <div className="illustration">
-        <lottie-player
+        {/* <lottie-player
           src="https://lottie.host/ab36b0b4-9b44-4f8a-a151-1ccdb79b6014/dDOZH5Fe2T.json"
           background="transparent"
           speed="1"
           style={{ width: "100%", height: "auto", maxHeight: "5000px" }}
           loop
           autoplay
-        ></lottie-player>
+        ></lottie-player> */}
+        <CodeLottie />
       </div>
     </div>
   );

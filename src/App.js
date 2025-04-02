@@ -5,7 +5,7 @@ import HeaderQuickbook from "./components/Header_Quickbook";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/ProtectedRoute";
 import LoadingSpinner from "./components/LoadingSpinner"; // Add a loading spinner component
-import PagesDisplay from "./components/PagesDisplay"; // ✅ Import PagesDisplay
+// import PagesDisplay from "./components/PagesDisplay"; // ✅ Import PagesDisplay
 
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./styles/style.css";
@@ -28,7 +28,7 @@ const App = () => {
       <HeaderQuickbook />
 
       {/* ✅ Added PagesDisplay right after HeaderQuickbook */}
-      <PagesDisplay />
+      {/* <PagesDisplay /> */}
 
       <main>
         {/* Wrap Routes in Suspense for lazy loading */}

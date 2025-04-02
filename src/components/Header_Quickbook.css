@@ -5,7 +5,9 @@ body {
   padding-top: 168px;
   font-family: Arial, sans-serif;
 }
-
+.user-options ul {
+  font-size: larger;
+}
 .navbar {
   position: fixed;
   top: 0;
@@ -523,7 +525,7 @@ body {
     /* margin-top: 10px; */
     margin-left: 13px;
   }
- .scrolled .logo img {
+  .scrolled .logo img {
     max-width: 65px;
   }
   .search-dropdown {

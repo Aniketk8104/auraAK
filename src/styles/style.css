@@ -845,7 +845,6 @@ a:focus {
   /* .main{
 margin-top: 320px
   } */
-  
 
   .header-container {
     padding: 20px;
@@ -894,4 +893,31 @@ margin-top: 320px
 }
 .toggle-btn {
   display: none;
+}
+.page-header {
+  margin: 20px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-title {
+  font-weight: 600;
+  font-size: 24px;
+  color: var(--text-dark);
+}
+
+.filters {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.filter-select {
+  font-size: 14px;
+  padding: 6px 12px;
+  border: 1px solid var(--gray-medium);
+  border-radius: var(--radius);
+  background-color: white;
+  outline: none;
 }

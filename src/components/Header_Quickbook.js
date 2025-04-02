@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "../components/Header_Quickbook.css";
 
 export default function Header() {
@@ -84,13 +84,13 @@ export default function Header() {
             className={activeTab === "buy" ? "selected" : ""}
             onClick={() => handleTabClick("buy")}
           >
-            BUY
+            <Link to="/rental-laptops">BUY</Link>{" "}
           </div>
           <div
             className={activeTab === "rent" ? "selected" : ""}
             onClick={() => handleTabClick("rent")}
           >
-            RENT
+            <Link to="/rental-laptops">RENT</Link>
           </div>
         </div>
 
@@ -143,6 +143,17 @@ export default function Header() {
             <span className="menu-icon">☰</span>
             <div className="user-avatar"></div>
           </div>
+          {/* <ul className="ulnav">
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/rental-laptops">Buy</Link>
+            </li>
+            <li>
+              <Link to="/rental-laptops">Rent</Link>
+            </li>
+          </ul> */}
         </div>
       </nav>
 
