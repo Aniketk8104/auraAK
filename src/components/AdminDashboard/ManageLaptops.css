@@ -1,92 +1,459 @@
 .laptop-manage {
-  max-width: 800px; /* Slightly wider for better form display */
-  margin: 20px auto; /* Adds margin for breathing room */
-  font-family: Arial, sans-serif;
-  background-color: #fff; /* White background for better contrast */
-  border-radius: 8px; /* Rounded corners */
-  padding: 20px; /* Inner spacing */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  overflow-y: auto; /* Enables vertical scrolling */
-  max-height: calc(
-    100vh - 120px
-  ); /* Fits within the viewport minus space for header/footer */
+  max-width: 900px;
+  margin: 30px auto;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: calc(100vh - 100px);
+}
+
+/* Title */
+.laptop-manage h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #333;
+}
+
+/* Mode toggle buttons */
+.mode-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.mode-toggle button {
+  padding: 10px 20px;
+  border: 2px solid #007bff;
+  border-radius: 20px;
+  background-color: #fff;
+  color: #007bff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.mode-toggle button.active {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.mode-toggle button:hover:not(.active) {
+  background-color: #f0f8ff;
+}
+
+/* Form styling */
+.form-section {
+  margin-bottom: 30px;
+}
+
+.form-section h3 {
+  margin-bottom: 15px;
+  font-size: 22px;
+  color: #333;
 }
 
 form {
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Larger gap for a cleaner layout */
+  gap: 15px;
 }
 
-form input,
-form button {
-  padding: 12px; /* Better padding for input fields and buttons */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: #555;
+}
+
+form input[type="text"],
+form input[type="number"],
+form input[type="file"] {
+  padding: 12px;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px; /* Slightly larger text for readability */
+  border-radius: 6px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 form input:focus {
-  border-color: #007bff; /* Highlight input field on focus */
-  outline: none; /* Removes default outline */
+  border-color: #007bff;
+  outline: none;
+}
 
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
 }
 
 form button {
+  padding: 12px;
   background-color: #007bff;
   color: #fff;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 16px; /* Matches input field text size */
+  transition: background-color 0.3s ease;
 }
 
 form button:hover {
   background-color: #0056b3;
 }
 
+form button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+form button[type="button"] {
+  background-color: #6c757d;
+}
+
+form button[type="button"]:hover {
+  background-color: #5a6268;
+}
+
+/* Image preview */
+.image-preview {
+  margin-top: 10px;
+  border-radius: 8px;
+  max-height: 120px;
+}
+
+/* Excel import section */
+.excel-import {
+  margin-bottom: 30px;
+}
+
+.excel-import h3 {
+  margin-bottom: 15px;
+  font-size: 22px;
+  color: #333;
+}
+
+.excel-controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  align-items: center;
+}
+
+.excel-import input[type="file"] {
+  margin-bottom: 10px;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  width: 100%;
+}
+
+.excel-import button {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+}
+
+.excel-import button:hover {
+  background-color: #218838;
+}
+
+.excel-import button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+.imported-preview {
+  margin-top: 20px;
+}
+
+.import-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.import-header h4 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.table-container {
+  overflow-x: auto;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.excel-import table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.excel-import th,
+.excel-import td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.excel-import th {
+  background-color: #f1f1f1;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+}
+
+.excel-import tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* Laptops display */
+.laptops-display {
+  margin-top: 30px;
+}
+
+.laptops-display h3 {
+  margin-bottom: 15px;
+  font-size: 24px;
+  color: #333;
+}
+
 .laptops-display ul {
   list-style: none;
   padding: 0;
-  margin-top: 20px; /* Space between form and laptop list */
+  margin-top: 15px;
+}
+
+.no-laptops {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  padding: 20px;
 }
 
 .laptop-summary {
   cursor: pointer;
-  padding: 15px; /* Larger padding for easier clicks */
+  padding: 15px;
   border: 1px solid #ddd;
-  margin-bottom: 10px; /* Consistent spacing */
+  margin-bottom: 10px;
   background-color: #f9f9f9;
-  border-radius: 4px;
-  transition: background-color 0.3s ease; /* Smooth hover effect */
+  border-radius: 6px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
 }
 
 .laptop-summary:hover {
-  background-color: #e9e9e9;
+  background-color: #eef5ff;
+  transform: translateY(-2px);
+}
+
+.laptop-index {
+  margin-right: 10px;
+  font-weight: bold;
+  color: #555;
+}
+
+.laptop-name {
+  font-weight: 600;
+  margin-right: 15px;
+  flex: 1;
+}
+
+.laptop-brief {
+  color: #666;
+  font-size: 14px;
+  margin-right: 15px;
+}
+
+.expand-icon {
+  font-size: 12px;
+  color: #007bff;
+  transition: transform 0.3s ease;
+}
+
+.expand-icon.expanded {
+  transform: rotate(0deg);
 }
 
 .laptop-details {
   padding: 15px;
   background-color: #fff;
   border: 1px solid #ddd;
-  margin-top: 10px;
-  border-radius: 4px;
+  margin-top: -5px;
+  margin-bottom: 10px;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.laptop-detail-grid {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 20px;
+}
+
+.laptop-specs {
+  display: flex;
+  flex-direction: column;
+}
+
+.laptop-specs h4 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #333;
+}
+
+.specs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.spec-item {
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.spec-label {
+  font-weight: 600;
+  color: #555;
+  margin-right: 5px;
+  min-width: 70px;
+}
+
+.spec-value {
+  color: #333;
+}
+
+.price .spec-value {
+  font-weight: 600;
+  color: #007bff;
 }
 
 .laptop-image {
-  width: 100px;
+  width: 120px;
   height: auto;
   display: block;
-  margin-bottom: 10px;
+  border-radius: 8px;
 }
 
-/* Ensure the section does not overlap the footer */
-body {
-  margin: 0;
-  padding: 0;
+.laptop-actions {
+  margin-top: 15px;
   display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  gap: 10px;
 }
 
-footer {
-  margin-top: auto;
+.laptop-details button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.laptop-details button:first-of-type {
+  background-color: #ffc107;
+  color: #333;
+}
+
+.laptop-details button:first-of-type:hover {
+  background-color: #e0a800;
+}
+
+.laptop-details button:last-of-type {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.laptop-details button:last-of-type:hover {
+  background-color: #c82333;
+}
+
+/* Responsive improvements */
+@media (max-width: 600px) {
+  .laptop-manage {
+    padding: 20px;
+  }
+
+  .mode-toggle {
+    flex-direction: column;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  form input,
+  form button {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .excel-import table {
+    font-size: 13px;
+  }
+
+  .laptop-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .laptop-image {
+    width: 100%;
+    max-width: 250px;
+    margin: 0 auto 15px;
+  }
+
+  .laptop-details button {
+    margin-top: 8px;
+    width: 100%;
+  }
+
+  .laptop-actions {
+    flex-direction: column;
+  }
+
+  .laptop-summary {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .laptop-name {
+    margin-bottom: 5px;
+  }
+
+  .laptop-brief {
+    margin-bottom: 5px;
+  }
+
+  .expand-icon {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+  }
 }
