@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import RentalCard from "../components/RentalCard";
 import axios from "axios";
+import { debounce } from "lodash";
+import "./RentalLaptops.css";
 
 const ROW_SIZE = 4;
 
@@ -13,6 +15,7 @@ const RentalLaptops = () => {
   const [sortOption, setSortOption] = useState("");
   const [priceRange, setPriceRange] = useState("");
   const [category, setCategory] = useState("All Laptops");
+  const [categories, setCategories] = useState(["All Laptops"]);
   const cardRefs = useRef([]);
 
   const location = useLocation();
@@ -25,25 +28,48 @@ const RentalLaptops = () => {
           `${process.env.REACT_APP_BASE_URL}/api/laptops`
         );
         setLaptops(response.data);
-        filterLaptops(response.data, location.search);
       } catch (error) {
         console.error("Failed to fetch laptops:", error);
       }
     };
     fetchLaptops();
-  }, [location.search]);
+  }, []);
+
+  // Fetch categories from backend
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_BASE_URL}/api/laptops/filters`
+        );
+        // Make sure to always include "All Laptops" as the first option
+        setCategories(["All Laptops", ...(response.data.categorys || [])]);
+      } catch (error) {
+        console.error("Failed to fetch categories:", error);
+        // Fallback to default categories if fetch fails
+        setCategories([
+          "All Laptops",
+          "Business",
+          "Gaming",
+          "Ultrabooks",
+          "MacBooks",
+          "Workstations",
+          "2-in-1",
+        ]);
+      }
+    };
+    fetchCategories();
+  }, []);
 
   useEffect(() => {
-    applyFilters();
-  }, [sortOption, priceRange, category]);
-
-  const filterLaptops = (laptops, queryString) => {
-    const queryParams = new URLSearchParams(queryString);
+    const params = new URLSearchParams(location.search);
     const filters = {
-      ram: queryParams.get("ram"),
-      processor: queryParams.get("processor"),
-      category: queryParams.get("category"),
+      ram: params.get("ram"),
+      processor: params.get("processor"),
+      category: params.get("category"),
     };
+
+    if (filters.category) setCategory(filters.category);
 
     let filtered = laptops.filter((laptop) => {
       return (
@@ -54,7 +80,11 @@ const RentalLaptops = () => {
     });
 
     setFilteredLaptops(filtered);
-  };
+  }, [location.search, laptops]);
+
+  useEffect(() => {
+    applyFilters();
+  }, [sortOption, priceRange, category]);
 
   const applyFilters = () => {
     let updatedLaptops = [...laptops];
@@ -92,15 +122,20 @@ const RentalLaptops = () => {
     setFilteredLaptops(updatedLaptops);
   };
 
-  const handleCategoryClick = (category) => {
-    setCategory(category);
-    navigate(`?category=${category}`);
+  const handleCategoryClick = (cat) => {
+    setCategory(cat);
+    if (cat === "All Laptops") {
+      navigate("");
+    } else {
+      navigate(`?category=${cat}`);
+    }
   };
 
-  const rows = [];
-  for (let i = 0; i < filteredLaptops.length; i += ROW_SIZE) {
-    rows.push(filteredLaptops.slice(i, i + ROW_SIZE));
-  }
+  const scrollToSpecs = debounce((rowIndex, name) => {
+    cardRefs.current[rowIndex]?.[name]?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, 100);
 
   const handleToggleSpecs = (laptop, rowIndex) => {
     if (selectedRow === rowIndex && selectedLaptop?.name === laptop.name) {
@@ -109,14 +144,14 @@ const RentalLaptops = () => {
     } else {
       setSelectedRow(rowIndex);
       setSelectedLaptop(laptop);
-
-      setTimeout(() => {
-        cardRefs.current[rowIndex]?.[laptop.name]?.scrollIntoView({
-          behavior: "smooth",
-        });
-      }, 100);
+      scrollToSpecs(rowIndex, laptop.name);
     }
   };
+
+  const rows = [];
+  for (let i = 0; i < filteredLaptops.length; i += ROW_SIZE) {
+    rows.push(filteredLaptops.slice(i, i + ROW_SIZE));
+  }
 
   return (
     <div>
@@ -150,17 +185,10 @@ const RentalLaptops = () => {
       </div>
 
       <div className="categories">
-        {[
-          "All Laptops",
-          "Business",
-          "Gaming",
-          "Ultrabooks",
-          "MacBooks",
-          "Workstations",
-          "2-in-1",
-        ].map((cat) => (
+        {categories.map((cat) => (
           <button
             key={cat}
+            disabled={category === cat}
             className={`category-btn ${category === cat ? "active" : ""}`}
             onClick={() => handleCategoryClick(cat)}
           >
@@ -170,59 +198,63 @@ const RentalLaptops = () => {
       </div>
 
       <div className="card_div">
-        {rows.map((row, rowIndex) => (
-          <div key={rowIndex}>
-            <div className="card-container">
-              {row.map((laptop, index) => (
-                <div
-                  key={index}
-                  ref={(el) => {
-                    if (!cardRefs.current[rowIndex]) {
-                      cardRefs.current[rowIndex] = {};
-                    }
-                    cardRefs.current[rowIndex][laptop.name] = el;
-                  }}
-                >
-                  <RentalCard
-                    product={laptop}
-                    onShowSpecs={() => handleToggleSpecs(laptop, rowIndex)}
-                    isSelected={
-                      selectedRow === rowIndex &&
-                      selectedLaptop?.name === laptop.name
-                    }
-                  />
-                </div>
-              ))}
-            </div>
-
-            {selectedRow === rowIndex && selectedLaptop && (
-              <div className="laptop-specs">
-                <div className="specs-layout">
-                  <div className="specs-image">
-                    <img
-                      src={selectedLaptop.image}
-                      alt={selectedLaptop.name}
-                      className="spec-image"
+        {filteredLaptops.length === 0 ? (
+          <p className="no-results">No laptops match the selected filters.</p>
+        ) : (
+          rows.map((row, rowIndex) => (
+            <div key={rowIndex}>
+              <div className="card-container">
+                {row.map((laptop) => (
+                  <div
+                    key={laptop._id}
+                    ref={(el) => {
+                      if (!cardRefs.current[rowIndex]) {
+                        cardRefs.current[rowIndex] = {};
+                      }
+                      cardRefs.current[rowIndex][laptop.name] = el;
+                    }}
+                  >
+                    <RentalCard
+                      product={laptop}
+                      onShowSpecs={() => handleToggleSpecs(laptop, rowIndex)}
+                      isSelected={
+                        selectedRow === rowIndex &&
+                        selectedLaptop?.name === laptop.name
+                      }
                     />
                   </div>
-                  <div className="specs-details">
-                    <h1>{selectedLaptop.name}</h1>
-                    <ul>
-                      <li>💻 Processor: {selectedLaptop.processor}</li>
-                      <li>💵 Price: ₹{selectedLaptop.price}</li>
-                      <li>🧠 RAM: {selectedLaptop.RAM}</li>
-                      <li>💾 Storage: {selectedLaptop.Storage}</li>
-                      <li>🎮 Graphics: {selectedLaptop.Graphic}</li>
-                      <li>📏 Display Size: {selectedLaptop.Display}</li>
-                      <li>🖥️ Category: {selectedLaptop.category}</li>
-                    </ul>
-                    <button className="rent-now">Rent Now!</button>
+                ))}
+              </div>
+
+              {selectedRow === rowIndex && selectedLaptop && (
+                <div className="laptop-specs">
+                  <div className="specs-layout">
+                    <div className="specs-image">
+                      <img
+                        src={selectedLaptop.image}
+                        alt={selectedLaptop.name}
+                        className="spec-image"
+                      />
+                    </div>
+                    <div className="specs-details">
+                      <h1>{selectedLaptop.name}</h1>
+                      <ul>
+                        <li>💻 Processor: {selectedLaptop.processor}</li>
+                        <li>💵 Price: ₹{selectedLaptop.price}</li>
+                        <li>🧠 RAM: {selectedLaptop.RAM}</li>
+                        <li>💾 Storage: {selectedLaptop.Storage}</li>
+                        <li>🎮 Graphics: {selectedLaptop.Graphic}</li>
+                        <li>📏 Display Size: {selectedLaptop.Display}</li>
+                        <li>🖥️ Category: {selectedLaptop.category}</li>
+                      </ul>
+                      <button className="rent-now">Rent Now!</button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
-        ))}
+              )}
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
