@@ -21,6 +21,43 @@ const RentalLaptops = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // ✅ Move applyFilters above useEffect
+  const applyFilters = () => {
+    let updatedLaptops = [...laptops];
+
+    if (category !== "All Laptops") {
+      updatedLaptops = updatedLaptops.filter(
+        (laptop) => laptop.category === category
+      );
+    }
+
+    if (priceRange) {
+      updatedLaptops = updatedLaptops.filter((laptop) => {
+        const price = laptop.price;
+        if (priceRange === "0-15000") return price < 15000;
+        if (priceRange === "15000-25000")
+          return price >= 15000 && price <= 25000;
+        if (priceRange === "25000-35000")
+          return price > 25000 && price <= 35000;
+        if (priceRange === "35000+") return price > 35000;
+        return true;
+      });
+    }
+
+    if (sortOption) {
+      updatedLaptops.sort((a, b) => {
+        if (sortOption === "price-low") return a.price - b.price;
+        if (sortOption === "price-high") return b.price - a.price;
+        if (sortOption === "popular") return b.popularity - a.popularity;
+        if (sortOption === "newest")
+          return new Date(b.releaseDate) - new Date(a.releaseDate);
+        return 0;
+      });
+    }
+
+    setFilteredLaptops(updatedLaptops);
+  };
+
   useEffect(() => {
     const fetchLaptops = async () => {
       try {
@@ -35,18 +72,15 @@ const RentalLaptops = () => {
     fetchLaptops();
   }, []);
 
-  // Fetch categories from backend
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(
           `${process.env.REACT_APP_BASE_URL}/api/laptops/filters`
         );
-        // Make sure to always include "All Laptops" as the first option
         setCategories(["All Laptops", ...(response.data.categorys || [])]);
       } catch (error) {
         console.error("Failed to fetch categories:", error);
-        // Fallback to default categories if fetch fails
         setCategories([
           "All Laptops",
           "Business",
@@ -85,42 +119,6 @@ const RentalLaptops = () => {
   useEffect(() => {
     applyFilters();
   }, [sortOption, priceRange, category]);
-
-  const applyFilters = () => {
-    let updatedLaptops = [...laptops];
-
-    if (category !== "All Laptops") {
-      updatedLaptops = updatedLaptops.filter(
-        (laptop) => laptop.category === category
-      );
-    }
-
-    if (priceRange) {
-      updatedLaptops = updatedLaptops.filter((laptop) => {
-        const price = laptop.price;
-        if (priceRange === "0-15000") return price < 15000;
-        if (priceRange === "15000-25000")
-          return price >= 15000 && price <= 25000;
-        if (priceRange === "25000-35000")
-          return price > 25000 && price <= 35000;
-        if (priceRange === "35000+") return price > 35000;
-        return true;
-      });
-    }
-
-    if (sortOption) {
-      updatedLaptops.sort((a, b) => {
-        if (sortOption === "price-low") return a.price - b.price;
-        if (sortOption === "price-high") return b.price - a.price;
-        if (sortOption === "popular") return b.popularity - a.popularity;
-        if (sortOption === "newest")
-          return new Date(b.releaseDate) - new Date(a.releaseDate);
-        return 0;
-      });
-    }
-
-    setFilteredLaptops(updatedLaptops);
-  };
 
   const handleCategoryClick = (cat) => {
     setCategory(cat);
