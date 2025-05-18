@@ -131,8 +131,10 @@ const ManageLaptops = ({ setError }) => {
         // Set imported laptops based on the selected mode
         if (selectedMode === "buy") {
           setImportedLaptopsBuy(validatedLaptops);
+          setImportedLaptopsRent([]); // Clear the other mode's imported laptops
         } else {
           setImportedLaptopsRent(validatedLaptops);
+          setImportedLaptopsBuy([]); // Clear the other mode's imported laptops
         }
       } catch (error) {
         console.error("Error processing Excel file:", error);
@@ -164,7 +166,11 @@ const ManageLaptops = ({ setError }) => {
       const importResults = await Promise.all(
         importedLaptops.map(async (laptop) => {
           const formData = new FormData();
-          Object.entries(laptop).forEach(([key, value]) => {
+
+          // Explicitly set the mode based on current selection
+          const laptopWithMode = { ...laptop, mode: selectedMode };
+
+          Object.entries(laptopWithMode).forEach(([key, value]) => {
             if (value !== null) {
               formData.append(key, value.toString());
             }
@@ -194,6 +200,7 @@ const ManageLaptops = ({ setError }) => {
         .map((result) => result.data);
       const failedImports = importResults.filter((result) => !result.success);
 
+      // Add the newly imported laptops to the laptops state
       setLaptops((prev) => [...prev, ...successfulImports]);
 
       // Clear only the imported laptops for the current mode
@@ -204,7 +211,9 @@ const ManageLaptops = ({ setError }) => {
       }
 
       setExcelFile(null);
-      document.querySelector('input[type="file"]').value = "";
+      if (document.querySelector('input[type="file"]')) {
+        document.querySelector('input[type="file"]').value = "";
+      }
 
       if (failedImports.length > 0) {
         setError(
@@ -230,16 +239,17 @@ const ManageLaptops = ({ setError }) => {
     }
 
     const formData = new FormData();
-    Object.keys(newLaptop).forEach((key) => {
-      if (key === "image" && newLaptop.image) {
-        formData.append(key, newLaptop.image);
-      } else if (key !== "image" && newLaptop[key] !== null) {
-        formData.append(key, newLaptop[key]);
+
+    // Create a copy of newLaptop with the current mode
+    const laptopData = { ...newLaptop, mode: selectedMode };
+
+    Object.keys(laptopData).forEach((key) => {
+      if (key === "image" && laptopData.image) {
+        formData.append(key, laptopData.image);
+      } else if (key !== "image" && laptopData[key] !== null) {
+        formData.append(key, laptopData[key]);
       }
     });
-
-    // Explicitly ensure mode is set
-    formData.append("mode", selectedMode);
 
     setLoading(true);
     try {
@@ -256,6 +266,7 @@ const ManageLaptops = ({ setError }) => {
           }
         );
 
+        // Update the specific laptop in state
         setLaptops((prev) =>
           prev.map((laptop) =>
             laptop._id === editingLaptopId ? response.data : laptop
@@ -274,6 +285,8 @@ const ManageLaptops = ({ setError }) => {
             },
           }
         );
+
+        // Add the new laptop to state
         setLaptops((prev) => [...prev, response.data]);
         alert("Laptop added successfully!");
       }
@@ -301,7 +314,11 @@ const ManageLaptops = ({ setError }) => {
       setError("");
     } catch (err) {
       console.error("Error adding or updating laptop:", err);
-      setError("Failed to add or update laptop.");
+      setError(
+        `Failed to ${editingLaptopId ? "update" : "add"} laptop: ${
+          err.response?.data?.message || err.message
+        }`
+      );
     } finally {
       setLoading(false);
     }
@@ -368,10 +385,15 @@ const ManageLaptops = ({ setError }) => {
     selectedMode === "buy" ? importedLaptopsBuy : importedLaptopsRent;
 
   // Get filtered laptops for the current mode
-  const filteredLaptops = laptops.filter(
-    (laptop) =>
-      laptop.mode === selectedMode || (selectedMode === "buy" && !laptop.mode) // Handle legacy data without mode
-  );
+  const filteredLaptops = laptops.filter((laptop) => {
+    if (selectedMode === "buy") {
+      // For buy mode, include laptops explicitly marked as "buy" OR those without a mode (legacy data)
+      return laptop.mode === "buy" || !laptop.mode;
+    } else {
+      // For rent mode, only include laptops explicitly marked as "rent"
+      return laptop.mode === "rent";
+    }
+  });
 
   return (
     <div className="laptop-manage">
@@ -718,6 +740,12 @@ const ManageLaptops = ({ setError }) => {
                           <div className="spec-item price">
                             <span className="spec-label">Price:</span>
                             <span className="spec-value">₹{laptop.price}</span>
+                          </div>
+                          <div className="spec-item">
+                            <span className="spec-label">Mode:</span>
+                            <span className="spec-value">
+                              {laptop.mode || "buy"}
+                            </span>
                           </div>
                         </div>
                       </div>
