@@ -1,10 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Connect = () => {
   const [showPopup, setShowPopup] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
+
+  // Use useCallback to memoize the closePopup function
+  const closePopup = useCallback(() => {
+    setIsVisible(false);
+    setTimeout(() => {
+      setShowPopup(false);
+      navigate("/"); // Redirect to home page
+    }, 300);
+  }, [navigate]); // Add navigate as a dependency
 
   useEffect(() => {
     setIsVisible(true);
@@ -17,17 +26,7 @@ const Connect = () => {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
-  const closePopup = () => {
-    setIsVisible(false);
-    setTimeout(() => {
-      setShowPopup(false);
-      navigate("/"); // Redirect to home page
-    }, 300);
-  };
-
-  // Removed handleOverlayClick since we don't want background clicks to close
+  }, [closePopup]); // Add closePopup as a dependency
 
   if (!showPopup) return null;
 
@@ -48,7 +47,6 @@ const Connect = () => {
         transition: "opacity 0.3s ease",
         pointerEvents: "auto",
       }}
-      // Removed onClick handler for overlay
       role="dialog"
       aria-modal="true"
       aria-labelledby="popup-title"
