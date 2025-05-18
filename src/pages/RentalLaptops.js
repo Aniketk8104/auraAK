@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import RentalCard from "../components/RentalCard";
 import axios from "axios";
@@ -85,7 +85,7 @@ const RentalLaptops = () => {
     if (category !== "All Laptops" && !uniqueCategories.includes(category)) {
       setCategory("All Laptops");
     }
-  }, [laptops, currentMode]);
+  }, [laptops, currentMode, category]);
 
   // Process URL parameters and filter laptops accordingly
   useEffect(() => {
@@ -116,12 +116,8 @@ const RentalLaptops = () => {
     setFilteredLaptops(filtered);
   }, [location.search, laptops, currentMode]);
 
-  // Apply additional filters (price range, sort options, category)
-  useEffect(() => {
-    applyFilters();
-  }, [sortOption, priceRange, category, currentMode]);
-
-  const applyFilters = () => {
+  // Define applyFilters as a useCallback to avoid recreating it on every render
+  const applyFilters = useCallback(() => {
     let updatedLaptops = [...laptops];
 
     // First filter by mode
@@ -162,7 +158,12 @@ const RentalLaptops = () => {
     }
 
     setFilteredLaptops(updatedLaptops);
-  };
+  }, [laptops, category, priceRange, sortOption, currentMode]);
+
+  // Apply additional filters (price range, sort options, category)
+  useEffect(() => {
+    applyFilters();
+  }, [sortOption, priceRange, category, currentMode, applyFilters]);
 
   const handleCategoryClick = (cat) => {
     setCategory(cat);
