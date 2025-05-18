@@ -133,7 +133,7 @@ const Connect = () => {
             Instagram
           </a>
           <a
-            href="https://wa.me/919967917846"
+            href="https://wa.me/919967917846?text=Hi%2C%20I%20have%20an%20enquiry"
             target="_blank"
             rel="noopener noreferrer"
             style={{
