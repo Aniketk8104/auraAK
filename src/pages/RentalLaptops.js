@@ -17,8 +17,9 @@ const RentalLaptops = () => {
   const [category, setCategory] = useState("All Laptops");
   const [categories, setCategories] = useState(["All Laptops"]);
   const [currentMode, setCurrentMode] = useState("buy"); // Default mode
-  const [availableProcessors, setAvailableProcessors] = useState([]);
-  const [availableRAM, setAvailableRAM] = useState([]);
+  // Only keep these if you plan to use them later
+  // const [availableProcessors, setAvailableProcessors] = useState([]);
+  // const [availableRAM, setAvailableRAM] = useState([]);
   const cardRefs = useRef([]);
 
   const location = useLocation();
@@ -52,7 +53,7 @@ const RentalLaptops = () => {
       setPriceRange("");
       setCategory("All Laptops");
     }
-  }, [location.search]);
+  }, [location.search, currentMode]);
 
   // Extract categories specific to the current mode
   useEffect(() => {
@@ -69,6 +70,8 @@ const RentalLaptops = () => {
     ];
     setCategories(uniqueCategories);
 
+    // Comment out processor and RAM extraction since they're unused
+    /*
     // Extract unique processors
     const uniqueProcessors = [
       ...new Set(modeLaptops.map((laptop) => laptop.processor).filter(Boolean)),
@@ -80,6 +83,7 @@ const RentalLaptops = () => {
       ...new Set(modeLaptops.map((laptop) => laptop.RAM).filter(Boolean)),
     ];
     setAvailableRAM(uniqueRAM);
+    */
 
     // Reset category if current category is not available in this mode
     if (category !== "All Laptops" && !uniqueCategories.includes(category)) {
@@ -180,6 +184,9 @@ const RentalLaptops = () => {
     navigate(`?${params.toString()}`);
   };
 
+  // Removed unused handleModeChange function
+  // If you need it later, you can uncomment it
+  /*
   const handleModeChange = (newMode) => {
     // Update URL to change mode
     const params = new URLSearchParams(location.search);
@@ -190,6 +197,7 @@ const RentalLaptops = () => {
 
     navigate(`?${params.toString()}`);
   };
+  */
 
   const scrollToSpecs = debounce((rowIndex, name) => {
     cardRefs.current[rowIndex]?.[name]?.scrollIntoView({
