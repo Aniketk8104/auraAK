@@ -131,7 +131,7 @@ const Connect = () => {
             Instagram
           </a>
           <a
-            href="https://wa.me/919967917846?text=%F0%9F%93%B1%20BUSINESS%20INQUIRY%20%F0%9F%93%B1%0A%0AHello%2C%0A%0AI%20scanned%20your%20QR%20code%20regarding%20laptop%20rental%20and%20sales%20services.%20I%27m%20interested%20in%20learning%20more%20about%20your%20offerings.%0A%0A%F0%9F%92%BB%20INFORMATION%20REQUESTED%3A%0A%0A%E2%80%A2%20Available%20laptop%20models%0A%E2%80%A2%20Rental%20rates%20and%20terms%0A%E2%80%A2%20Purchase%20options%20and%20pricing%0A%E2%80%A2%20Device%20specifications%0A%E2%80%A2%20Additional%20services%20provided%0A%0ALooking%20forward%20to%20your%20response.%0A%0AThank%20you%2C"
+            href="https://wa.me/919967917846?text=%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0A%20%20%20%20%20INQUIRY%0A%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%3D%0A%0AHello%2C%0A%0AI%20scanned%20your%20QR%20code%20regarding%20laptop%20rental%20and%20sales%20services.%20I%27m%20interested%20in%20learning%20more%20about%20your%20offerings.%0A%0AREQUESTED%20INFO%3A%0A%E2%80%A2%20Laptop%20models%20available%0A%E2%80%A2%20Rental%20rates%2Fterms%0A%E2%80%A2%20Purchase%20options%0A%E2%80%A2%20Device%20specs%0A%E2%80%A2%20Additional%20services%0A%0ALooking%20forward%20to%20your%20response.%0A%0AThank%20you%2C"
             target="_blank"
             rel="noopener noreferrer"
             style={{
