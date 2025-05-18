@@ -131,7 +131,7 @@ const Connect = () => {
             Instagram
           </a>
           <a
-            href="https://wa.me/919967917846?text=Hi%2C%20I%20have%20an%20enquiry"
+            href="https://wa.me/919967917846?text=Hello%2C%20I%20scanned%20your%20QR%20code%20regarding%20laptop%20rental%20and%20sales%20services.%20I%27m%20interested%20in%20learning%20more%20about%20your%20offerings.%20Could%20you%20please%20provide%20information%20about%20your%20available%20laptop%20models%2C%20rental%20rates%2C%20and%20purchase%20options%3F%20I%20would%20also%20like%20to%20know%20about%20the%20specifications%20of%20your%20devices%20and%20any%20additional%20services%20you%20provide.%20Looking%20forward%20to%20your%20response.%20Thank%20you%2C"
             target="_blank"
             rel="noopener noreferrer"
             style={{
