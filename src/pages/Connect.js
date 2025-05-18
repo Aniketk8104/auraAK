@@ -32,7 +32,7 @@ const Connect = () => {
           color: "white",
           padding: "15px 25px",
           textDecoration: "none",
-          borderRadius: "8px",
+          borderRadius: "7px",
           display: "inline-block",
           margin: "10px",
           fontSize: "18px",
