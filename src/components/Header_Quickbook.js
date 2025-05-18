@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import "../components/Header_Quickbook.css";
 
-export default function Header() {
+export default function ImprovedHeader() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -15,19 +16,21 @@ export default function Header() {
   });
   const [dropdownType, setDropdownType] = useState(null);
   const [selectedSearchOption, setSelectedSearchOption] = useState(null);
-  const [activeTab, setActiveTab] = useState("buy");
+  const [activeTab, setActiveTab] = useState("buy"); // Default mode
   const [filters, setFilters] = useState({
     ram: [],
     processor: [],
     category: [],
   });
 
+  // Check authentication status
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
     setIsLoggedIn(!!token);
     setIsAdmin(!!token);
   }, []);
 
+  // Detect scrolling for header style changes
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -36,7 +39,27 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // **Fetch Filter Options from Backend**
+  // Extract mode from URL parameters on component mount
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const modeParam = params.get("mode");
+    if (modeParam === "rent" || modeParam === "buy") {
+      setActiveTab(modeParam);
+    }
+
+    // Extract any filter parameters and set them in state
+    const ramParam = params.get("ram");
+    const processorParam = params.get("processor");
+    const categoryParam = params.get("category");
+
+    setSelectedOptions({
+      ram: ramParam || "",
+      processor: processorParam || "",
+      category: categoryParam || "",
+    });
+  }, [location.search]);
+
+  // Fetch filter options from backend
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BASE_URL}/api/laptops/filters`)
       .then((response) => response.json())
@@ -61,36 +84,71 @@ export default function Header() {
     setShowDropdown(true);
   };
 
+  // Handle tab change WITHOUT navigation - only changes the local state
   const handleTabClick = (tab) => {
     setActiveTab(tab);
+    // No navigation happens here
   };
 
-  const handleRentNow = (e) => {
-    e.stopPropagation(); // Prevents dropdown from toggling
-    const queryParams = new URLSearchParams(selectedOptions).toString();
-    navigate(`/rental-laptops?${queryParams}`);
+  // Navigate to rental/buy laptops with selected filters - ONLY when the action button is clicked
+  const handleActionButton = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const params = new URLSearchParams();
+
+    // Add the active mode to the URL parameters
+    params.set("mode", activeTab);
+
+    // Add any selected filters to the URL parameters
+    if (selectedOptions.ram) params.set("ram", selectedOptions.ram);
+    if (selectedOptions.processor)
+      params.set("processor", selectedOptions.processor);
+    if (selectedOptions.category)
+      params.set("category", selectedOptions.category);
+
+    navigate(`/rental-laptops?${params.toString()}`);
   };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        showDropdown &&
+        !event.target.closest(".search-option") &&
+        !event.target.closest(".search-dropdown")
+      ) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showDropdown]);
 
   return (
     <header className={`navbar ${isScrolled ? "scrolled" : ""}`}>
       <nav className="top-nav">
-        <a href="/">
+        <Link to="/">
           <div className="logo">
             <img src="/img/logo.png" alt="Aura Tech Services company logo" />
           </div>
-        </a>
+        </Link>
+
         <div className="buy-rent-options">
           <div
             className={activeTab === "buy" ? "selected" : ""}
             onClick={() => handleTabClick("buy")}
           >
-            <Link to="/rental-laptops">BUY</Link>{" "}
+            <span>BUY</span>
           </div>
           <div
             className={activeTab === "rent" ? "selected" : ""}
             onClick={() => handleTabClick("rent")}
           >
-            <Link to="/rental-laptops">RENT</Link>
+            <span>RENT</span>
           </div>
         </div>
 
@@ -113,7 +171,7 @@ export default function Header() {
                 {type !== "category" && <div className="divider"></div>}
               </React.Fragment>
             ))}
-            <button className="search-button" onClick={handleRentNow}>
+            <button className="search-button" onClick={handleActionButton}>
               {activeTab === "buy" ? "Buy Laptop" : "Rent Now"}
             </button>
           </div>
@@ -143,17 +201,6 @@ export default function Header() {
             <span className="menu-icon">☰</span>
             <div className="user-avatar"></div>
           </div>
-          {/* <ul className="ulnav">
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/rental-laptops">Buy</Link>
-            </li>
-            <li>
-              <Link to="/rental-laptops">Rent</Link>
-            </li>
-          </ul> */}
         </div>
       </nav>
 
@@ -176,7 +223,7 @@ export default function Header() {
               {type !== "category" && <div className="divider"></div>}
             </React.Fragment>
           ))}
-          <button className="search-button" onClick={handleRentNow}>
+          <button className="search-button" onClick={handleActionButton}>
             {activeTab === "buy" ? "Buy Laptop" : "Rent Now"}
           </button>
         </div>
