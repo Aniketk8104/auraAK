@@ -10,6 +10,7 @@ import LoadingSpinner from "./components/LoadingSpinner"; // Add a loading spinn
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./styles/style.css";
 import "./styles/mobile-styles.css";
+import Connect from "./pages/Connect";
 
 // Lazy-loaded components
 const Home = lazy(() => import("./pages/Home"));
@@ -87,6 +88,7 @@ const App = () => {
                 </PageWrapper>
               }
             />
+            <Route path="/connect" element={<Connect />} />
           </Routes>
         </Suspense>
       </main>
