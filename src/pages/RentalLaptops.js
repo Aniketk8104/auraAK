@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import RentalCard from "../components/RentalCard";
 import axios from "axios";
@@ -17,9 +17,8 @@ const RentalLaptops = () => {
   const [category, setCategory] = useState("All Laptops");
   const [categories, setCategories] = useState(["All Laptops"]);
   const [currentMode, setCurrentMode] = useState("buy"); // Default mode
-  // Only keep these if you plan to use them later
-  // const [availableProcessors, setAvailableProcessors] = useState([]);
-  // const [availableRAM, setAvailableRAM] = useState([]);
+  const [availableProcessors, setAvailableProcessors] = useState([]);
+  const [availableRAM, setAvailableRAM] = useState([]);
   const cardRefs = useRef([]);
 
   const location = useLocation();
@@ -53,7 +52,7 @@ const RentalLaptops = () => {
       setPriceRange("");
       setCategory("All Laptops");
     }
-  }, [location.search, currentMode]);
+  }, [location.search]);
 
   // Extract categories specific to the current mode
   useEffect(() => {
@@ -70,8 +69,6 @@ const RentalLaptops = () => {
     ];
     setCategories(uniqueCategories);
 
-    // Comment out processor and RAM extraction since they're unused
-    /*
     // Extract unique processors
     const uniqueProcessors = [
       ...new Set(modeLaptops.map((laptop) => laptop.processor).filter(Boolean)),
@@ -83,13 +80,12 @@ const RentalLaptops = () => {
       ...new Set(modeLaptops.map((laptop) => laptop.RAM).filter(Boolean)),
     ];
     setAvailableRAM(uniqueRAM);
-    */
 
     // Reset category if current category is not available in this mode
     if (category !== "All Laptops" && !uniqueCategories.includes(category)) {
       setCategory("All Laptops");
     }
-  }, [laptops, currentMode, category]);
+  }, [laptops, currentMode]);
 
   // Process URL parameters and filter laptops accordingly
   useEffect(() => {
@@ -120,8 +116,12 @@ const RentalLaptops = () => {
     setFilteredLaptops(filtered);
   }, [location.search, laptops, currentMode]);
 
-  // Define applyFilters as a useCallback to avoid recreating it on every render
-  const applyFilters = useCallback(() => {
+  // Apply additional filters (price range, sort options, category)
+  useEffect(() => {
+    applyFilters();
+  }, [sortOption, priceRange, category, currentMode]);
+
+  const applyFilters = () => {
     let updatedLaptops = [...laptops];
 
     // First filter by mode
@@ -162,12 +162,7 @@ const RentalLaptops = () => {
     }
 
     setFilteredLaptops(updatedLaptops);
-  }, [laptops, category, priceRange, sortOption, currentMode]);
-
-  // Apply additional filters (price range, sort options, category)
-  useEffect(() => {
-    applyFilters();
-  }, [sortOption, priceRange, category, currentMode, applyFilters]);
+  };
 
   const handleCategoryClick = (cat) => {
     setCategory(cat);
@@ -184,9 +179,6 @@ const RentalLaptops = () => {
     navigate(`?${params.toString()}`);
   };
 
-  // Removed unused handleModeChange function
-  // If you need it later, you can uncomment it
-  /*
   const handleModeChange = (newMode) => {
     // Update URL to change mode
     const params = new URLSearchParams(location.search);
@@ -197,7 +189,6 @@ const RentalLaptops = () => {
 
     navigate(`?${params.toString()}`);
   };
-  */
 
   const scrollToSpecs = debounce((rowIndex, name) => {
     cardRefs.current[rowIndex]?.[name]?.scrollIntoView({

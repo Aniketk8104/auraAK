@@ -39,7 +39,7 @@ export default function ImprovedHeader() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Extract mode from URL parameters on component mount
+  // Extract mode from URL parameters on component mount AND on location change
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const modeParam = params.get("mode");
@@ -48,15 +48,16 @@ export default function ImprovedHeader() {
     }
 
     // Extract any filter parameters and set them in state
+    // But DON'T extract the category parameter - this keeps QuickBook category independent
     const ramParam = params.get("ram");
     const processorParam = params.get("processor");
-    const categoryParam = params.get("category");
 
-    setSelectedOptions({
+    setSelectedOptions((prev) => ({
+      ...prev,
       ram: ramParam || "",
       processor: processorParam || "",
-      category: categoryParam || "",
-    });
+      // Don't update category from URL to keep it independent from the page filters
+    }));
   }, [location.search]);
 
   // Fetch filter options from backend
@@ -106,6 +107,13 @@ export default function ImprovedHeader() {
       params.set("processor", selectedOptions.processor);
     if (selectedOptions.category)
       params.set("category", selectedOptions.category);
+
+    // Clear all selected options after navigation
+    setSelectedOptions({
+      ram: "",
+      processor: "",
+      category: "",
+    });
 
     navigate(`/rental-laptops?${params.toString()}`);
   };
