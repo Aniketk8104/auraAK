@@ -11,6 +11,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./styles/style.css";
 import "./styles/mobile-styles.css";
 import Connect from "./pages/Connect";
+import QRDemoApp from "./pages/QRDemoApp";
 
 // Lazy-loaded components
 const Home = lazy(() => import("./pages/Home"));
@@ -89,6 +90,7 @@ const App = () => {
               }
             />
             <Route path="/connect" element={<Connect />} />
+            <Route path="/QRDemoApp" element={<QRDemoApp />} />
           </Routes>
         </Suspense>
       </main>
