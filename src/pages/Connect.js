@@ -160,6 +160,16 @@ const Connect = () => {
             WhatsApp
           </a>
         </div>
+        <div
+          style={{
+            fontStyle: "italic",
+            marginTop: "30px",
+            marginBottom: "0px",
+            fontSize: "50px",
+          }}
+        >
+          <p>Close Popup for visit our website</p>
+        </div>
       </div>
     </div>
   );

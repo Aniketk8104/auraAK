@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import RentalCard from "../components/RentalCard";
 import axios from "axios";
-import { debounce } from "lodash";
 import "./RentalLaptops.css";
 
 const ROW_SIZE = 4;
@@ -10,8 +9,6 @@ const ROW_SIZE = 4;
 const RentalLaptops = () => {
   const [laptops, setLaptops] = useState([]);
   const [filteredLaptops, setFilteredLaptops] = useState([]);
-  const [selectedRow, setSelectedRow] = useState(null);
-  const [selectedLaptop, setSelectedLaptop] = useState(null);
   const [sortOption, setSortOption] = useState("");
   const [priceRange, setPriceRange] = useState("");
   const [category, setCategory] = useState("All Laptops");
@@ -19,7 +16,6 @@ const RentalLaptops = () => {
   const [currentMode, setCurrentMode] = useState("buy"); // Default mode
   const [availableProcessors, setAvailableProcessors] = useState([]);
   const [availableRAM, setAvailableRAM] = useState([]);
-  const cardRefs = useRef([]);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -119,7 +115,7 @@ const RentalLaptops = () => {
   // Apply additional filters (price range, sort options, category)
   useEffect(() => {
     applyFilters();
-  }, [sortOption, priceRange, category, currentMode]);
+  }, [sortOption, priceRange, category, currentMode, laptops]);
 
   const applyFilters = () => {
     let updatedLaptops = [...laptops];
@@ -190,33 +186,6 @@ const RentalLaptops = () => {
     navigate(`?${params.toString()}`);
   };
 
-  const scrollToSpecs = debounce((rowIndex, name) => {
-    cardRefs.current[rowIndex]?.[name]?.scrollIntoView({
-      behavior: "smooth",
-    });
-  }, 100);
-
-  const handleToggleSpecs = (laptop, rowIndex) => {
-    if (selectedRow === rowIndex && selectedLaptop?.name === laptop.name) {
-      setSelectedRow(null);
-      setSelectedLaptop(null);
-    } else {
-      setSelectedRow(rowIndex);
-      setSelectedLaptop(laptop);
-      scrollToSpecs(rowIndex, laptop.name);
-    }
-  };
-
-  const rows = [];
-  for (let i = 0; i < filteredLaptops.length; i += ROW_SIZE) {
-    rows.push(filteredLaptops.slice(i, i + ROW_SIZE));
-  }
-
-  // Action button text based on current mode
-  const getActionButtonText = () => {
-    return currentMode === "buy" ? "Buy Now!" : "Rent Now!";
-  };
-
   // Dynamic page title based on mode
   const getPageTitle = () => {
     return currentMode === "buy" ? "Buy Laptops" : "Rental Laptops";
@@ -224,115 +193,57 @@ const RentalLaptops = () => {
 
   return (
     <div>
-      <div className="page-header">
-        <h1 className="page-title">{getPageTitle()}</h1>
+      <div className="header">
+        <h1>{getPageTitle()}</h1>
 
         <div className="filters">
           <select
-            className="filter-select"
+            id="sort"
             value={sortOption}
             onChange={(e) => setSortOption(e.target.value)}
           >
-            <option value="">Sort by</option>
+            <option value="">Sort by Popularity</option>
             <option value="price-low">Price: Low to High</option>
             <option value="price-high">Price: High to Low</option>
-            <option value="popular">Most Popular</option>
-            <option value="newest">Newest</option>
+            <option value="popular">Trending</option>
+            <option value="newest">Top Rated</option>
           </select>
 
           <select
-            className="filter-select"
+            id="price-range"
             value={priceRange}
             onChange={(e) => setPriceRange(e.target.value)}
           >
-            <option value="">Price Range</option>
-            <option value="0-15000">Below ₹15,000</option>
+            <option value="">All Price Ranges</option>
+            <option value="0-15000">Under ₹15,000</option>
             <option value="15000-25000">₹15,000 - ₹25,000</option>
             <option value="25000-35000">₹25,000 - ₹35,000</option>
-            <option value="35000+">Above ₹35,000</option>
+            <option value="35000+">Premium (₹35,000+)</option>
           </select>
+        </div>
+
+        <div className="categories">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              className={`category-btn ${category === cat ? "active" : ""}`}
+              onClick={() => handleCategoryClick(cat)}
+            >
+              {cat}
+            </button>
+          ))}
         </div>
       </div>
 
-      <div className="categories">
-        {categories.map((cat) => (
-          <button
-            key={cat}
-            disabled={category === cat}
-            className={`category-btn ${category === cat ? "active" : ""}`}
-            onClick={() => handleCategoryClick(cat)}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
-
-      <div className="card_div">
+      <div className="products">
         {filteredLaptops.length === 0 ? (
           <p className="no-results">
             No {currentMode === "buy" ? "laptops for sale" : "rental laptops"}{" "}
             match the selected filters.
           </p>
         ) : (
-          rows.map((row, rowIndex) => (
-            <div key={rowIndex}>
-              <div className="card-container">
-                {row.map((laptop) => (
-                  <div
-                    key={laptop._id}
-                    ref={(el) => {
-                      if (!cardRefs.current[rowIndex]) {
-                        cardRefs.current[rowIndex] = {};
-                      }
-                      cardRefs.current[rowIndex][laptop.name] = el;
-                    }}
-                  >
-                    <RentalCard
-                      product={laptop}
-                      onShowSpecs={() => handleToggleSpecs(laptop, rowIndex)}
-                      isSelected={
-                        selectedRow === rowIndex &&
-                        selectedLaptop?.name === laptop.name
-                      }
-                      mode={currentMode}
-                    />
-                  </div>
-                ))}
-              </div>
-
-              {selectedRow === rowIndex && selectedLaptop && (
-                <div className="laptop-specs">
-                  <div className="specs-layout">
-                    <div className="specs-image">
-                      <img
-                        src={selectedLaptop.image}
-                        alt={selectedLaptop.name}
-                        className="spec-image"
-                        onError={(e) => {
-                          e.target.onerror = null;
-                          e.target.src = "/default-laptop-image.jpg"; // Fallback image
-                        }}
-                      />
-                    </div>
-                    <div className="specs-details">
-                      <h1>{selectedLaptop.name}</h1>
-                      <ul>
-                        <li>💻 Processor: {selectedLaptop.processor}</li>
-                        <li>💵 Price: ₹{selectedLaptop.price}</li>
-                        <li>🧠 RAM: {selectedLaptop.RAM}</li>
-                        <li>💾 Storage: {selectedLaptop.Storage}</li>
-                        <li>🎮 Graphics: {selectedLaptop.Graphic}</li>
-                        <li>📏 Display Size: {selectedLaptop.Display}</li>
-                        <li>🖥️ Category: {selectedLaptop.category}</li>
-                      </ul>
-                      <button className="rent-now">
-                        {getActionButtonText()}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
+          filteredLaptops.map((laptop) => (
+            <RentalCard key={laptop._id} product={laptop} mode={currentMode} />
           ))
         )}
       </div>

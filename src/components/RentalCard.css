@@ -1,419 +1,546 @@
-.foodCard {
-  height: 300px;
-  width: 200px;
-  border-radius: 20px;
-  background-color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: start;
-  flex-direction: column;
-  position: relative;
-  outline: 2px solid #ccc;
-  user-select: none;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
-    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
 }
 
-.Like {
-  border: none;
+body {
+  margin-top: 180px;
+  background-color: #f0f2f5;
+  padding: 20px;
+  background-image: radial-gradient(
+    circle at 10% 20%,
+    rgba(216, 241, 230, 0.46) 0%,
+    rgba(233, 226, 226, 0.28) 90.2%
+  );
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+  position: relative;
+}
+
+.header:after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #3498db, #2ecc71);
+  border-radius: 2px;
+  margin: 15px auto 25px;
+}
+
+.header h1 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1a2a3a;
+  margin-bottom: 10px;
+  letter-spacing: -0.5px;
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
+}
+
+.filters {
   display: flex;
-  align-items: center;
   justify-content: center;
-  position: absolute;
-  right: 0;
-  font-size: 20px;
-  color: #bbb;
-  background-color: #333;
-  border-radius: 0 20px 0 15px;
-  width: 40px;
-  height: 35px;
-  cursor: pointer;
+  gap: 15px;
+  margin-bottom: 35px;
+}
+
+.filters select {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 12px;
+  background-color: white;
+  font-size: 14px;
+  min-width: 170px;
+  color: #444;
+  font-weight: 500;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%233498db' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  padding-right: 40px;
   transition: all 0.3s ease;
 }
 
-.Like:hover {
-  color: #f80000;
+.filters select:focus {
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
+  outline: none;
 }
 
-.Discount {
-  position: absolute;
-  left: 0;
-  font-size: 15px;
-  padding: 5px 10px;
-  font-weight: 600;
-  color: #fff;
-  background-color: #333;
-  border-radius: 15px 0 15px 0;
-}
-
-.imageContainer {
-  padding: 10px;
-  height: 60%;
-  width: 100%;
+.categories {
   display: flex;
-  align-items: center;
   justify-content: center;
-}
-
-.foodTitle {
-  color: #222;
-  font-weight: bold;
-  padding-top: 10px;
-}
-
-.Price {
-  font-weight: bold;
-  color: #000;
-}
-
-.button {
-  padding: 10px;
-  background-color: #28a745;
-  color: #fff;
-  border-radius: 20px;
-  cursor: pointer;
-}
-
-.button:hover {
-  background-color: #218838;
-}
-
-.likedPage {
-  text-align: center;
-  padding: 20px;
-}
-
-.likedItems {
-  display: flex;
   flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
+  gap: 12px;
+  margin-bottom: 40px;
 }
 
-.likedCard {
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 15px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  text-align: center;
-  width: 200px;
-}
-
-.likedCard img {
-  width: 100%;
-  border-radius: 5px;
-}
-
-/* Discount label */
-.Discount {
-  position: absolute;
-  left: 0;
-  font-size: 15px;
-  padding: 2px 10px;
-  font-weight: 600;
-  color: #ffffff;
-  background-color: rgba(244, 31, 31, 0);
-  border-radius: 15px 0px 15px 0px;
-  font-style: italic;
-  background-image: linear-gradient(163deg, #b6b2b2 0%, #f80000 100%);
-}
-
-/* Image container */
-.imageContainer {
-  padding: 2px;
-  height: 60%;
-  width: 100%;
-  padding-top: 30px;
-  border-radius: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.imageContainer > img {
-  height: 140%;
-  width: 100%;
-  object-fit: cover;
-  border-radius: 15px;
-}
-
-/* Title and specifications */
-.foodTitle {
-  color: rgb(32, 32, 32);
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  max-width: 200px;
-  font-weight: 800;
-  padding-top: 10px;
-  font-size: 10px;
-}
-
-.Price {
-  font-weight: 600;
-  padding: 5px 0;
-  color: rgb(0, 0, 0);
-  font-variant-numeric: tabular-nums;
-  text-align: center;
-}
-
-/* Button and price container */
-.priceAndButton {
-  position: absolute;
-  bottom: 10px;
-  width: 90%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-/* Button styling */
-.button {
-  padding: 0 15px;
-  height: 30px;
+.category-btn {
+  padding: 10px 20px;
   border: none;
-  background-color: rgb(116, 219, 160);
+  border-radius: 30px;
+  background-color: white;
+  color: #555;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.category-btn:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #3498db, #2ecc71);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  z-index: -1;
+}
+
+.category-btn:hover:not(.active):before {
+  width: 100%;
+}
+
+.category-btn.active {
+  background: linear-gradient(90deg, #3498db, #2ecc71);
+  color: white;
+  box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+  transform: translateY(-2px);
+}
+
+.category-btn:hover:not(.active) {
+  color: white;
+  transform: translateY(-2px);
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+  padding: 40px 0;
+}
+
+/* Product Card Styles */
+.product-card {
+  background-color: white;
   border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  position: relative;
+  z-index: 1;
+}
+
+.product-card:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  z-index: -1;
+}
+
+.product-card:hover {
+  transform: translateY(-10px) scale(1.02);
+}
+
+.product-card:hover:after {
+  opacity: 1;
+}
+
+.product-card.selected {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.product-badge {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  background: linear-gradient(135deg, #3498db, #2980b9);
+  color: white;
+  padding: 7px 15px;
+  font-size: 12px;
+  font-weight: 600;
+  border-radius: 0 20px 20px 0;
+  z-index: 2;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  letter-spacing: 0.5px;
+}
+
+.product-img {
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.product-img:before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  top: -50%;
+  left: -50%;
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+
+.product-card:hover .product-img:before {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+.product-img img {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  transition: transform 0.5s ease;
+  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.08));
+}
+
+.product-card:hover .product-img img {
+  transform: scale(1.05);
+}
+
+.wishlist-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background-color: white;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+  transition: all 0.3s ease;
+}
+
+.wishlist-btn:hover {
+  transform: scale(1.1);
+}
+
+.wishlist-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: #999;
+  stroke-width: 2;
+  transition: all 0.3s ease;
+}
+
+.wishlist-btn.active svg {
+  fill: #e74c3c;
+  stroke: #e74c3c;
+}
+
+.wishlist-btn:hover svg {
+  stroke: #e74c3c;
+}
+
+.product-info {
+  padding: 20px;
+  position: relative;
+}
+
+.product-name {
+  font-size: 16px;
   font-weight: 600;
-  transition: all 0.4s ease;
-  opacity: 100%;
-  font-size: 10px;
+  color: #1a2a3a;
+  margin-bottom: 12px;
+  height: 44px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  position: relative;
+  transition: color 0.3s ease;
 }
 
-.button:hover {
-  box-shadow: rgb(116, 219, 160) 0px 0px 15px;
+.product-card:hover .product-name {
+  color: #3498db;
 }
 
-.button:active {
-  transform: scale(0.95);
-}
-.foodCard.highlight {
-  border-color: #ff0000;
-  /* border-width: 0px; */
-  background-color: #fff;
-  box-shadow: 0 8px 16px rgba(42, 25, 140, 0.7), 0 0 20px rgba(94, 26, 173, 0.4);
-  transform: scale(1.05); /* Slightly enlarges the card */
-  transition: all 0.6s ease; /* Smooth transition for changes */
+.product-specs {
+  margin-bottom: 20px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  padding: 12px;
+  position: relative;
+  overflow: hidden;
 }
 
+.product-specs:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(to bottom, #3498db, #2ecc71);
+  border-radius: 4px;
+}
+
+.product-spec {
+  display: flex;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #555;
+  padding-left: 8px;
+}
+
+.product-spec:last-child {
+  margin-bottom: 0;
+}
+
+.product-spec span:first-child {
+  width: 70px;
+  color: #888;
+  font-weight: 500;
+}
+
+.product-spec span:last-child {
+  font-weight: 500;
+}
+
+.product-pricing {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.product-price {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a2a3a;
+  position: relative;
+  padding-left: 2px;
+}
+
+.product-price:before {
+  content: "₹";
+  font-size: 14px;
+  position: relative;
+  top: -8px;
+  left: 0;
+  color: #3498db;
+  font-weight: 600;
+}
+
+.cta-button {
+  padding: 10px 20px;
+  background: linear-gradient(90deg, #3498db, #2ecc71);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 10px rgba(46, 204, 113, 0.2);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.cta-button:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #2ecc71, #3498db);
+  transition: opacity 0.3s ease;
+  opacity: 0;
+  z-index: -1;
+}
+
+.cta-button:hover:before {
+  opacity: 1;
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 15px rgba(46, 204, 113, 0.3);
+}
+
+/* Floating Animation for Cards */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.product-card:hover {
+  animation: float 4s ease-in-out infinite;
+  transform: none;
+}
+
+/* Glowing effect for buttons */
+@keyframes glowing {
+  0% {
+    box-shadow: 0 0 5px rgba(46, 204, 113, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(46, 204, 113, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(46, 204, 113, 0.3);
+  }
+}
+
+.cta-button:hover {
+  animation: glowing 1.5s infinite;
+  transform: translateY(-3px);
+}
+
+/* Badge Shimmer Effect */
+.product-badge:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: skewX(-25deg);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) skewX(-25deg);
+  }
+  100% {
+    transform: translateX(200%) skewX(-25deg);
+  }
+}
+
+/* Pulse Effect for Wishlist */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.wishlist-btn.active {
+  animation: pulse 1.5s infinite;
+}
+
+/* Hover states for specs */
+.product-spec:hover {
+  background-color: rgba(52, 152, 219, 0.08);
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+/* Price tag effect */
+.product-price {
+  position: relative;
+  padding: 0 0 0 5px;
+  display: inline-block;
+}
+
+.product-price:after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, #3498db, transparent);
+}
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  .foodCard {
-    height: 250px;
-    width: 150px;
-    border-radius: 20px;
-    background-color: #fff;
-    /* display: flex; */
-    align-items: center;
-    justify-content: start;
-    flex-direction: column;
-    position: relative;
-    outline: 2px solid #ccc;
-    user-select: none;
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-      rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
-      rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-  }
-
-  .Like {
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    right: 0;
-    font-size: 20px;
-    color: #bbb;
-    background-color: #333;
-    border-radius: 0 20px 0 15px;
-    width: 40px;
-    height: 35px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-  }
-
-  .Like:hover {
-    color: #f80000;
-  }
-
-  .Discount {
-    position: absolute;
-    left: 0;
-    font-size: 10px;
-    padding: 5px 10px;
-    font-weight: 600;
-    color: #fff;
-    background-color: #333;
-    border-radius: 15px 0 15px 0;
-  }
-
-  .imageContainer {
-    padding: 10px;
-    height: 60%;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .foodTitle {
-    color: #222;
-    font-weight: bold;
-    padding-top: 10px;
-  }
-
-  .Price {
-    font-weight: bold;
-    color: #000;
-  }
-
-  .button {
-    padding: 10px;
-    background-color: #28a745;
-    color: #fff;
-    border-radius: 20px;
-    cursor: pointer;
-  }
-
-  .button:hover {
-    background-color: #218838;
-  }
-
-  .likedPage {
-    text-align: center;
-    padding: 20px;
-  }
-
-  .likedItems {
-    display: flex;
-    flex-wrap: wrap;
+  .products {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 20px;
-    justify-content: center;
   }
 
-  .likedCard {
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    width: 200px;
-  }
-
-  .likedCard img {
-    width: 100%;
-    border-radius: 5px;
-  }
-
-  /* Discount label */
-  .Discount {
-    position: absolute;
-    left: 0;
-    font-size: 15px;
-    padding: 2px 10px;
-    font-weight: 600;
-    color: #ffffff;
-    background-color: rgba(244, 31, 31, 0);
-    border-radius: 15px 0px 15px 0px;
-    font-style: italic;
-    background-image: linear-gradient(163deg, #b6b2b2 0%, #f80000 100%);
-  }
-
-  /* Image container */
-  .imageContainer {
-    padding: 2px;
-    height: 60%;
-    width: 100%;
-    padding-top: 30px;
-    border-radius: 15px;
-    display: flex;
+  .filters {
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
   }
 
-  .imageContainer > img {
-    height: 140%;
-    width: 100%;
-    object-fit: cover;
-    border-radius: 15px;
+  .header h1 {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .products {
+    grid-template-columns: 1fr;
   }
 
-  /* Title and specifications */
-  .foodTitle {
-    color: rgb(32, 32, 32);
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    max-width: 200px;
-    font-weight: 800;
-    padding-top: 10px;
-    font-size: 10px;
+  .categories {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 10px;
+    justify-content: flex-start;
   }
 
-  .Price {
-    font-weight: 600;
-    padding: 5px 0;
-    color: rgb(0, 0, 0);
-    font-variant-numeric: tabular-nums;
-    text-align: center;
-  }
-
-  /* Button and price container */
-  .priceAndButton {
-    position: absolute;
-    bottom: 10px;
-    width: 90%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  /* Button styling */
-  .button {
-    padding: 0 15px;
-    height: 30px;
-    border: none;
-    background-color: rgb(116, 219, 160);
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.4s ease;
-    opacity: 100%;
-    font-size: 10px;
-  }
-
-  .button:hover {
-    box-shadow: rgb(116, 219, 160) 0px 0px 15px;
-  }
-
-  .button:active {
-    transform: scale(0.95);
-  }
-  .foodCard.highlight {
-    border-color: #ff0000;
-    /* border-width: 0px; */
-    background-color: #fff;
-    box-shadow: 0 8px 16px rgba(42, 25, 140, 0.7),
-      0 0 20px rgba(94, 26, 173, 0.4);
-    transform: scale(1.05); /* Slightly enlarges the card */
-    transition: all 0.6s ease; /* Smooth transition for changes */
-  }
-  .card_div {
-    margin-top: 320px;
-  }
-  .card-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-    padding: 20px;
-    background-color: #f9f9f9;
+  .category-btn {
+    flex-shrink: 0;
   }
 }

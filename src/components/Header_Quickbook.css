@@ -36,6 +36,8 @@ body {
 
 .logo img {
   height: 80px;
+  margin-left: 50px;
+
   /* margin-left: 19%; */
 }
 .scrolled.logo {

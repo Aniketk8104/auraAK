@@ -6,8 +6,8 @@ import IndustriesSection from "../components/IndustriesSection";
 // import QuickBookSection from "../components/QuickBookSection";
 // import Projects from "../components/projects/projects";
 // import CodeLottie from "../components/codeLottie";
-import "../styles/card.scss";
-import "../styles/globals.scss";
+// import "../styles/card.scss";
+// import "../styles/globals.scss";
 
 const Home = () => {
   const [slides, setSlides] = useState([]);
@@ -34,7 +34,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div class="main1">
+    <div className="main1">
       <Popup />
       {error && <p style={{ color: "red" }}>{error}</p>}
 
