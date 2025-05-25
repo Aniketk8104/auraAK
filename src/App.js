@@ -12,6 +12,8 @@ import "./styles/style.css";
 import "./styles/mobile-styles.css";
 import Connect from "./pages/Connect";
 import QRDemoApp from "./pages/QRDemoApp";
+import AuraReferralProgram from "./pages/AuraReferralProgram";
+import LaptopRentalCRM from "./pages/LaptopRentalCRM";
 
 // Lazy-loaded components
 const Home = lazy(() => import("./pages/Home"));
@@ -69,7 +71,6 @@ const App = () => {
                 </PageWrapper>
               }
             />
-
             {/* Admin Routes */}
             <Route
               path="/login"
@@ -91,6 +92,11 @@ const App = () => {
             />
             <Route path="/connect" element={<Connect />} />
             <Route path="/QRDemoApp" element={<QRDemoApp />} />
+            <Route
+              path="/AuraReferralProgram"
+              element={<AuraReferralProgram />}
+            />
+            <Route path="/LaptopRentalCRM" element={<LaptopRentalCRM />} />
           </Routes>
         </Suspense>
       </main>
