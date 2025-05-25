@@ -16,11 +16,11 @@ const Sidebar = ({ currentSection, onSectionChange }) => {
         </li>
         <li
           className={`sidebar-menu-item ${
-            currentSection === "anotherSection" ? "active" : ""
+            currentSection === "QRdemo" ? "active" : ""
           }`}
-          onClick={() => onSectionChange("anotherSection")}
+          onClick={() => onSectionChange("QRdemo")}
         >
-          Another Section
+          QRdemo
         </li>
         <li
           className={`sidebar-menu-item ${

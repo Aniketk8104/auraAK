@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import ManageSlideshow from "./ManageSlideshow";
-import AnotherSection from "./AnotherSection";
 import ManageLaptops from "./ManageLaptops";
 import ManageMobileNumbers from "./ManageMobileNumbers";
 import ErrorMessage from "../Shared/ErrorMessage";
+import QRdemo from "./QRdemo";
 
 const AdminDashboard = () => {
   const [currentSection, setCurrentSection] = useState("manageSlideshow");
@@ -28,7 +28,7 @@ const AdminDashboard = () => {
           <ManageLaptops setError={setError} />
         )}
         {currentSection === "manageMobileNumbers" && <ManageMobileNumbers />}
-        {currentSection === "anotherSection" && <AnotherSection />}
+        {currentSection === "QRdemo" && <QRdemo />}
       </div>
     </div>
   );
