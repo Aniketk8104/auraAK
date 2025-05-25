@@ -17,6 +17,7 @@ const ManageLaptops = ({ setError }) => {
     category: "",
     image: null,
     mode: "buy", // Default mode
+    serialNumber: "",
   });
   const [editingLaptopId, setEditingLaptopId] = useState(null);
   const [expandedLaptopId, setExpandedLaptopId] = useState(null);
@@ -238,60 +239,83 @@ const ManageLaptops = ({ setError }) => {
       return;
     }
 
+    // Enhanced validation
+    const requiredFields = {
+      name: "Laptop name",
+      serialNumber: "Serial number",
+      price: "Price",
+      processor: "Processor",
+      RAM: "RAM",
+      Storage: "Storage",
+      Brand: "Brand",
+      category: "Category",
+    };
+
+    const missingFields = Object.entries(requiredFields)
+      .filter(([field]) => !newLaptop[field]?.toString().trim())
+      .map(([_, name]) => name);
+
+    if (missingFields.length > 0) {
+      setError(
+        `Please fill in all required fields: ${missingFields.join(", ")}`
+      );
+      return;
+    }
+
+    // Create FormData and explicitly append all fields
     const formData = new FormData();
 
-    // Create a copy of newLaptop with the current mode
-    const laptopData = { ...newLaptop, mode: selectedMode };
+    // Required fields
+    formData.append("name", newLaptop.name);
+    formData.append("serialNumber", newLaptop.serialNumber);
+    formData.append("price", newLaptop.price);
+    formData.append("processor", newLaptop.processor);
+    formData.append("RAM", newLaptop.RAM);
+    formData.append("Storage", newLaptop.Storage);
+    formData.append("Brand", newLaptop.Brand);
+    formData.append("category", newLaptop.category);
+    formData.append("mode", newLaptop.mode);
 
-    Object.keys(laptopData).forEach((key) => {
-      if (key === "image" && laptopData.image) {
-        formData.append(key, laptopData.image);
-      } else if (key !== "image" && laptopData[key] !== null) {
-        formData.append(key, laptopData[key]);
-      }
-    });
+    // Optional fields
+    if (newLaptop.Graphic) formData.append("Graphic", newLaptop.Graphic);
+    if (newLaptop.Display) formData.append("Display", newLaptop.Display);
+    if (newLaptop.image) formData.append("image", newLaptop.image);
 
     setLoading(true);
     try {
-      let response;
-      if (editingLaptopId) {
-        response = await axios.put(
-          `${process.env.REACT_APP_BASE_URL}/api/laptops/${editingLaptopId}`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+      const url = editingLaptopId
+        ? `${process.env.REACT_APP_BASE_URL}/api/laptops/${editingLaptopId}`
+        : `${process.env.REACT_APP_BASE_URL}/api/laptops`;
 
-        // Update the specific laptop in state
-        setLaptops((prev) =>
-          prev.map((laptop) =>
-            laptop._id === editingLaptopId ? response.data : laptop
-          )
-        );
-        setEditingLaptopId(null);
-        alert("Laptop updated successfully!");
-      } else {
-        response = await axios.post(
-          `${process.env.REACT_APP_BASE_URL}/api/laptops`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+      const response = await fetch(url, {
+        method: editingLaptopId ? "PUT" : "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
 
-        // Add the new laptop to state
-        setLaptops((prev) => [...prev, response.data]);
-        alert("Laptop added successfully!");
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        // Handle validation errors from server
+        if (responseData.errors) {
+          const errorMessages = Object.values(responseData.errors).join(", ");
+          throw new Error(errorMessages);
+        }
+        throw new Error(responseData.message || "Failed to save laptop");
       }
 
-      // Reset form after successful submission
+      // Update state
+      if (editingLaptopId) {
+        setLaptops(
+          laptops.map((l) => (l._id === editingLaptopId ? responseData : l))
+        );
+      } else {
+        setLaptops([...laptops, responseData]);
+      }
+
+      // Reset form
       setNewLaptop({
         name: "",
         processor: "",
@@ -303,27 +327,20 @@ const ManageLaptops = ({ setError }) => {
         Brand: "",
         category: "",
         image: null,
-        mode: selectedMode, // Keep current mode
+        mode: selectedMode,
+        serialNumber: "",
       });
-
-      // Clear file input
-      if (document.querySelector('input[type="file"]')) {
-        document.querySelector('input[type="file"]').value = "";
-      }
-
+      setEditingLaptopId(null);
       setError("");
     } catch (err) {
-      console.error("Error adding or updating laptop:", err);
+      console.error("API Error:", err);
       setError(
-        `Failed to ${editingLaptopId ? "update" : "add"} laptop: ${
-          err.response?.data?.message || err.message
-        }`
+        err.message || "An unexpected error occurred. Please try again."
       );
     } finally {
       setLoading(false);
     }
   };
-
   const handleEditLaptop = (laptop) => {
     // Switch to the appropriate mode tab when editing
     setSelectedMode(laptop.mode || "buy");
@@ -535,6 +552,19 @@ const ManageLaptops = ({ setError }) => {
                 name="Brand"
                 placeholder="Laptop Brand"
                 value={newLaptop.Brand}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="serialNumber">Serial Number</label>
+              <input
+                id="serialNumber"
+                type="text"
+                name="serialNumber"
+                placeholder="Serial Number"
+                value={newLaptop.serialNumber || ""}
                 onChange={handleInputChange}
                 required
               />

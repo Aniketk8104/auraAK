@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import RentalCard from "../components/RentalCard";
 import axios from "axios";
 import "./RentalLaptops.css";
-
-const ROW_SIZE = 4;
 
 const RentalLaptops = () => {
   const [laptops, setLaptops] = useState([]);
@@ -14,8 +12,6 @@ const RentalLaptops = () => {
   const [category, setCategory] = useState("All Laptops");
   const [categories, setCategories] = useState(["All Laptops"]);
   const [currentMode, setCurrentMode] = useState("buy"); // Default mode
-  const [availableProcessors, setAvailableProcessors] = useState([]);
-  const [availableRAM, setAvailableRAM] = useState([]);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -35,89 +31,8 @@ const RentalLaptops = () => {
     fetchLaptops();
   }, []);
 
-  // Process URL parameters and update current mode
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    // Get mode from URL parameters or default to "buy"
-    const modeParam = params.get("mode") || "buy";
-    setCurrentMode(modeParam);
-
-    // Reset filters when mode changes
-    if (modeParam !== currentMode) {
-      setSortOption("");
-      setPriceRange("");
-      setCategory("All Laptops");
-    }
-  }, [location.search]);
-
-  // Extract categories specific to the current mode
-  useEffect(() => {
-    // Filter laptops by current mode
-    const modeLaptops = laptops.filter((laptop) => {
-      const laptopMode = laptop.mode || "buy";
-      return laptopMode === currentMode;
-    });
-
-    // Extract unique categories from filtered laptops
-    const uniqueCategories = [
-      "All Laptops",
-      ...new Set(modeLaptops.map((laptop) => laptop.category).filter(Boolean)),
-    ];
-    setCategories(uniqueCategories);
-
-    // Extract unique processors
-    const uniqueProcessors = [
-      ...new Set(modeLaptops.map((laptop) => laptop.processor).filter(Boolean)),
-    ];
-    setAvailableProcessors(uniqueProcessors);
-
-    // Extract unique RAM options
-    const uniqueRAM = [
-      ...new Set(modeLaptops.map((laptop) => laptop.RAM).filter(Boolean)),
-    ];
-    setAvailableRAM(uniqueRAM);
-
-    // Reset category if current category is not available in this mode
-    if (category !== "All Laptops" && !uniqueCategories.includes(category)) {
-      setCategory("All Laptops");
-    }
-  }, [laptops, currentMode]);
-
-  // Process URL parameters and filter laptops accordingly
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-
-    const filters = {
-      ram: params.get("ram"),
-      processor: params.get("processor"),
-      category: params.get("category"),
-      mode: currentMode,
-    };
-
-    if (filters.category) setCategory(filters.category);
-
-    let filtered = laptops.filter((laptop) => {
-      const laptopMode = laptop.mode || "buy"; // Default to "buy" for legacy data
-
-      return (
-        // Filter by mode
-        laptopMode === filters.mode &&
-        // Filter by other parameters if present
-        (!filters.ram || laptop.RAM === filters.ram) &&
-        (!filters.processor || laptop.processor === filters.processor) &&
-        (!filters.category || laptop.category === filters.category)
-      );
-    });
-
-    setFilteredLaptops(filtered);
-  }, [location.search, laptops, currentMode]);
-
   // Apply additional filters (price range, sort options, category)
-  useEffect(() => {
-    applyFilters();
-  }, [sortOption, priceRange, category, currentMode, laptops]);
-
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     let updatedLaptops = [...laptops];
 
     // First filter by mode
@@ -158,7 +73,77 @@ const RentalLaptops = () => {
     }
 
     setFilteredLaptops(updatedLaptops);
-  };
+  }, [laptops, currentMode, category, priceRange, sortOption]);
+
+  // Process URL parameters and update current mode
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    // Get mode from URL parameters or default to "buy"
+    const modeParam = params.get("mode") || "buy";
+    setCurrentMode(modeParam);
+
+    // Reset filters when mode changes
+    if (modeParam !== currentMode) {
+      setSortOption("");
+      setPriceRange("");
+      setCategory("All Laptops");
+    }
+  }, [location.search, currentMode]);
+
+  // Extract categories specific to the current mode
+  useEffect(() => {
+    // Filter laptops by current mode
+    const modeLaptops = laptops.filter((laptop) => {
+      const laptopMode = laptop.mode || "buy";
+      return laptopMode === currentMode;
+    });
+
+    // Extract unique categories from filtered laptops
+    const uniqueCategories = [
+      "All Laptops",
+      ...new Set(modeLaptops.map((laptop) => laptop.category).filter(Boolean)),
+    ];
+    setCategories(uniqueCategories);
+
+    // Reset category if current category is not available in this mode
+    if (category !== "All Laptops" && !uniqueCategories.includes(category)) {
+      setCategory("All Laptops");
+    }
+  }, [laptops, currentMode, category]);
+
+  // Process URL parameters and filter laptops accordingly
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+
+    const filters = {
+      ram: params.get("ram"),
+      processor: params.get("processor"),
+      category: params.get("category"),
+      mode: currentMode,
+    };
+
+    if (filters.category) setCategory(filters.category);
+
+    let filtered = laptops.filter((laptop) => {
+      const laptopMode = laptop.mode || "buy"; // Default to "buy" for legacy data
+
+      return (
+        // Filter by mode
+        laptopMode === filters.mode &&
+        // Filter by other parameters if present
+        (!filters.ram || laptop.RAM === filters.ram) &&
+        (!filters.processor || laptop.processor === filters.processor) &&
+        (!filters.category || laptop.category === filters.category)
+      );
+    });
+
+    setFilteredLaptops(filtered);
+  }, [location.search, laptops, currentMode]);
+
+  // Apply filters when dependencies change
+  useEffect(() => {
+    applyFilters();
+  }, [applyFilters]);
 
   const handleCategoryClick = (cat) => {
     setCategory(cat);
@@ -171,17 +156,6 @@ const RentalLaptops = () => {
     } else {
       params.set("category", cat);
     }
-
-    navigate(`?${params.toString()}`);
-  };
-
-  const handleModeChange = (newMode) => {
-    // Update URL to change mode
-    const params = new URLSearchParams(location.search);
-    params.set("mode", newMode);
-
-    // Remove category if changing modes (since categories may differ between modes)
-    params.delete("category");
 
     navigate(`?${params.toString()}`);
   };
