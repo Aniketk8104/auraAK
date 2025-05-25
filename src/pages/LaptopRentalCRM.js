@@ -630,7 +630,7 @@ const LaptopRentalCRM = () => {
       const filtered = data.filter(item =>
         Object.values(item).some(value =>
           value && value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-      );
+        ));
       setFilteredData(filtered);
     }, [data, searchTerm]);
 
@@ -854,158 +854,173 @@ const LaptopRentalCRM = () => {
         columns={columns}
         onAdd={() => openModal('Rental')}
         onEdit={(item) => openModal('Rental', item)}
-onDelete={(id) => handleDelete('Rental', id)}
-title="Rentals"
-/>
-);
-};
+                onDelete={(id) => handleDelete('Rental', id)}
+        title="Rentals"
+      />
+    );
+  };
 
-// Sales Component
-const Sales = () => {
-const columns = [
-{ key: 'customer', title: 'Customer', render: (item) => {
-const customer = customers.find(c => c.id === item.customerId);
-return (
-<div>
-<div className="font-medium text-gray-900">{customer?.name}</div>
-<div className="text-sm text-gray-500">{customer?.company}</div>
-</div>
-);
-}},
-{ key: 'laptop', title: 'Laptop', render: (item) => {
-const laptop = inventory.find(l => l.id === item.laptopId);
-return (
-<div>
-<div className="font-medium text-gray-900">{laptop?.brand} {laptop?.model}</div>
-<div className="text-sm text-gray-500">Original: {formatCurrency(item.originalPrice)}</div>
-</div>
-);
-}},
-{ key: 'sale', title: 'Sale Details', render: (item) => (
-<div>
-<div className="font-medium text-gray-900">{formatCurrency(item.salePrice)}</div>
-<div className="text-sm text-gray-500">Discount: {formatCurrency(item.discount)}</div>
-</div>
-)},
-{ key: 'date', title: 'Sale Date', render: (item) => (
-<div>
-<div className="text-sm text-gray-900">{item.saleDate}</div>
-<div className="text-sm text-gray-500">{item.paymentMethod}</div>
-</div>
-)},
-{ key: 'status', title: 'Status', render: (item) => (
-<span className={px-2 py-1 text-xs rounded-full ${ item.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}>
-{item.status}
-</span>
-)}
-];
-return (
-  <Table
-    data={sales}
-    columns={columns}
-    title="Sales"
-    emptyMessage="No sales recorded yet"
-  />
-);
-};
+  // Sales Component
+  const Sales = () => {
+    const columns = [
+      { key: 'customer', title: 'Customer', render: (item) => {
+        const customer = customers.find(c => c.id === item.customerId);
+        return (
+          <div>
+            <div className="font-medium text-gray-900">{customer?.name}</div>
+            <div className="text-sm text-gray-500">{customer?.company}</div>
+          </div>
+        );
+      }},
+      { key: 'laptop', title: 'Laptop', render: (item) => {
+        const laptop = inventory.find(l => l.id === item.laptopId);
+        return (
+          <div>
+            <div className="font-medium text-gray-900">{laptop?.brand} {laptop?.model}</div>
+            <div className="text-sm text-gray-500">Original: {formatCurrency(item.originalPrice)}</div>
+          </div>
+        );
+      }},
+      { key: 'sale', title: 'Sale Details', render: (item) => (
+        <div>
+          <div className="font-medium text-gray-900">{formatCurrency(item.salePrice)}</div>
+          <div className="text-sm text-gray-500">Discount: {formatCurrency(item.discount)}</div>
+        </div>
+      )},
+      { key: 'date', title: 'Sale Date', render: (item) => (
+        <div>
+          <div className="text-sm text-gray-900">{item.saleDate}</div>
+          <div className="text-sm text-gray-500">{item.paymentMethod}</div>
+        </div>
+      )},
+      { key: 'status', title: 'Status', render: (item) => (
+        <span className={`px-2 py-1 text-xs rounded-full ${
+          item.status === 'Completed' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+        }`}>
+          {item.status}
+        </span>
+      )}
+    ];
 
-// Expenses Component
-const Expenses = () => {
-const columns = [
-{ key: 'description', title: 'Description' },
-{ key: 'amount', title: 'Amount', render: (item) => formatCurrency(item.amount) },
-{ key: 'category', title: 'Category' },
-{ key: 'date', title: 'Date' },
-{ key: 'type', title: 'Type' }
-];
+    return (
+      <Table
+        data={sales}
+        columns={columns}
+        title="Sales"
+        emptyMessage="No sales recorded yet"
+      />
+    );
+  };
 
-return (
-  <Table
-    data={expenses}
-    columns={columns}
-    title="Expenses"
-    emptyMessage="No expenses recorded yet"
-  />
-);
-};
+  // Expenses Component
+  const Expenses = () => {
+    const columns = [
+      { key: 'description', title: 'Description' },
+      { key: 'amount', title: 'Amount', render: (item) => formatCurrency(item.amount) },
+      { key: 'category', title: 'Category' },
+      { key: 'date', title: 'Date' },
+      { key: 'type', title: 'Type' }
+    ];
 
-// Main App Layout
-return (
-<div className="min-h-screen bg-gray-50">
-{/* Navigation */}
-<nav className="bg-white shadow-sm">
-<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-<div className="flex justify-between h-16">
-<div className="flex items-center">
-<Laptop className="h-8 w-8 text-blue-600" />
-<span className="ml-2 text-xl font-semibold text-gray-900">TechRent CRM</span>
-</div>
-<div className="flex items-center space-x-4">
-<button
-onClick={() => setActiveTab('dashboard')}
-className={px-3 py-2 rounded-md text-sm font-medium ${activeTab === 'dashboard' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:text-gray-900'}}
->
-Dashboard
-</button>
-<button
-onClick={() => setActiveTab('customers')}
-className={px-3 py-2 rounded-md text-sm font-medium ${activeTab === 'customers' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:text-gray-900'}}
->
-Customers
-</button>
-<button
-onClick={() => setActiveTab('inventory')}
-className={px-3 py-2 rounded-md text-sm font-medium ${activeTab === 'inventory' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:text-gray-900'}}
->
-Inventory
-</button>
-<button
-onClick={() => setActiveTab('rentals')}
-className={px-3 py-2 rounded-md text-sm font-medium ${activeTab === 'rentals' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:text-gray-900'}}
->
-Rentals
-</button>
-<button
-onClick={() => setActiveTab('sales')}
-className={px-3 py-2 rounded-md text-sm font-medium ${activeTab === 'sales' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:text-gray-900'}}
->
-Sales
-</button>
-<button
-onClick={() => setActiveTab('expenses')}
-className={px-3 py-2 rounded-md text-sm font-medium ${activeTab === 'expenses' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:text-gray-900'}}
->
-Expenses
-</button>
-</div>
-</div>
-</div>
-</nav>
+    return (
+      <Table
+        data={expenses}
+        columns={columns}
+        title="Expenses"
+        emptyMessage="No expenses recorded yet"
+      />
+    );
+  };
 
-  {/* Main Content */}
-  <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-    {activeTab === 'dashboard' && <Dashboard />}
-    {activeTab === 'customers' && <Customers />}
-    {activeTab === 'inventory' && <Inventory />}
-    {activeTab === 'rentals' && <Rentals />}
-    {activeTab === 'sales' && <Sales />}
-    {activeTab === 'expenses' && <Expenses />}
-  </main>
+  // Main App Layout
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Navigation */}
+      <nav className="bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16">
+            <div className="flex items-center">
+              <Laptop className="h-8 w-8 text-blue-600" />
+              <span className="ml-2 text-xl font-semibold text-gray-900">TechRent CRM</span>
+            </div>
+            <div className="flex items-center space-x-4">
+              <button
+                onClick={() => setActiveTab('dashboard')}
+                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                  activeTab === 'dashboard' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Dashboard
+              </button>
+              <button
+                onClick={() => setActiveTab('customers')}
+                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                  activeTab === 'customers' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Customers
+              </button>
+              <button
+                onClick={() => setActiveTab('inventory')}
+                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                  activeTab === 'inventory' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Inventory
+              </button>
+              <button
+                onClick={() => setActiveTab('rentals')}
+                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                  activeTab === 'rentals' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Rentals
+              </button>
+              <button
+                onClick={() => setActiveTab('sales')}
+                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                  activeTab === 'sales' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Sales
+              </button>
+              <button
+                onClick={() => setActiveTab('expenses')}
+                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                  activeTab === 'expenses' ? 'bg-blue-100 text-blue-700' : 'text-gray-600 hover:text-gray-900'
+                }`}
+              >
+                Expenses
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
 
-  {/* Modal */}
-  {showModal && (
-    <Modal
-      type={modalType}
-      item={editingItem}
-      onSave={(data) => handleSave(modalType, data)}
-      onClose={() => {
-        setShowModal(false);
-        setEditingItem(null);
-      }}
-    />
-  )}
-</div>
-);
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {activeTab === 'dashboard' && <Dashboard />}
+        {activeTab === 'customers' && <Customers />}
+        {activeTab === 'inventory' && <Inventory />}
+        {activeTab === 'rentals' && <Rentals />}
+        {activeTab === 'sales' && <Sales />}
+        {activeTab === 'expenses' && <Expenses />}
+      </main>
+
+      {/* Modal */}
+      {showModal && (
+        <Modal
+          type={modalType}
+          item={editingItem}
+          onSave={(data) => handleSave(modalType, data)}
+          onClose={() => {
+            setShowModal(false);
+            setEditingItem(null);
+          }}
+        />
+      )}
+    </div>
+  );
 };
 
 export default LaptopRentalCRM;
