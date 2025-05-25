@@ -1,8 +1,18 @@
 import { useState, useEffect } from "react";
 import {
-  Scan, Laptop, MapPin, UserCheck, Calendar, CheckCircle,
-  ClipboardList, QrCode, ArrowLeft, FileCheck,
-  RefreshCw, AlertCircle, Loader
+  Scan,
+  Laptop,
+  MapPin,
+  UserCheck,
+  Calendar,
+  CheckCircle,
+  ClipboardList,
+  QrCode,
+  ArrowLeft,
+  FileCheck,
+  RefreshCw,
+  AlertCircle,
+  Loader,
 } from "lucide-react";
 
 const QRdemo = () => {
@@ -14,7 +24,7 @@ const QRdemo = () => {
   const [loading, setLoading] = useState({
     devices: false,
     activity: false,
-    submitting: false
+    submitting: false,
   });
   const [error, setError] = useState("");
   const [customerData, setCustomerData] = useState({
@@ -25,32 +35,64 @@ const QRdemo = () => {
     condition: {
       working: false,
       accessories: false,
-      physicalDamage: false
-    }
+      physicalDamage: false,
+    },
+  });
+  const [location, setLocation] = useState({
+    latitude: null,
+    longitude: null,
+    error: null,
   });
 
-  const API_BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:4000";
+  const API_BASE_URL =
+    process.env.REACT_APP_BASE_URL || "http://localhost:4000";
 
-  // Fetch only rentable devices (mode=rent and status=available)
-const fetchDevices = async () => {
-  setLoading(prev => ({ ...prev, devices: true }));
-  setError("");
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/laptops/mode/rent?status=available`);
-    if (!response.ok) throw new Error("Failed to fetch devices");
-    const data = await response.json();
-    setDevices(data);
-  } catch (err) {
-    setError(`Error fetching devices: ${err.message}`);
-    console.error("Fetch error:", err);
-  } finally {
-    setLoading(prev => ({ ...prev, devices: false }));
-  }
-};
+  // Fetch location on component mount
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            error: null,
+          });
+        },
+        (error) => {
+          setLocation((prev) => ({
+            ...prev,
+            error: error.message,
+          }));
+        }
+      );
+    } else {
+      setLocation((prev) => ({
+        ...prev,
+        error: "Geolocation is not supported by this browser",
+      }));
+    }
+  }, []);
+
+  // Fetch only rentable devices (mode=rent)
+  const fetchDevices = async () => {
+    setLoading((prev) => ({ ...prev, devices: true }));
+    setError("");
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/laptops/mode/rent`);
+      if (!response.ok) throw new Error("Failed to fetch devices");
+      const data = await response.json();
+      setDevices(data);
+    } catch (err) {
+      setError(`Error fetching devices: ${err.message}`);
+      console.error("Fetch error:", err);
+    } finally {
+      setLoading((prev) => ({ ...prev, devices: false }));
+    }
+  };
 
   // Fetch recent activity from backend
   const fetchRecentActivity = async () => {
-    setLoading(prev => ({ ...prev, activity: true }));
+    setLoading((prev) => ({ ...prev, activity: true }));
     try {
       const response = await fetch(`${API_BASE_URL}/api/equipment/activity`);
       if (!response.ok) throw new Error("Failed to fetch activity");
@@ -59,61 +101,79 @@ const fetchDevices = async () => {
     } catch (err) {
       setError(`Error fetching activity: ${err.message}`);
     } finally {
-      setLoading(prev => ({ ...prev, activity: false }));
+      setLoading((prev) => ({ ...prev, activity: false }));
     }
   };
 
   // Record a transaction
   const recordTransaction = async () => {
-    setLoading(prev => ({ ...prev, submitting: true }));
+    setLoading((prev) => ({ ...prev, submitting: true }));
+    setError("");
+
     try {
-      const response = await fetch(`${API_BASE_URL}/api/equipment/transactions`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          deviceId: selectedDevice._id,
-          action,
-          customerName: customerData.name,
-          customerContact: customerData.contact,
-          returnDate: customerData.returnDate,
-          notes: customerData.notes,
-          location: "22.3456° N, 114.1577° E",
-          condition: customerData.condition
-        })
-      });
+      // Validate location
+      if (location.error || !location.latitude || !location.longitude) {
+        throw new Error(
+          "Location access is required to complete this transaction"
+        );
+      }
+
+      const locationString = `${location.latitude.toFixed(
+        4
+      )}° N, ${location.longitude.toFixed(4)}° E`;
+
+      const response = await fetch(
+        `${API_BASE_URL}/api/equipment/transactions`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            deviceId: selectedDevice._id,
+            action,
+            customerName: customerData.name,
+            customerContact: customerData.contact,
+            returnDate: customerData.returnDate,
+            notes: customerData.notes,
+            location: locationString,
+            condition: customerData.condition,
+          }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to record transaction");
       }
 
+      // Only proceed if transaction was successful
       await Promise.all([fetchDevices(), fetchRecentActivity()]);
       setScreen("confirmation");
     } catch (err) {
+      console.error("Transaction error:", err);
       setError(`Transaction failed: ${err.message}`);
     } finally {
-      setLoading(prev => ({ ...prev, submitting: false }));
+      setLoading((prev) => ({ ...prev, submitting: false }));
     }
   };
 
   // Handle customer data changes
   const handleCustomerDataChange = (field, value) => {
-    setCustomerData(prev => ({
+    setCustomerData((prev) => ({
       ...prev,
-      [field]: value
+      [field]: value,
     }));
   };
 
   // Handle condition checkbox changes
   const handleConditionChange = (field) => {
-    setCustomerData(prev => ({
+    setCustomerData((prev) => ({
       ...prev,
       condition: {
         ...prev.condition,
-        [field]: !prev.condition[field]
-      }
+        [field]: !prev.condition[field],
+      },
     }));
   };
 
@@ -124,7 +184,6 @@ const fetchDevices = async () => {
       await fetchRecentActivity();
     };
     loadData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Home Screen
@@ -144,7 +203,10 @@ const fetchDevices = async () => {
             className="ml-2 p-1 text-blue-600 hover:bg-blue-200 rounded"
             disabled={loading.devices}
           >
-            <RefreshCw size={16} className={loading.devices ? "animate-spin" : ""} />
+            <RefreshCw
+              size={16}
+              className={loading.devices ? "animate-spin" : ""}
+            />
           </button>
         </div>
       </div>
@@ -191,16 +253,27 @@ const fetchDevices = async () => {
         ) : (
           <div className="space-y-3 mt-3">
             {recentActivity.slice(0, 3).map((item, index) => (
-              <div key={index} className="border-b border-gray-200 pb-2 last:border-0">
+              <div
+                key={index}
+                className="border-b border-gray-200 pb-2 last:border-0"
+              >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-medium">{item.device?.name || 'Unknown Device'}</p>
-                    <p className="text-xs text-gray-500">SN: {item.device?.serialNumber || 'N/A'}</p>
+                    <p className="font-medium">
+                      {item.device?.name || "Unknown Device"}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      SN: {item.device?.serialNumber || "N/A"}
+                    </p>
                   </div>
                   <div className="text-right">
-                    <p className={`font-medium ${
-                      item.action === "delivery" ? "text-green-600" : "text-purple-600"
-                    }`}>
+                    <p
+                      className={`font-medium ${
+                        item.action === "delivery"
+                          ? "text-green-600"
+                          : "text-purple-600"
+                      }`}
+                    >
                       {item.action === "delivery" ? "Delivered" : "Picked Up"}
                     </p>
                     <p className="text-xs text-gray-500">
@@ -244,7 +317,9 @@ const fetchDevices = async () => {
             <h2 className="text-xl font-bold text-center text-blue-800">
               Scan QR Code
             </h2>
-            <p className="text-center text-blue-600">Point camera at device QR code</p>
+            <p className="text-center text-blue-600">
+              Point camera at device QR code
+            </p>
           </div>
         </div>
       </div>
@@ -280,12 +355,19 @@ const fetchDevices = async () => {
                 </p>
               </div>
               <div className="text-right">
-                <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
-                  Available for Rent
+                <span
+                  className={`text-xs px-2 py-1 rounded-full ${
+                    device.status === "available"
+                      ? "bg-green-100 text-green-800"
+                      : device.status === "rented"
+                      ? "bg-purple-100 text-purple-800"
+                      : "bg-yellow-100 text-yellow-800"
+                  }`}
+                >
+                  {device.status.charAt(0).toUpperCase() +
+                    device.status.slice(1)}
                 </span>
-                <p className="text-xs text-gray-500 mt-1">
-                  ${device.price}
-                </p>
+                <p className="text-xs text-gray-500 mt-1">${device.price}</p>
               </div>
             </button>
           ))}
@@ -295,76 +377,94 @@ const fetchDevices = async () => {
   );
 
   // Scan Screen
-  const ScanScreen = () => (
-    <div className="flex flex-col items-center justify-center space-y-6 p-4">
-      <div className="bg-blue-100 p-4 rounded-lg w-full">
-        <div className="flex items-center">
-          <button className="mr-2" onClick={() => setScreen("home")}>
-            <ArrowLeft size={20} className="text-blue-800" />
-          </button>
-          <div className="flex-1">
-            <h2 className="text-xl font-bold text-center text-blue-800">
-              Aura Tech Services
-            </h2>
-            <p className="text-center text-blue-600">Equipment Tracking</p>
+  const ScanScreen = () => {
+    const isAvailable = selectedDevice?.status === "available";
+    const showDelivery = isAvailable && action !== "pickup";
+    const showPickup = !isAvailable && action !== "delivery";
+
+    return (
+      <div className="flex flex-col items-center justify-center space-y-6 p-4">
+        <div className="bg-blue-100 p-4 rounded-lg w-full">
+          <div className="flex items-center">
+            <button className="mr-2" onClick={() => setScreen("home")}>
+              <ArrowLeft size={20} className="text-blue-800" />
+            </button>
+            <div className="flex-1">
+              <h2 className="text-xl font-bold text-center text-blue-800">
+                Aura Tech Services
+              </h2>
+              <p className="text-center text-blue-600">Equipment Tracking</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="border-2 border-gray-300 rounded-lg p-4 w-full">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <p className="font-bold">{selectedDevice?.name || "No device selected"}</p>
-            <p className="text-sm text-gray-600">
-              SN: {selectedDevice?.serialNumber || "N/A"}
+        <div className="border-2 border-gray-300 rounded-lg p-4 w-full">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <p className="font-bold">
+                {selectedDevice?.name || "No device selected"}
+              </p>
+              <p className="text-sm text-gray-600">
+                SN: {selectedDevice?.serialNumber || "N/A"}
+              </p>
+              {selectedDevice && (
+                <div className="mt-1">
+                  <p className="text-xs text-gray-500">
+                    {selectedDevice.Brand} • {selectedDevice.processor}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {selectedDevice.RAM} • {selectedDevice.Storage}
+                  </p>
+                  <p className="text-xs font-medium text-green-600">
+                    ${selectedDevice.price} (Rent)
+                  </p>
+                </div>
+              )}
+            </div>
+            <Laptop size={32} className="text-blue-600" />
+          </div>
+
+          <div className="border-t border-gray-200 pt-4 mt-2">
+            <p className="text-sm text-gray-600 mb-4">
+              Please select an action:
             </p>
-            {selectedDevice && (
-              <div className="mt-1">
-                <p className="text-xs text-gray-500">
-                  {selectedDevice.Brand} • {selectedDevice.processor}
-                </p>
-                <p className="text-xs text-gray-500">
-                  {selectedDevice.RAM} • {selectedDevice.Storage}
-                </p>
-                <p className="text-xs font-medium text-green-600">
-                  ${selectedDevice.price} (Rent)
-                </p>
-              </div>
-            )}
-          </div>
-          <Laptop size={32} className="text-blue-600" />
-        </div>
 
-        <div className="border-t border-gray-200 pt-4 mt-2">
-          <p className="text-sm text-gray-600 mb-4">Please select an action:</p>
+            <div className="grid grid-cols-2 gap-4">
+              {showDelivery && (
+                <button
+                  className="bg-green-100 hover:bg-green-200 text-green-700 py-4 px-2 rounded-lg flex flex-col items-center justify-center"
+                  onClick={() => {
+                    setScreen("delivered");
+                    setAction("delivery");
+                  }}
+                >
+                  <MapPin size={28} />
+                  <span className="mt-2 text-sm font-medium">
+                    Confirm Delivery
+                  </span>
+                </button>
+              )}
 
-          <div className="grid grid-cols-2 gap-4">
-            <button
-              className="bg-green-100 hover:bg-green-200 text-green-700 py-4 px-2 rounded-lg flex flex-col items-center justify-center"
-              onClick={() => {
-                setScreen("delivered");
-                setAction("delivery");
-              }}
-            >
-              <MapPin size={28} />
-              <span className="mt-2 text-sm font-medium">Confirm Delivery</span>
-            </button>
-
-            <button
-              className="bg-purple-100 hover:bg-purple-200 text-purple-700 py-4 px-2 rounded-lg flex flex-col items-center justify-center"
-              onClick={() => {
-                setScreen("pickup");
-                setAction("pickup");
-              }}
-            >
-              <Scan size={28} />
-              <span className="mt-2 text-sm font-medium">Confirm Pickup</span>
-            </button>
+              {showPickup && (
+                <button
+                  className="bg-purple-100 hover:bg-purple-200 text-purple-700 py-4 px-2 rounded-lg flex flex-col items-center justify-center"
+                  onClick={() => {
+                    setScreen("pickup");
+                    setAction("pickup");
+                  }}
+                >
+                  <Scan size={28} />
+                  <span className="mt-2 text-sm font-medium">
+                    Confirm Pickup
+                  </span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   // Delivered Screen
   const DeliveredScreen = () => (
@@ -385,12 +485,28 @@ const fetchDevices = async () => {
         </div>
       </div>
 
+      {location.error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded w-full text-sm">
+          <div className="flex items-center">
+            <AlertCircle size={16} className="mr-2" />
+            <span>{location.error}</span>
+          </div>
+        </div>
+      )}
+
       <div className="border-2 border-gray-300 rounded-lg p-4 w-full">
         <div className="mb-4">
           <div className="flex items-center mb-4">
             <MapPin size={20} className="text-gray-500 mr-2" />
             <span className="text-sm">
-              Current Location: <strong>22.3456° N, 114.1577° E</strong>
+              Current Location:{" "}
+              <strong>
+                {location.latitude && location.longitude
+                  ? `${location.latitude.toFixed(
+                      4
+                    )}° N, ${location.longitude.toFixed(4)}° E`
+                  : "Location not available"}
+              </strong>
             </span>
           </div>
 
@@ -417,7 +533,9 @@ const fetchDevices = async () => {
               className="w-full border border-gray-300 rounded-md px-3 py-2"
               placeholder="Enter phone number"
               value={customerData.contact}
-              onChange={(e) => handleCustomerDataChange("contact", e.target.value)}
+              onChange={(e) =>
+                handleCustomerDataChange("contact", e.target.value)
+              }
               required
             />
           </div>
@@ -428,13 +546,15 @@ const fetchDevices = async () => {
             </label>
             <div className="flex items-center border border-gray-300 rounded-md px-3 py-2">
               <Calendar size={16} className="text-gray-400 mr-2" />
-              <input 
-                type="date" 
+              <input
+                type="date"
                 className="w-full focus:outline-none"
                 value={customerData.returnDate}
-                onChange={(e) => handleCustomerDataChange("returnDate", e.target.value)}
+                onChange={(e) =>
+                  handleCustomerDataChange("returnDate", e.target.value)
+                }
                 required
-                min={new Date().toISOString().split('T')[0]}
+                min={new Date().toISOString().split("T")[0]}
               />
             </div>
           </div>
@@ -450,11 +570,19 @@ const fetchDevices = async () => {
             <button
               className="flex-1 py-2 px-4 bg-green-600 text-white rounded-md disabled:opacity-50"
               onClick={recordTransaction}
-              disabled={!customerData.name || !customerData.contact || !customerData.returnDate || loading.submitting}
+              disabled={
+                !customerData.name ||
+                !customerData.contact ||
+                !customerData.returnDate ||
+                loading.submitting ||
+                location.error
+              }
             >
               {loading.submitting ? (
                 <Loader className="animate-spin mx-auto" size={20} />
-              ) : "Confirm Delivery"}
+              ) : (
+                "Confirm Delivery"
+              )}
             </button>
           </div>
         </div>
@@ -481,12 +609,28 @@ const fetchDevices = async () => {
         </div>
       </div>
 
+      {location.error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded w-full text-sm">
+          <div className="flex items-center">
+            <AlertCircle size={16} className="mr-2" />
+            <span>{location.error}</span>
+          </div>
+        </div>
+      )}
+
       <div className="border-2 border-gray-300 rounded-lg p-4 w-full">
         <div className="mb-4">
           <div className="flex items-center mb-4">
             <MapPin size={20} className="text-gray-500 mr-2" />
             <span className="text-sm">
-              Current Location: <strong>22.3456° N, 114.1577° E</strong>
+              Current Location:{" "}
+              <strong>
+                {location.latitude && location.longitude
+                  ? `${location.latitude.toFixed(
+                      4
+                    )}° N, ${location.longitude.toFixed(4)}° E`
+                  : "Location not available"}
+              </strong>
             </span>
           </div>
 
@@ -497,7 +641,10 @@ const fetchDevices = async () => {
             <div className="bg-gray-100 p-3 rounded-md">
               <div className="flex items-center">
                 <UserCheck size={16} className="text-gray-500 mr-2" />
-                <span className="text-sm">John Smith • +1 (555) 123-4567</span>
+                <span className="text-sm">
+                  {customerData.name || "Not specified"} •{" "}
+                  {customerData.contact || "Not specified"}
+                </span>
               </div>
             </div>
           </div>
@@ -508,9 +655,9 @@ const fetchDevices = async () => {
             </p>
             <div className="flex flex-col space-y-2">
               <div className="flex items-center">
-                <input 
-                  type="checkbox" 
-                  id="working" 
+                <input
+                  type="checkbox"
+                  id="working"
                   className="mr-2"
                   checked={customerData.condition.working}
                   onChange={() => handleConditionChange("working")}
@@ -520,9 +667,9 @@ const fetchDevices = async () => {
                 </label>
               </div>
               <div className="flex items-center">
-                <input 
-                  type="checkbox" 
-                  id="accessories" 
+                <input
+                  type="checkbox"
+                  id="accessories"
                   className="mr-2"
                   checked={customerData.condition.accessories}
                   onChange={() => handleConditionChange("accessories")}
@@ -532,9 +679,9 @@ const fetchDevices = async () => {
                 </label>
               </div>
               <div className="flex items-center">
-                <input 
-                  type="checkbox" 
-                  id="physical" 
+                <input
+                  type="checkbox"
+                  id="physical"
                   className="mr-2"
                   checked={customerData.condition.physicalDamage}
                   onChange={() => handleConditionChange("physicalDamage")}
@@ -555,7 +702,9 @@ const fetchDevices = async () => {
               placeholder="Any issues or comments"
               rows={2}
               value={customerData.notes}
-              onChange={(e) => handleCustomerDataChange("notes", e.target.value)}
+              onChange={(e) =>
+                handleCustomerDataChange("notes", e.target.value)
+              }
             />
           </div>
 
@@ -570,11 +719,13 @@ const fetchDevices = async () => {
             <button
               className="flex-1 py-2 px-4 bg-purple-600 text-white rounded-md disabled:opacity-50"
               onClick={recordTransaction}
-              disabled={loading.submitting}
+              disabled={loading.submitting || location.error}
             >
               {loading.submitting ? (
                 <Loader className="animate-spin mx-auto" size={20} />
-              ) : "Confirm Pickup"}
+              ) : (
+                "Confirm Pickup"
+              )}
             </button>
           </div>
         </div>
@@ -585,17 +736,29 @@ const fetchDevices = async () => {
   // Confirmation Screen
   const ConfirmationScreen = () => (
     <div className="flex flex-col items-center justify-center space-y-6 p-4">
-      <div className={`${action === "delivery" ? "bg-green-100" : "bg-purple-100"} p-6 rounded-lg w-full flex flex-col items-center`}>
+      <div
+        className={`${
+          action === "delivery" ? "bg-green-100" : "bg-purple-100"
+        } p-6 rounded-lg w-full flex flex-col items-center`}
+      >
         {action === "delivery" ? (
           <CheckCircle size={48} className="text-green-600 mb-2" />
         ) : (
           <ClipboardList size={48} className="text-purple-600 mb-2" />
         )}
 
-        <h2 className={`text-xl font-bold ${action === "delivery" ? "text-green-800" : "text-purple-800"}`}>
+        <h2
+          className={`text-xl font-bold ${
+            action === "delivery" ? "text-green-800" : "text-purple-800"
+          }`}
+        >
           {action === "delivery" ? "Delivery Confirmed" : "Pickup Confirmed"}
         </h2>
-        <p className={`text-center ${action === "delivery" ? "text-green-600" : "text-purple-600"}`}>
+        <p
+          className={`text-center ${
+            action === "delivery" ? "text-green-600" : "text-purple-600"
+          }`}
+        >
           Transaction successfully recorded
         </p>
       </div>
@@ -618,13 +781,21 @@ const fetchDevices = async () => {
           <div className="flex items-center mb-2">
             <MapPin size={16} className="text-gray-500 mr-2" />
             <span className="text-sm">
-              Location: <strong>22.3456° N, 114.1577° E</strong>
+              Location:{" "}
+              <strong>{recentActivity[0]?.location || "Unknown"}</strong>
             </span>
           </div>
           <div className="flex items-center mb-2">
             <Calendar size={16} className="text-gray-500 mr-2" />
             <span className="text-sm">
-              Date: <strong>{new Date().toLocaleDateString()} • {new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</strong>
+              Date:{" "}
+              <strong>
+                {new Date().toLocaleDateString()} •{" "}
+                {new Date().toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </strong>
             </span>
           </div>
 
@@ -646,9 +817,13 @@ const fetchDevices = async () => {
                 Equipment: <strong>{selectedDevice?.name}</strong>
               </p>
               <p>
-                Condition: <strong>
-                  {customerData.condition.working && customerData.condition.accessories && !customerData.condition.physicalDamage 
-                    ? "Good" : "Needs Attention"}
+                Condition:{" "}
+                <strong>
+                  {customerData.condition.working &&
+                  customerData.condition.accessories &&
+                  !customerData.condition.physicalDamage
+                    ? "Good"
+                    : "Needs Attention"}
                 </strong>
               </p>
               {customerData.notes && (
@@ -674,8 +849,8 @@ const fetchDevices = async () => {
               condition: {
                 working: false,
                 accessories: false,
-                physicalDamage: false
-              }
+                physicalDamage: false,
+              },
             });
           }}
         >
@@ -713,12 +888,17 @@ const fetchDevices = async () => {
         <div className="max-h-96 overflow-y-auto">
           {loading.devices ? (
             <div className="p-4 text-center">
-              <Loader className="animate-spin text-gray-400 mx-auto" size={20} />
+              <Loader
+                className="animate-spin text-gray-400 mx-auto"
+                size={20}
+              />
               <p className="text-sm text-gray-500 mt-2">Loading devices...</p>
             </div>
           ) : devices.length === 0 ? (
             <div className="p-4 text-center">
-              <p className="text-sm text-gray-500">No devices available for rent</p>
+              <p className="text-sm text-gray-500">
+                No devices available for rent
+              </p>
             </div>
           ) : (
             devices.map((device) => (
@@ -732,13 +912,24 @@ const fetchDevices = async () => {
               >
                 <div>
                   <p className="font-medium">{device.name}</p>
-                  <p className="text-xs text-gray-500">SN: {device.serialNumber}</p>
+                  <p className="text-xs text-gray-500">
+                    SN: {device.serialNumber}
+                  </p>
                   <p className="text-xs text-gray-400">
                     {device.Brand} • {device.processor}
                   </p>
                 </div>
-                <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
-                  Available
+                <span
+                  className={`text-xs px-2 py-1 rounded-full ${
+                    device.status === "available"
+                      ? "bg-green-100 text-green-800"
+                      : device.status === "rented"
+                      ? "bg-purple-100 text-purple-800"
+                      : "bg-yellow-100 text-yellow-800"
+                  }`}
+                >
+                  {device.status.charAt(0).toUpperCase() +
+                    device.status.slice(1)}
                 </span>
               </div>
             ))
@@ -776,7 +967,10 @@ const fetchDevices = async () => {
         <div className="max-h-96 overflow-y-auto">
           {loading.activity ? (
             <div className="p-4 text-center">
-              <Loader className="animate-spin text-gray-400 mx-auto" size={20} />
+              <Loader
+                className="animate-spin text-gray-400 mx-auto"
+                size={20}
+              />
               <p className="text-sm text-gray-500 mt-2">Loading history...</p>
             </div>
           ) : recentActivity.length === 0 ? (
@@ -785,17 +979,54 @@ const fetchDevices = async () => {
             </div>
           ) : (
             recentActivity.map((item, index) => (
-              <div key={index} className="p-3 border-b border-gray-200 last:border-0">
+              <div
+                key={index}
+                className="p-3 border-b border-gray-200 last:border-0"
+              >
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="font-medium">{item.device?.name || 'Unknown Device'}</p>
+                    <p className="font-medium">
+                      {item.device?.name || "Unknown Device"}
+                    </p>
                     <div className="flex items-center mt-1">
-                      <span className={`inline-block w-2 h-2 rounded-full mr-1 ${
-                        item.action === "delivery" ? "bg-green-500" : "bg-purple-500"
-                      }`}></span>
+                      <span
+                        className={`inline-block w-2 h-2 rounded-full mr-1 ${
+                          item.action === "delivery"
+                            ? "bg-green-500"
+                            : "bg-purple-500"
+                        }`}
+                      ></span>
                       <span className="text-xs text-gray-600">
-                        {item.action === "delivery" ? "Delivered to" : "Picked up from"} {item.customerName}
+                        {item.action === "delivery"
+                          ? "Delivered to"
+                          : "Picked up from"}
+                        <strong> {item.customerName}</strong> (
+                        {item.customerContact})
                       </span>
+                    </div>
+                    <div className="text-xs text-gray-500 mt-1">
+                      {item.action === "delivery" && (
+                        <p>
+                          Return by:{" "}
+                          {new Date(item.returnDate).toLocaleDateString()}
+                        </p>
+                      )}
+                      {item.location && <p>Location: {item.location}</p>}
+                      {item.notes && <p>Notes: {item.notes}</p>}
+                      {item.action === "pickup" && item.condition && (
+                        <p>
+                          Condition:
+                          {item.condition.working ? " Working" : " Not working"}
+                          ,
+                          {item.condition.accessories
+                            ? " All accessories"
+                            : " Missing accessories"}
+                          ,
+                          {item.condition.physicalDamage
+                            ? " With damage"
+                            : " No damage"}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="text-right">
@@ -803,7 +1034,10 @@ const fetchDevices = async () => {
                       {new Date(item.timestamp).toLocaleDateString()}
                     </p>
                     <p className="text-xs text-gray-400 mt-1">
-                      SN: {item.device?.serialNumber || 'N/A'}
+                      {new Date(item.timestamp).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
                     </p>
                   </div>
                 </div>
