@@ -242,7 +242,7 @@ const ManageLaptops = ({ setError }) => {
     // Enhanced validation
     const requiredFields = {
       name: "Laptop name",
-      serialNumber: "Serial number",
+      // serialNumber: "Serial number",
       price: "Price",
       processor: "Processor",
       RAM: "RAM",
@@ -267,7 +267,7 @@ const ManageLaptops = ({ setError }) => {
 
     // Required fields
     formData.append("name", newLaptop.name);
-    formData.append("serialNumber", newLaptop.serialNumber);
+    // formData.append("serialNumber", newLaptop.serialNumber);
     formData.append("price", newLaptop.price);
     formData.append("processor", newLaptop.processor);
     formData.append("RAM", newLaptop.RAM);
@@ -328,7 +328,7 @@ const ManageLaptops = ({ setError }) => {
         category: "",
         image: null,
         mode: selectedMode,
-        serialNumber: "",
+        // serialNumber: "",
       });
       setEditingLaptopId(null);
       setError("");
@@ -557,7 +557,7 @@ const ManageLaptops = ({ setError }) => {
               />
             </div>
 
-            <div className="form-group">
+            {/* <div className="form-group">
               <label htmlFor="serialNumber">Serial Number</label>
               <input
                 id="serialNumber"
@@ -568,7 +568,7 @@ const ManageLaptops = ({ setError }) => {
                 onChange={handleInputChange}
                 required
               />
-            </div>
+            </div> */}
 
             <div className="form-group">
               <label htmlFor="image">Laptop Image</label>
