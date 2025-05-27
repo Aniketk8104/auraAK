@@ -591,6 +591,7 @@ const QRdemo = () => {
   );
 
   // Pickup Screen
+  // Pickup Screen - FIXED VERSION
   const PickupScreen = () => {
     const [deliveryDetails, setDeliveryDetails] = useState(null);
     const [loadingDetails, setLoadingDetails] = useState(false);
@@ -612,12 +613,21 @@ const QRdemo = () => {
 
           if (isMounted) {
             setDeliveryDetails(data);
-            // Update customer data with fetched details
-            setCustomerData((prev) => ({
-              ...prev,
-              name: data.customerName || "",
-              contact: data.customerContact || "",
-            }));
+            // Update customer data with fetched details - use callback to avoid dependency
+            setCustomerData((prev) => {
+              // Only update if the data is actually different to prevent unnecessary re-renders
+              if (
+                prev.name !== (data.customerName || "") ||
+                prev.contact !== (data.customerContact || "")
+              ) {
+                return {
+                  ...prev,
+                  name: data.customerName || "",
+                  contact: data.customerContact || "",
+                };
+              }
+              return prev; // Return previous state if no changes
+            });
           }
         } catch (err) {
           if (isMounted) {
@@ -637,8 +647,9 @@ const QRdemo = () => {
       return () => {
         isMounted = false;
       };
-    }, [selectedDevice?._id]); // Only re-run if device ID changes
+    }, [selectedDevice?._id]); // Keep only the device ID dependency
 
+    // FIXED: This return statement should be INSIDE the PickupScreen function
     return (
       <div className="flex flex-col items-center justify-center space-y-4 p-4">
         <div className="bg-purple-100 p-4 rounded-lg w-full">
@@ -699,7 +710,7 @@ const QRdemo = () => {
               ) : (
                 <div className="bg-gray-100 p-3 rounded-md">
                   <div className="flex items-center">
-                    <User Check size={16} className="text-gray-500 mr-2" />
+                    <User size={16} className="text-gray-500 mr-2" />
                     <span className="text-sm">
                       {deliveryDetails?.customerName || "Not specified"} •{" "}
                       {deliveryDetails?.customerContact || "Not specified"}
