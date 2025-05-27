@@ -16,8 +16,20 @@ html {
 }
 body {
   margin-top: 180px;
+
   background-color: #f0f2f5;
   padding: 20px;
+  background-image: radial-gradient(
+    circle at 10% 20%,
+    rgba(216, 241, 230, 0.46) 0%,
+    rgba(233, 226, 226, 0.28) 90.2%
+  );
+}
+.mainbody {
+  margin-top: -130px;
+  /* margin-bottom: 150px; */
+  background-color: #f0f2f5;
+  /* padding: 20px; */
   background-image: radial-gradient(
     circle at 10% 20%,
     rgba(216, 241, 230, 0.46) 0%,
