@@ -591,230 +591,228 @@ const QRdemo = () => {
   );
 
   // Pickup Screen
-  // Pickup Screen - FIXED VERSION
-  const PickupScreen = () => {
-    const [deliveryDetails, setDeliveryDetails] = useState(null);
-    const [loadingDetails, setLoadingDetails] = useState(false);
+ // Pickup Screen - FIXED VERSION
+const PickupScreen = () => {
+  const [deliveryDetails, setDeliveryDetails] = useState(null);
+  const [loadingDetails, setLoadingDetails] = useState(false);
 
-    // Fetch delivery details when component mounts or device changes
-    useEffect(() => {
-      let isMounted = true; // Flag to track mounted state
+  // Fetch delivery details when component mounts or device changes
+  useEffect(() => {
+    let isMounted = true; // Flag to track mounted state
 
-      const fetchDeliveryDetails = async () => {
-        if (!selectedDevice?._id) return;
+    const fetchDeliveryDetails = async () => {
+      if (!selectedDevice?._id) return;
 
-        setLoadingDetails(true);
-        try {
-          const response = await fetch(
-            `${API_BASE_URL}/api/equipment/devices/${selectedDevice._id}/last-delivery`
-          );
-          if (!response.ok) throw new Error("Failed to fetch delivery details");
-          const data = await response.json();
+      setLoadingDetails(true);
+      try {
+        const response = await fetch(
+          `${API_BASE_URL}/api/equipment/devices/${selectedDevice._id}/last-delivery`
+        );
+        if (!response.ok) throw new Error("Failed to fetch delivery details");
+        const data = await response.json();
 
-          if (isMounted) {
-            setDeliveryDetails(data);
-            // Update customer data with fetched details - use callback to avoid dependency
-            setCustomerData((prev) => {
-              // Only update if the data is actually different to prevent unnecessary re-renders
-              if (
-                prev.name !== (data.customerName || "") ||
-                prev.contact !== (data.customerContact || "")
-              ) {
-                return {
-                  ...prev,
-                  name: data.customerName || "",
-                  contact: data.customerContact || "",
-                };
-              }
-              return prev; // Return previous state if no changes
-            });
-          }
-        } catch (err) {
-          if (isMounted) {
-            console.error("Error fetching delivery details:", err);
-            setError(`Error loading delivery details: ${err.message}`);
-          }
-        } finally {
-          if (isMounted) {
-            setLoadingDetails(false);
-          }
+        if (isMounted) {
+          setDeliveryDetails(data);
+          // Update customer data with fetched details - use callback to avoid dependency
+          setCustomerData((prev) => {
+            // Only update if the data is actually different to prevent unnecessary re-renders
+            if (prev.name !== (data.customerName || "") || 
+                prev.contact !== (data.customerContact || "")) {
+              return {
+                ...prev,
+                name: data.customerName || "",
+                contact: data.customerContact || "",
+              };
+            }
+            return prev; // Return previous state if no changes
+          });
         }
-      };
+      } catch (err) {
+        if (isMounted) {
+          console.error("Error fetching delivery details:", err);
+          setError(`Error loading delivery details: ${err.message}`);
+        }
+      } finally {
+        if (isMounted) {
+          setLoadingDetails(false);
+        }
+      }
+    };
 
-      fetchDeliveryDetails();
+    fetchDeliveryDetails();
 
-      // Cleanup function
-      return () => {
-        isMounted = false;
-      };
-    }, [selectedDevice?._id]); // Keep only the device ID dependency
+    // Cleanup function
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedDevice?._id]); // Keep only the device ID dependency
 
-    // FIXED: This return statement should be INSIDE the PickupScreen function
-    return (
-      <div className="flex flex-col items-center justify-center space-y-4 p-4">
-        <div className="bg-purple-100 p-4 rounded-lg w-full">
-          <div className="flex items-center">
-            <button className="mr-2" onClick={() => setScreen("scan")}>
-              <ArrowLeft size={20} className="text-purple-800" />
-            </button>
-            <div className="flex-1">
-              <h2 className="text-xl font-bold text-center text-purple-800">
-                Confirm Pickup
-              </h2>
-              <p className="text-center text-purple-600">
-                {selectedDevice?.name} • SN: {selectedDevice?.serialNumber}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {location.error && (
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded w-full text-sm">
-            <div className="flex items-center">
-              <AlertCircle size={16} className="mr-2" />
-              <span>{location.error}</span>
-            </div>
-          </div>
-        )}
-
-        <div className="border-2 border-gray-300 rounded-lg p-4 w-full">
-          <div className="mb-4">
-            <div className="flex items-center mb-4">
-              <MapPin size={20} className="text-gray-500 mr-2" />
-              <span className="text-sm">
-                Current Location:{" "}
-                <strong>
-                  {location.latitude && location.longitude
-                    ? `${location.latitude.toFixed(
-                        4
-                      )}° N, ${location.longitude.toFixed(4)}° E`
-                    : "Location not available"}
-                </strong>
-              </span>
-            </div>
-
-            <div className="mb-4">
-              <p className="text-sm font-medium text-gray-700 mb-2">
-                Customer Details
-              </p>
-              {loadingDetails ? (
-                <div className="bg-gray-100 p-3 rounded-md flex items-center">
-                  <Loader
-                    className="animate-spin text-gray-500 mr-2"
-                    size={16}
-                  />
-                  <span className="text-sm text-gray-600">
-                    Loading customer details...
-                  </span>
-                </div>
-              ) : (
-                <div className="bg-gray-100 p-3 rounded-md">
-                  <div className="flex items-center">
-                    <User size={16} className="text-gray-500 mr-2" />
-                    <span className="text-sm">
-                      {deliveryDetails?.customerName || "Not specified"} •{" "}
-                      {deliveryDetails?.customerContact || "Not specified"}
-                    </span>
-                  </div>
-                  {deliveryDetails?.returnDate && (
-                    <div className="flex items-center mt-2">
-                      <Calendar size={14} className="text-gray-500 mr-2" />
-                      <span className="text-xs text-gray-600">
-                        Original return date:{" "}
-                        {new Date(
-                          deliveryDetails.returnDate
-                        ).toLocaleDateString()}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-
-            <div className="mb-4">
-              <p className="text-sm font-medium text-gray-700 mb-2">
-                Equipment Condition
-              </p>
-              <div className="flex flex-col space-y-2">
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="working"
-                    className="mr-2"
-                    checked={customerData.condition.working}
-                    onChange={() => handleConditionChange("working")}
-                  />
-                  <label htmlFor="working" className="text-sm">
-                    All functions working
-                  </label>
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="accessories"
-                    className="mr-2"
-                    checked={customerData.condition.accessories}
-                    onChange={() => handleConditionChange("accessories")}
-                  />
-                  <label htmlFor="accessories" className="text-sm">
-                    All accessories returned
-                  </label>
-                </div>
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="physical"
-                    className="mr-2"
-                    checked={customerData.condition.physicalDamage}
-                    onChange={() => handleConditionChange("physicalDamage")}
-                  />
-                  <label htmlFor="physical" className="text-sm">
-                    No physical damage
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Notes
-              </label>
-              <textarea
-                className="w-full border border-gray-300 rounded-md px-3 py-2"
-                placeholder="Any issues or comments"
-                rows={2}
-                value={customerData.notes}
-                onChange={(e) =>
-                  handleCustomerDataChange("notes", e.target.value)
-                }
-              />
-            </div>
-
-            <div className="flex space-x-3 mt-6">
-              <button
-                className="flex-1 py-2 px-4 bg-gray-200 text-gray-700 rounded-md"
-                onClick={() => setScreen("scan")}
-                disabled={loading.submitting}
-              >
-                Cancel
-              </button>
-              <button
-                className="flex-1 py-2 px-4 bg-purple-600 text-white rounded-md disabled:opacity-50"
-                onClick={recordTransaction}
-                disabled={loading.submitting || location.error}
-              >
-                {loading.submitting ? (
-                  <Loader className="animate-spin mx-auto" size={20} />
-                ) : (
-                  "Confirm Pickup"
-                )}
-              </button>
-            </div>
+  // FIXED: This return statement should be INSIDE the PickupScreen function
+  return (
+    <div className="flex flex-col items-center justify-center space-y-4 p-4">
+      <div className="bg-purple-100 p-4 rounded-lg w-full">
+        <div className="flex items-center">
+          <button className="mr-2" onClick={() => setScreen("scan")}>
+            <ArrowLeft size={20} className="text-purple-800" />
+          </button>
+          <div className="flex-1">
+            <h2 className="text-xl font-bold text-center text-purple-800">
+              Confirm Pickup
+            </h2>
+            <p className="text-center text-purple-600">
+              {selectedDevice?.name} • SN: {selectedDevice?.serialNumber}
+            </p>
           </div>
         </div>
       </div>
-    );
-  };
+
+      {location.error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded w-full text-sm">
+          <div className="flex items-center">
+            <AlertCircle size={16} className="mr-2" />
+            <span>{location.error}</span>
+          </div>
+        </div>
+      )}
+
+      <div className="border-2 border-gray-300 rounded-lg p-4 w-full">
+        <div className="mb-4">
+          <div className="flex items-center mb-4">
+            <MapPin size={20} className="text-gray-500 mr-2" />
+            <span className="text-sm">
+              Current Location:{" "}
+              <strong>
+                {location.latitude && location.longitude
+                  ? `${location.latitude.toFixed(
+                      4
+                    )}° N, ${location.longitude.toFixed(4)}° E`
+                  : "Location not available"}
+              </strong>
+            </span>
+          </div>
+
+          <div className="mb-4">
+            <p className="text-sm font-medium text-gray-700 mb-2">
+              Customer Details
+            </p>
+            {loadingDetails ? (
+              <div className="bg-gray-100 p-3 rounded-md flex items-center">
+                <Loader
+                  className="animate-spin text-gray-500 mr-2"
+                  size={16}
+                />
+                <span className="text-sm text-gray-600">
+                  Loading customer details...
+                </span>
+              </div>
+            ) : (
+              <div className="bg-gray-100 p-3 rounded-md">
+                <div className="flex items-center">
+                  <User size={16} className="text-gray-500 mr-2" />
+                  <span className="text-sm">
+                    {deliveryDetails?.customerName || "Not specified"} •{" "}
+                    {deliveryDetails?.customerContact || "Not specified"}
+                  </span>
+                </div>
+                {deliveryDetails?.returnDate && (
+                  <div className="flex items-center mt-2">
+                    <Calendar size={14} className="text-gray-500 mr-2" />
+                    <span className="text-xs text-gray-600">
+                      Original return date:{" "}
+                      {new Date(
+                        deliveryDetails.returnDate
+                      ).toLocaleDateString()}
+                    </span>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          <div className="mb-4">
+            <p className="text-sm font-medium text-gray-700 mb-2">
+              Equipment Condition
+            </p>
+            <div className="flex flex-col space-y-2">
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  id="working"
+                  className="mr-2"
+                  checked={customerData.condition.working}
+                  onChange={() => handleConditionChange("working")}
+                />
+                <label htmlFor="working" className="text-sm">
+                  All functions working
+                </label>
+              </div>
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  id="accessories"
+                  className="mr-2"
+                  checked={customerData.condition.accessories}
+                  onChange={() => handleConditionChange("accessories")}
+                />
+                <label htmlFor="accessories" className="text-sm">
+                  All accessories returned
+                </label>
+              </div>
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  id="physical"
+                  className="mr-2"
+                  checked={customerData.condition.physicalDamage}
+                  onChange={() => handleConditionChange("physicalDamage")}
+                />
+                <label htmlFor="physical" className="text-sm">
+                  No physical damage
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Notes
+            </label>
+            <textarea
+              className="w-full border border-gray-300 rounded-md px-3 py-2"
+              placeholder="Any issues or comments"
+              rows={2}
+              value={customerData.notes}
+              onChange={(e) =>
+                handleCustomerDataChange("notes", e.target.value)
+              }
+            />
+          </div>
+
+          <div className="flex space-x-3 mt-6">
+            <button
+              className="flex-1 py-2 px-4 bg-gray-200 text-gray-700 rounded-md"
+              onClick={() => setScreen("scan")}
+              disabled={loading.submitting}
+            >
+              Cancel
+            </button>
+            <button
+              className="flex-1 py-2 px-4 bg-purple-600 text-white rounded-md disabled:opacity-50"
+              onClick={recordTransaction}
+              disabled={loading.submitting || location.error}
+            >
+              {loading.submitting ? (
+                <Loader className="animate-spin mx-auto" size={20} />
+              ) : (
+                "Confirm Pickup"
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
   // Confirmation Screen
   const ConfirmationScreen = () => (

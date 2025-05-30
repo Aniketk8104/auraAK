@@ -104,12 +104,6 @@ const Footer = () => {
                 <a href="#">MacBooks</a>
               </li>
               <li>
-                <a href="#">Ultrabooks</a>
-              </li>
-              <li>
-                <a href="#">Workstations</a>
-              </li>
-              <li>
                 <a href="#">Budget Laptops</a>
               </li>
             </ul>
@@ -119,12 +113,6 @@ const Footer = () => {
           <div className="footer-section">
             <h3>Support</h3>
             <ul className="footer-links">
-              <li>
-                <a href="#">Help Center</a>
-              </li>
-              <li>
-                <a href="#">Track Order</a>
-              </li>
               <li>
                 <a href="#">Return Policy</a>
               </li>
@@ -204,7 +192,7 @@ const Footer = () => {
             <a href="#">Privacy Policy</a>
             <a href="#">Terms of Service</a>
             <a href="#">Cookie Policy</a>
-            <a href="#">Sitemap</a>
+            {/* <a href="#">Sitemap</a> */}
           </div>
 
           <div className="trust-badges">
