@@ -5,7 +5,6 @@ import ManageLaptops from "./ManageLaptops";
 import ManageMobileNumbers from "./ManageMobileNumbers";
 import ErrorMessage from "../Shared/ErrorMessage";
 import QRdemo from "./QRdemo";
-import { Container } from "lucide-react";
 
 const AdminDashboard = () => {
   const [currentSection, setCurrentSection] = useState("manageSlideshow");
